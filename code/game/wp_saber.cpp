@@ -13180,7 +13180,10 @@ void WP_SetSaberOrigin(gentity_t* self, vec3_t new_org)
 
 void WP_SaberCatch(gentity_t* self, gentity_t* saber, const qboolean switch_to_saber)
 {
-	//FIXME: probably need a debounce time
+	if (self->flags & FL_NO_SABER_RETURN)
+	{
+		return;
+	}
 	if (self->health > 0 && !PM_SaberInBrokenParry(self->client->ps.saber_move) && self->client->ps.saberBlocked !=
 		BLOCKED_PARRY_BROKEN)
 	{
@@ -13277,6 +13280,10 @@ void WP_SaberReturn(const gentity_t* self, gentity_t* saber)
 	const qboolean holding_block = self->client->ps.ManualBlockingFlags & 1 << MBF_BLOCKING ? qtrue : qfalse;
 	//Normal Blocking
 
+	if (self->flags & FL_NO_SABER_RETURN)
+	{
+		return;
+	}
 	if (PM_SaberInBrokenParry(self->client->ps.saber_move) || self->client->ps.saberBlocked == BLOCKED_PARRY_BROKEN)
 	{
 		return;
@@ -13349,6 +13356,10 @@ void WP_SaberPull(const gentity_t* self, gentity_t* saber)
 	const qboolean holding_block = self->client->ps.ManualBlockingFlags & 1 << MBF_BLOCKING ? qtrue : qfalse;
 	//Normal Blocking
 
+	if (self->flags & FL_NO_SABER_RETURN)
+	{
+		return;
+	}
 	if (PM_SaberInBrokenParry(self->client->ps.saber_move) || self->client->ps.saberBlocked == BLOCKED_PARRY_BROKEN)
 	{
 		return;
@@ -13374,6 +13385,10 @@ void WP_SaberPull(const gentity_t* self, gentity_t* saber)
 
 void WP_SaberGrab(const gentity_t* self, gentity_t* saber)
 {
+	if (self->flags & FL_NO_SABER_RETURN)
+	{
+		return;
+	}
 	if (PM_SaberInBrokenParry(self->client->ps.saber_move) || self->client->ps.saberBlocked == BLOCKED_PARRY_BROKEN)
 	{
 		return;
@@ -30163,7 +30178,7 @@ void ForceGrip(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-}
+		}
 
 qboolean ForceLightningCheck2Handed(const gentity_t* self)
 {
@@ -37454,7 +37469,7 @@ void ForceGrasp(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-}
+		}
 
 extern void WP_FireBlast(gentity_t* ent, int force_level);
 
@@ -38449,7 +38464,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							gripVel = 500.0f;
 						}
 						VectorScale(grip_ent->client->ps.velocity, gripVel, grip_ent->client->ps.velocity);
-					}
+				}
 
 					//FIXME: they probably dropped their weapon, should we make them flee?  Or should AI handle no-weapon behavior?
 					//rww - RAGDOLL_BEGIN
@@ -38527,7 +38542,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							}
 						}
 					}
-				}
+			}
 				else
 				{
 					grip_ent->s.eFlags &= ~EF_FORCE_GRIPPED;
@@ -38555,10 +38570,10 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 						grip_ent->s.pos.trTime = level.time;
 					}
 				}
-			}
+		}
 			self->s.loopSound = 0;
 			self->client->ps.forceGripEntityNum = ENTITYNUM_NONE;
-		}
+	}
 		if (self->client->ps.torsoAnim == BOTH_FORCEGRIP_HOLD)
 		{
 			NPC_SetAnim(self, SETANIM_BOTH, BOTH_FORCEGRIP_RELEASE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD);
@@ -38760,7 +38775,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							grip_vel = 500.0f;
 						}
 						VectorScale(grip_ent->client->ps.velocity, grip_vel, grip_ent->client->ps.velocity);
-					}
+				}
 
 					//FIXME: they probably dropped their weapon, should we make them flee?  Or should AI handle no-weapon behavior?
 					//rww - RAGDOLL_BEGIN
@@ -38838,7 +38853,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							}
 						}
 					}
-				}
+			}
 				else
 				{
 					grip_ent->s.eFlags &= ~EF_FORCE_GRASPED;
@@ -38866,10 +38881,10 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 						grip_ent->s.pos.trTime = level.time;
 					}
 				}
-			}
+		}
 			self->s.loopSound = 0;
 			self->client->ps.forceGripEntityNum = ENTITYNUM_NONE;
-		}
+}
 		if (self->client->ps.torsoAnim == BOTH_FORCEGRIP_HOLD)
 		{
 			NPC_SetAnim(self, SETANIM_BOTH, BOTH_FORCEGRIP_RELEASE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD);

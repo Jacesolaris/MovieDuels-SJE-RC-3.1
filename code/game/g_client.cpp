@@ -3230,7 +3230,7 @@ qboolean ClientSpawn(gentity_t* ent, SavedGameJustLoaded_e e_saved_game_just_loa
 		client->ps.friction = 6;
 		client->ps.gravity = g_gravity->value;
 		ent->flags &= ~FL_NO_KNOCKBACK;
-		//ent->flags &= ~FL_NO_SABER_RETURN;
+		ent->flags &= ~FL_NO_SABER_RETURN;
 		client->renderInfo.lookTarget = ENTITYNUM_NONE;
 		client->renderInfo.lookTargetClearTime = 0;
 		client->renderInfo.lookMode = LM_ENT;

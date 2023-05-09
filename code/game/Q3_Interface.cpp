@@ -10216,13 +10216,6 @@ void CQuake3GameInterface::Kill(const int entID, const char* name)
 		return;
 	}
 
-	/*
-	if ( victim == ent )
-	{
-		DebugPrint( WL_ERROR, "Kill: entity %s trying to kill self - not allowed!\n", name);
-		return;
-	}
-	*/
 	if (victim == ent)
 	{
 		//don't ICARUS_FreeEnt me, I'm in the middle of a script!  (FIXME: shouldn't ICARUS handle this internally?)
@@ -11010,6 +11003,9 @@ int CQuake3GameInterface::GetFloat(const int entID, const char* name, float* val
 		break;
 	case SET_ENDLESS_BP: //## %t="BOOL_TYPES" # ENLESS BLOCK POINTS
 		*value = ent->flags & FL_BLOCKPOINTMODE;
+		break;
+	case SET_NO_SABER_RETURN://## %t="BOOL_TYPES" # Stops this ent from taking knockback from weapons
+		*value = ent->flags & FL_NO_SABER_RETURN;
 		break;
 
 	case SET_OBJECTIVE_LIGHTSIDE:
