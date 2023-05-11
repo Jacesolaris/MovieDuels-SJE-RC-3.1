@@ -6277,7 +6277,8 @@ void PM_TorsoAnimLightsaber()
 					if (g_SerenityJediEngineMode->integer == 2)
 					{
 						//AMD Mode
-						if (!g_noIgniteTwirl->integer && !IsSurrendering(pm->gent)) //twirl on
+						if (!g_noIgniteTwirl->integer && !active_blocking
+							&& !holding_block && !IsSurrendering(pm->gent)) //twirl on
 						{
 							PM_SetSaberMove(LS_DRAW);
 						}
@@ -6345,7 +6346,8 @@ void PM_TorsoAnimLightsaber()
 					else
 					{
 						//MD Mode
-						if (!g_noIgniteTwirl->integer
+						if (!g_noIgniteTwirl->integer && !active_blocking
+							&& !holding_block
 							&& !IsSurrendering(pm->gent)) //twirl on
 						{
 							PM_SetSaberMove(LS_DRAW);
@@ -6401,7 +6403,8 @@ void PM_TorsoAnimLightsaber()
 				else
 				{
 					//JKA Mode
-					if (!g_noIgniteTwirl->integer
+					if (!g_noIgniteTwirl->integer && !active_blocking
+						&& !holding_block
 						&& !IsSurrendering(pm->gent)) //twirl on
 					{
 						PM_SetSaberMove(LS_DRAW);
@@ -6467,7 +6470,8 @@ void PM_TorsoAnimLightsaber()
 			}
 			else
 			{
-				if (!g_noIgniteTwirl->integer
+				if (!g_noIgniteTwirl->integer && !active_blocking
+					&& !holding_block
 					&& !IsSurrendering(pm->gent)) //twirl on
 				{
 					PM_SetSaberMove(LS_PUTAWAY);

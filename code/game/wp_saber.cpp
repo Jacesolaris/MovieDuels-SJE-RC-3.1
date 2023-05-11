@@ -12956,7 +12956,7 @@ qboolean WP_SaberLaunch(gentity_t* self, gentity_t* saber, const qboolean thrown
 	{
 		//this is a regular throw, so turn the saber on
 		//turn saber on
-		if (self->client->ps.saber[0].saberFlags & SFL_SINGLE_BLADE_THROWABLE) //SaberStaff() )
+		if (self->client->ps.saber[0].saberFlags & SFL_SINGLE_BLADE_THROWABLE)
 		{
 			//only first blade can be on
 			if (!self->client->ps.saber[0].blade[0].active)
@@ -13970,10 +13970,11 @@ qboolean manual_saberblocking(const gentity_t* defender) //Is this guy blocking 
 		return qfalse;
 	}
 
-	if (defender->client->ps.weapon == WP_SABER && !defender->client->ps.SaberActive())
-	{
-		return qfalse;
-	}
+	//if (defender->client->ps.weapon == WP_SABER && !defender->client->ps.SaberActive())
+	//{
+	//	//return qfalse; 
+	//	defender->client->ps.SaberActivate();
+	//}
 
 	if (defender->health <= 1
 		|| BG_InKnockDown(defender->client->ps.legsAnim)

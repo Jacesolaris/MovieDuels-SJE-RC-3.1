@@ -8630,7 +8630,7 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 		&& !ent->NPC &&
 		(ent->s.number < MAX_CLIENTS || G_ControlledByPlayer(ent)) &&
 		client->ps.weapon == WP_SABER &&
-		client->ps.SaberActive() &&
+		/*client->ps.SaberActive() &&*/
 		!PM_SaberInMassiveBounce(client->ps.torsoAnim) &&
 		!PM_SaberInBashedAnim(client->ps.torsoAnim) &&
 		!PM_Saberinstab(client->ps.saber_move))
@@ -8651,6 +8651,12 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 				client->ps.ManualBlockingFlags |= 1 << MBF_BLOCKING;
 				client->ps.userInt3 |= 1 << FLAG_BLOCKING;
 				client->ps.ManualBlockingTime = level.time; //Blocking time 1 on
+
+				if (client->ps.weapon == WP_SABER && !client->ps.SaberActive())
+				{
+					//return qfalse;
+					client->ps.SaberActivate();
+				}
 			}
 
 			if (client->usercmd.buttons & BUTTON_WALKING && g_SerenityJediEngineMode->integer == 2)
@@ -9699,7 +9705,7 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 			ent->client->fireHeld = qfalse;
 		}
 	}
-}
+	}
 
 /*
 ==================

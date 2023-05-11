@@ -9917,6 +9917,7 @@ static void PM_Footsteps()
 	int set_anim_flags = SETANIM_FLAG_NORMAL;
 
 	const qboolean holding_block = pm->ps->ManualBlockingFlags & 1 << MBF_BLOCKING ? qtrue : qfalse;
+	const qboolean active_blocking = pm->ps->ManualBlockingFlags & 1 << MBF_PROJBLOCKING ? qtrue : qfalse;
 	//Holding Block Button
 
 	if (pm->gent == nullptr || pm->gent->client == nullptr)
@@ -10257,7 +10258,8 @@ static void PM_Footsteps()
 			}
 			else if (pm->ps->weapon == WP_SABER
 				&& pm->ps->SaberLength() > 0
-				&& (pm->ps->SaberActive() || !g_noIgniteTwirl->integer && !IsSurrendering(pm->gent))
+				&& (pm->ps->SaberActive() || !g_noIgniteTwirl->integer && !active_blocking
+					&& !holding_block && !IsSurrendering(pm->gent))
 				&& !pm->ps->saberInFlight
 				&& !PM_SaberDrawPutawayAnim(pm->ps->legsAnim))
 			{
