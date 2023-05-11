@@ -3849,35 +3849,34 @@ void Q3_SetScale(const int entID, const float float_data)
 
 void Q3_Set_NPC_Scale(const int entID, const float float_data)
 {
-	if (gi.argc() != 2)
+	gentity_t* self = &g_entities[entID];
+
+	if (!self)
 	{
-		gi.Printf("usage: %s <scale - 1.0 is the default>\n", gi.argv(0));
+		Quake3Game()->DebugPrint(IGameInterface::WL_WARNING, "Q3_Set_NPC_Scale: invalid entID %d\n", entID);
 		return;
 	}
 
-	gentity_t* selected = &g_entities[entID];
-	const float scale = atof(gi.argv(1));
-
-	Q3_SetScale(entID, scale);
+	self->s.scale = float_data;
 
 	// Adjust the model scale and the collision (mins/maxs) in one pass
-	const vec_t prevMins = selected->mins[2];
+	const vec_t prevMins = self->mins[2];
 	for (int i = 0; i < 3; i++)
 	{
-		const float correctScale = selected->s.modelScale[i] < 0.001f ? 1.0f : selected->s.modelScale[i];
-		const float maxNormalizedValue = selected->maxs[i] / correctScale;
-		const float minNormalizedValue = selected->mins[i] / correctScale;
-		selected->maxs[i] = maxNormalizedValue * scale;
-		selected->mins[i] = minNormalizedValue * scale;
-		selected->s.modelScale[i] = scale;
+		const float correctScale = self->s.modelScale[i] < 0.001f ? 1.0f : self->s.modelScale[i];
+		const float maxNormalizedValue = self->maxs[i] / correctScale;
+		const float minNormalizedValue = self->mins[i] / correctScale;
+		self->maxs[i] = maxNormalizedValue * float_data;
+		self->mins[i] = minNormalizedValue * float_data;
+		self->s.modelScale[i] = float_data;
 	}
-	const vec_t afterMins = selected->mins[2];
+	const vec_t afterMins = self->mins[2];
 	const vec_t diff = afterMins - prevMins;
 
 	// Do the below so the NPC doesn't get stuck in the floor
-	selected->client->ps.origin[2] += fabs(diff * 1.1f);
-	selected->currentOrigin[2] += fabs(diff);
-	selected->s.radius = sqrt(selected->maxs[0] * selected->maxs[0] + selected->maxs[1] * selected->maxs[1]);
+	self->client->ps.origin[2] += fabs(diff * 1.1f);
+	self->currentOrigin[2] += fabs(diff);
+	self->s.radius = sqrt(self->maxs[0] * self->maxs[0] + self->maxs[1] * self->maxs[1]);
 }
 
 /*
