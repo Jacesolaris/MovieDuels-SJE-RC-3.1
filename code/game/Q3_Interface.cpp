@@ -544,6 +544,7 @@ stringID_table_t setTable[] =
 	ENUM2STRING(SET_TACTICAL_HIDE),
 	ENUM2STRING(SET_FOLLOWDIST),
 	ENUM2STRING(SET_SCALE),
+	ENUM2STRING(SET_NPC_SCALE),
 	ENUM2STRING(SET_OBJECTIVE_CLEARALL),
 	ENUM2STRING(SET_OBJECTIVE_LIGHTSIDE),
 	ENUM2STRING(SET_MISSIONSTATUSTEXT),
@@ -3844,6 +3845,39 @@ void Q3_SetScale(const int entID, const float float_data)
 	}
 
 	self->s.scale = float_data;
+}
+
+void Q3_Set_NPC_Scale(const int entID, const float float_data)
+{
+	if (gi.argc() != 2)
+	{
+		gi.Printf("usage: %s <scale - 1.0 is the default>\n", gi.argv(0));
+		return;
+	}
+
+	gentity_t* selected = &g_entities[entID];
+	const float scale = atof(gi.argv(1));
+
+	Q3_SetScale(entID, scale);
+
+	// Adjust the model scale and the collision (mins/maxs) in one pass
+	const vec_t prevMins = selected->mins[2];
+	for (int i = 0; i < 3; i++)
+	{
+		const float correctScale = selected->s.modelScale[i] < 0.001f ? 1.0f : selected->s.modelScale[i];
+		const float maxNormalizedValue = selected->maxs[i] / correctScale;
+		const float minNormalizedValue = selected->mins[i] / correctScale;
+		selected->maxs[i] = maxNormalizedValue * scale;
+		selected->mins[i] = minNormalizedValue * scale;
+		selected->s.modelScale[i] = scale;
+	}
+	const vec_t afterMins = selected->mins[2];
+	const vec_t diff = afterMins - prevMins;
+
+	// Do the below so the NPC doesn't get stuck in the floor
+	selected->client->ps.origin[2] += fabs(diff * 1.1f);
+	selected->currentOrigin[2] += fabs(diff);
+	selected->s.radius = sqrt(selected->maxs[0] * selected->maxs[0] + selected->maxs[1] * selected->maxs[1]);
 }
 
 /*
@@ -8789,6 +8823,11 @@ void CQuake3GameInterface::Set(int taskID, int entID, const char* type_name, con
 		Q3_SetScale(entID, float_data);
 		break;
 
+	case SET_NPC_SCALE:
+		float_data = atof(data);
+		Q3_Set_NPC_Scale(entID, float_data);
+		break;
+
 	case SET_RENDER_CULL_RADIUS:
 		float_data = atof(data);
 		Q3_SetRenderCullRadius(entID, float_data);
@@ -10570,6 +10609,17 @@ int CQuake3GameInterface::GetFloat(const int entID, const char* name, float* val
 			return false;
 		}
 		*value = ent->NPC->followDist;
+		break;
+	case SET_SCALE: //## %f="0.0" # Scale the entity model
+		*value = ent->s.scale;
+		break;
+	case SET_NPC_SCALE: //## %f="0.0" # Scale the npc model
+		if (ent->NPC == nullptr)
+		{
+			DebugPrint(WL_WARNING, "GetFloat: SET_NPC_SCALE, %s not an NPC\n", ent->targetname);
+			return false;
+		}
+		*value = ent->s.scale;
 		break;
 		//# #sep ints
 	case SET_ANIM_HOLDTIME_LOWER: //## %d="0" # Hold lower anim for number of milliseconds

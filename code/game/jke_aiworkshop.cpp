@@ -1138,6 +1138,7 @@ void Workshop_Set_Scale_f(gentity_t* ent)
 	}
 	const vec_t afterMins = selected->mins[2];
 	const vec_t diff = afterMins - prevMins;
+
 	// Do the below so the NPC doesn't get stuck in the floor
 	selected->client->ps.origin[2] += fabs(diff * 1.1f);
 	selected->currentOrigin[2] += fabs(diff);
