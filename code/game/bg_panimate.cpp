@@ -5505,7 +5505,8 @@ void PM_SaberStartTransAnim(const int saber_anim_level, const int anim, float* a
 					{
 						if (g_RealisticBlockingMode->integer)
 						{
-							constexpr float realisticanimscale = 0.95f;
+							constexpr float realisticanimscale = 1.0f;
+							//constexpr float realisticanimscale = 0.95f;
 							*anim_speed *= realisticanimscale;
 						}
 						else

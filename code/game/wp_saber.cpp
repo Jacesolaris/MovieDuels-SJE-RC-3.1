@@ -13838,12 +13838,6 @@ qboolean Manual_HandBlocking(const gentity_t* defender)
 		return qfalse;
 	}
 
-	if (defender->client->ps.weapon != WP_NONE && defender->client->ps.weapon != WP_MELEE || defender->client->ps.weapon
-		== WP_SABER && defender->client->ps.SaberActive())
-	{
-		return qfalse;
-	}
-
 	if (defender->client->ps.forcePowerLevel[FP_ABSORB] < FORCE_LEVEL_1)
 	{
 		return qfalse;
@@ -13969,12 +13963,6 @@ qboolean manual_saberblocking(const gentity_t* defender) //Is this guy blocking 
 		//saber not currently in use or available, attempt to use our hands instead.
 		return qfalse;
 	}
-
-	//if (defender->client->ps.weapon == WP_SABER && !defender->client->ps.SaberActive())
-	//{
-	//	//return qfalse; 
-	//	defender->client->ps.SaberActivate();
-	//}
 
 	if (defender->health <= 1
 		|| BG_InKnockDown(defender->client->ps.legsAnim)
@@ -30179,7 +30167,7 @@ void ForceGrip(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-		}
+}
 
 qboolean ForceLightningCheck2Handed(const gentity_t* self)
 {
@@ -32053,7 +32041,9 @@ void ForceLightningDamage(gentity_t* self, gentity_t* trace_ent, vec3_t dir, con
 							Com_Printf(S_COLOR_GREEN"JKA Mode NPC Saber Lightning Block Correct\n");
 						}
 					}
-					else if (trace_ent->s.weapon == WP_MELEE
+					else if (trace_ent->s.weapon == WP_MELEE || trace_ent->s.weapon == WP_NONE || trace_ent->client->ps.
+						weapon
+						== WP_SABER && !trace_ent->client->ps.SaberActive()
 						&& !in_camera
 						&& Manual_HandBlocking(trace_ent)
 						&& !PM_InKnockDown(&trace_ent->client->ps)
@@ -32816,7 +32806,9 @@ void ForceLightningDamage_AMD(gentity_t* self, gentity_t* trace_ent, vec3_t dir,
 							Com_Printf(S_COLOR_GREEN"AMD Mode NPC Saber Lightning Block Correct\n");
 						}
 					}
-					else if (trace_ent->s.weapon == WP_MELEE
+					else if (trace_ent->s.weapon == WP_MELEE || trace_ent->s.weapon == WP_NONE || trace_ent->client->ps.
+						weapon
+						== WP_SABER && !trace_ent->client->ps.SaberActive()
 						&& !in_camera
 						&& Manual_HandBlocking(trace_ent)
 						&& !PM_InKnockDown(&trace_ent->client->ps)
@@ -33668,7 +33660,9 @@ void ForceLightningDamage_MD(gentity_t* self, gentity_t* trace_ent, vec3_t dir, 
 							Com_Printf(S_COLOR_GREEN"MD Mode NPC Saber Lightning Block Correct\n");
 						}
 					}
-					else if (trace_ent->s.weapon == WP_MELEE
+					else if (trace_ent->s.weapon == WP_MELEE || trace_ent->s.weapon == WP_NONE || trace_ent->client->ps.
+						weapon
+						== WP_SABER && !trace_ent->client->ps.SaberActive()
 						&& !in_camera
 						&& Manual_HandBlocking(trace_ent)
 						&& !PM_InKnockDown(&trace_ent->client->ps)
@@ -37470,7 +37464,7 @@ void ForceGrasp(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-		}
+}
 
 extern void WP_FireBlast(gentity_t* ent, int force_level);
 
@@ -38465,7 +38459,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							gripVel = 500.0f;
 						}
 						VectorScale(grip_ent->client->ps.velocity, gripVel, grip_ent->client->ps.velocity);
-				}
+					}
 
 					//FIXME: they probably dropped their weapon, should we make them flee?  Or should AI handle no-weapon behavior?
 					//rww - RAGDOLL_BEGIN
@@ -38543,7 +38537,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							}
 						}
 					}
-			}
+						}
 				else
 				{
 					grip_ent->s.eFlags &= ~EF_FORCE_GRIPPED;
@@ -38571,10 +38565,10 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 						grip_ent->s.pos.trTime = level.time;
 					}
 				}
-		}
+					}
 			self->s.loopSound = 0;
 			self->client->ps.forceGripEntityNum = ENTITYNUM_NONE;
-	}
+				}
 		if (self->client->ps.torsoAnim == BOTH_FORCEGRIP_HOLD)
 		{
 			NPC_SetAnim(self, SETANIM_BOTH, BOTH_FORCEGRIP_RELEASE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD);
@@ -38776,7 +38770,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							grip_vel = 500.0f;
 						}
 						VectorScale(grip_ent->client->ps.velocity, grip_vel, grip_ent->client->ps.velocity);
-				}
+					}
 
 					//FIXME: they probably dropped their weapon, should we make them flee?  Or should AI handle no-weapon behavior?
 					//rww - RAGDOLL_BEGIN
@@ -38854,7 +38848,7 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 							}
 						}
 					}
-			}
+						}
 				else
 				{
 					grip_ent->s.eFlags &= ~EF_FORCE_GRASPED;
@@ -38882,10 +38876,10 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 						grip_ent->s.pos.trTime = level.time;
 					}
 				}
-		}
+					}
 			self->s.loopSound = 0;
 			self->client->ps.forceGripEntityNum = ENTITYNUM_NONE;
-}
+				}
 		if (self->client->ps.torsoAnim == BOTH_FORCEGRIP_HOLD)
 		{
 			NPC_SetAnim(self, SETANIM_BOTH, BOTH_FORCEGRIP_RELEASE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD);
@@ -38934,8 +38928,8 @@ void WP_ForcePowerStop(gentity_t* self, const forcePowers_t force_power)
 		break;
 	default:
 		break;
-	}
-}
+			}
+		}
 
 void WP_ForceForceThrow(gentity_t* thrower)
 {
