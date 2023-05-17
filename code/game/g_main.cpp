@@ -316,6 +316,7 @@ cvar_t* g_RealisticBlockingMode;
 cvar_t* g_debugFatigueBars;
 
 cvar_t* g_Advancedaitalk;
+cvar_t* com_kotor;
 
 extern char* G_GetLocationForEnt(const gentity_t* ent);
 extern void CP_FindCombatPointWaypoints();
@@ -946,6 +947,8 @@ void G_InitCvars()
 	g_AdvancedWeaponPickup = gi.cvar("g_AdvancedWeaponPickup", "1", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 
 	g_Advancedaitalk = gi.cvar("g_Advancedaitalk", "0", CVAR_ARCHIVE);
+
+	com_kotor = gi.cvar("com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 }
 
 /*
@@ -2018,16 +2021,16 @@ qboolean G_RagDoll(gentity_t* ent, vec3_t forcedAngles)
 					if (deathDone || (vSub[PITCH] < 50 && vSub[PITCH] > -50))
 					{
 						inSomething = qtrue;
-					}
+				}
 #else
 					inSomething = qtrue;
 #endif
 					break;
-				}
+			}
 
 				i++;
-			}
 		}
+	}
 
 		if (inSomething)
 		{
@@ -2040,7 +2043,7 @@ qboolean G_RagDoll(gentity_t* ent, vec3_t forcedAngles)
 			*/
 			ent->client->isRagging = qtrue;
 		}
-	}
+}
 
 	if (ent->client->isRagging)
 	{
@@ -2677,7 +2680,7 @@ void G_RunFrame(const int level_time)
 	else if (navTime > 2)
 	{
 		gi.Printf(S_COLOR_GREEN"total nav time: %d\n", navTime);
-	}
+}
 #endif//	AI_TIMERS
 
 	extern int delayedShutDown;

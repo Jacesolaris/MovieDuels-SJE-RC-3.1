@@ -42,6 +42,7 @@ extern stringID_table_t WPTable[];
 extern cvar_t* g_SerenityJediEngineMode;
 extern cvar_t* com_outcast;
 extern cvar_t* g_playerArmourSync;
+extern cvar_t* com_kotor;
 
 extern cvar_t* g_allowAlignmentChange;
 
@@ -136,6 +137,8 @@ stringID_table_t FactionTable[] =
 	ENUM2STRING(FACTION_DARK),
 	{"neutral", FACTION_NEUTRAL},
 	ENUM2STRING(FACTION_NEUTRAL),
+	{"kotor", FACTION_KOTOR},
+	ENUM2STRING(FACTION_KOTOR),
 	{"", -1}
 };
 
@@ -1445,6 +1448,7 @@ extern int NPC_WeaponsForTeam(team_t team, int spawnflags, const char* npc_type)
 
 void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const char* np_ctype)
 {
+	faction_t faction = FACTION_KOTOR;
 	const int weapons = NPC_WeaponsForTeam(player_team, spawnflags, np_ctype);
 	for (int cur_weap = WP_SABER; cur_weap < WP_NUM_WEAPONS; cur_weap++)
 	{
@@ -1457,7 +1461,30 @@ void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const c
 
 			char weapon_model[64];
 
-			strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
+			if (com_kotor->integer == 1) //playing kotor
+			{
+				strcpy(weapon_model, weaponData[cur_weap].altweaponMdl);
+			}
+			else
+			{
+
+				/*switch (faction)
+				{
+				case FACTION_KOTOR:
+					strcpy(weapon_model, weaponData[cur_weap].altweaponMdl);
+					break;
+				case FACTION_DARK:
+				case FACTION_LIGHT:
+				case FACTION_SOLO:
+				case FACTION_NEUTRAL:
+					strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
+					break;
+				default:
+					strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
+					break;
+				}*/
+				strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
+			}
 			if (char* spot = strstr(weapon_model, ".md3"))
 			{
 				*spot = 0;
@@ -1665,7 +1692,8 @@ void CG_NPC_Precache(gentity_t* spawner)
 	clientInfo_t ci = {};
 	renderInfo_t ri = {};
 	team_t player_team = TEAM_FREE;
-	faction_t friendlyfaction = FACTION_SOLO;
+	faction_t friendlyfaction = FACTION_KOTOR;
+	faction_t enemyfaction = FACTION_DARK;
 	const char* token;
 	const char* value;
 	const char* p;
@@ -1826,6 +1854,16 @@ void CG_NPC_Precache(gentity_t* spawner)
 				continue;
 			}
 			friendlyfaction = static_cast<faction_t>(GetIDForString(FactionTable, token));
+			continue;
+		}
+
+		if (!Q_stricmp(token, "enemyfaction"))
+		{
+			if (COM_ParseString(&p, &value))
+			{
+				continue;
+			}
+			enemyfaction = static_cast<faction_t>(GetIDForString(FactionTable, value));
 			continue;
 		}
 

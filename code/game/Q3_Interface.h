@@ -252,6 +252,8 @@ using setType_t = enum //# setType_e
 	SET_SCALE,
 	//## %f="0.0" # Scale the entity model
 	SET_NPC_SCALE,
+
+	SET_KOTOR_MODE,
 	//## %f="0.0" # Scale the NPC model
 	SET_RENDER_CULL_RADIUS,
 	//## %f="40.0" # Used to ensure rendering for entities with geographically sprawling animations (world units)

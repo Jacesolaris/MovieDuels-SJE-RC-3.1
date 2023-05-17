@@ -628,6 +628,7 @@ extern cvar_t* com_outcast;
 extern cvar_t* g_Weather;
 extern cvar_t* g_update6firststartup;
 extern cvar_t* g_totgfirststartup;
+extern cvar_t* com_kotor;
 #ifndef _WIN32
 extern	cvar_t* com_ansiColor;
 #endif

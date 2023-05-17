@@ -1269,7 +1269,7 @@ static svcmd_t svcmds[] = {
 
 	{"playerTeam", Svcmd_PlayerTeam_f, CMD_CHEAT},
 
-	{"friendlyfaction", Svcmd_PlayerFaction_f, CMD_CHEAT},
+	{"friendlyfaction", Svcmd_PlayerFaction_f, CMD_NONE},
 
 	{"control", Svcmd_Control_f, CMD_CHEAT},
 	{"grab", Svcmd_Grab_f, CMD_CHEAT},

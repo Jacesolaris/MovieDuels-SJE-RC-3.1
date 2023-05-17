@@ -32,6 +32,7 @@ static constexpr short objectiveStartingXpos = 60; // X starting position for ob
 static constexpr int objectiveTextBoxWidth = 500; // Width (in pixels) of text box
 static constexpr int objectiveTextBoxHeight = 300; // Height (in pixels) of text box
 static constexpr short missionYpos = 79;
+extern vmCvar_t cg_com_kotor;
 
 const char* showLoadPowersName[] =
 {
@@ -436,30 +437,45 @@ static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons,
 			continue;
 		}
 
-		if (weaponData[i].weaponIcon[0])
+		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-			CG_RegisterWeapon(i);
-			const weaponInfo_t* weaponInfo = &cg_weapons[i];
-			endIndex = i;
-
-			// NOTE : during loading screen always show the have ammo icon
-			//		if (!CG_WeaponCheck(i))
-			//		{
-			//			CG_DrawPic( holdX, y+yOffset, iconSize, iconSize, weaponInfo->weaponIconNoAmmo );
-			//		}
-			//		else
+			if (weaponData[i].altweaponIcon[0])
 			{
+				CG_RegisterWeapon(i);
+				const weaponInfo_t* weaponInfo = &cg_weapons[i];
+				endIndex = i;
+
+				constexpr int yOffset = 0;
+				CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->altweaponIcon);
+
+				printedIconCnt++;
+				if (printedIconCnt == MAXLOADICONSPERROW)
+				{
+					break;
+				}
+
+				holdX += iconSize + pad;
+			}
+		}
+		else
+		{
+			if (weaponData[i].weaponIcon[0])
+			{
+				CG_RegisterWeapon(i);
+				const weaponInfo_t* weaponInfo = &cg_weapons[i];
+				endIndex = i;
+
 				constexpr int yOffset = 0;
 				CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->weaponIcon);
-			}
 
-			printedIconCnt++;
-			if (printedIconCnt == MAXLOADICONSPERROW)
-			{
-				break;
-			}
+				printedIconCnt++;
+				if (printedIconCnt == MAXLOADICONSPERROW)
+				{
+					break;
+				}
 
-			holdX += iconSize + pad;
+				holdX += iconSize + pad;
+			}
 		}
 	}
 

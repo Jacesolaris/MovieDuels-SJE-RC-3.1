@@ -29,7 +29,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "g_navigator.h"
 
 extern Vehicle_t* G_IsRidingVehicle(const gentity_t* p_ent);
-
+extern cvar_t* com_kotor;
 extern void ChangeWeapon(const gentity_t* ent, int new_weapon);
 extern void CG_ChangeWeapon(int num);
 
@@ -932,6 +932,7 @@ void G_UpdateEmplacedWeaponData(gentity_t* ent)
 
 void ExitEmplacedWeapon(gentity_t* ent)
 {
+	faction_t faction = FACTION_KOTOR;
 	// requesting to unlock from the weapon
 	// We'll leave the gun pointed in the direction it was last facing, though we'll cut out the pitch
 	if (ent->client)
@@ -1079,7 +1080,29 @@ void ExitEmplacedWeapon(gentity_t* ent)
 			}
 			else
 			{
-				G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+				}
 				//holster sabers
 				WP_SaberAddHolsteredG2SaberModels(ent);
 			}

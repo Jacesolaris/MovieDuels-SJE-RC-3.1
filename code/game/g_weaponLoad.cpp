@@ -215,7 +215,9 @@ void WPN_SelectSnd(const char** hold_buf);
 void WPN_Range(const char** hold_buf);
 void WPN_WeaponClass(const char** hold_buf);
 void WPN_WeaponIcon(const char** hold_buf);
+void WPN_AltWeaponIcon(const char** hold_buf);
 void WPN_WeaponModel(const char** hold_buf);
+void WPN_AltWeaponModel(const char** hold_buf);
 void WPN_WeaponType(const char** hold_buf);
 void WPN_AltEnergyPerShot(const char** hold_buf);
 void WPN_AltFireTime(const char** hold_buf);
@@ -602,8 +604,6 @@ wpnParms_t WpnParms[] =
 	{"fireTime", WPN_FireTime},
 	{"firingsound", WPN_FiringSnd},
 	{"altfiringsound", WPN_AltFiringSnd},
-	//	{ "flashsound",		WPN_FlashSnd },
-	//	{ "altflashsound",	WPN_AltFlashSnd },
 	{"stopsound", WPN_StopSnd},
 	{"chargesound", WPN_ChargeSnd},
 	{"altchargesound", WPN_AltChargeSnd},
@@ -611,7 +611,9 @@ wpnParms_t WpnParms[] =
 	{"range", WPN_Range},
 	{"weaponclass", WPN_WeaponClass},
 	{"weaponicon", WPN_WeaponIcon},
+	{"altweaponIcon", WPN_AltWeaponIcon},
 	{"weaponmodel", WPN_WeaponModel},
+	{"altweaponmodel", WPN_AltWeaponModel},
 	{"weapontype", WPN_WeaponType},
 	{"altenergypershot", WPN_AltEnergyPerShot},
 	{"altfireTime", WPN_AltFireTime},
@@ -805,6 +807,26 @@ void WPN_WeaponModel(const char** hold_buf)
 	Q_strncpyz(weaponData[wpnParms.weaponNum].weaponMdl, token_str, len);
 }
 
+void WPN_AltWeaponModel(const char** hold_buf)
+{
+	const char* token_str;
+
+	if (COM_ParseString(hold_buf, &token_str))
+	{
+		return;
+	}
+
+	int len = strlen(token_str);
+	len++;
+	if (len > 64)
+	{
+		len = 64;
+		gi.Printf(S_COLOR_YELLOW"WARNING: altweaponMdl too long in external WEAPONS.DAT '%s'\n", token_str);
+	}
+
+	Q_strncpyz(weaponData[wpnParms.weaponNum].altweaponMdl, token_str, len);
+}
+
 //--------------------------------------------
 void WPN_WeaponIcon(const char** hold_buf)
 {
@@ -824,6 +846,26 @@ void WPN_WeaponIcon(const char** hold_buf)
 	}
 
 	Q_strncpyz(weaponData[wpnParms.weaponNum].weaponIcon, token_str, len);
+}
+
+void WPN_AltWeaponIcon(const char** hold_buf)
+{
+	const char* token_str;
+
+	if (COM_ParseString(hold_buf, &token_str))
+	{
+		return;
+	}
+
+	int len = strlen(token_str);
+	len++;
+	if (len > 64)
+	{
+		len = 64;
+		gi.Printf(S_COLOR_YELLOW"WARNING: altweaponIcon too long in external WEAPONS.DAT '%s'\n", token_str);
+	}
+
+	Q_strncpyz(weaponData[wpnParms.weaponNum].altweaponIcon, token_str, len);
 }
 
 //--------------------------------------------

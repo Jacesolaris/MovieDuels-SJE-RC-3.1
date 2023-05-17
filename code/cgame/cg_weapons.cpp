@@ -44,6 +44,7 @@ extern bool G_IsRidingTurboVehicle(const gentity_t* ent);
 extern cvar_t* com_outcast;
 extern void G_StartNextItemEffect(gentity_t* ent, int me_flags = 0, int length = 1000, float time_scale = 0.0f,
 	int spin_time = 0);
+extern vmCvar_t cg_com_kotor;
 
 extern vmCvar_t cg_SerenityJediEngineMode;
 extern void G_SoundOnEnt(const gentity_t* ent, soundChannel_t channel, const char* sound_path);
@@ -91,6 +92,7 @@ void CG_RegisterWeapon(const int weapon_num)
 	char path[MAX_QPATH];
 	vec3_t mins, maxs;
 	int i;
+	faction_t faction = FACTION_KOTOR;
 
 	weaponInfo_t* weapon_info = &cg_weapons[weapon_num];
 
@@ -126,12 +128,59 @@ void CG_RegisterWeapon(const int weapon_num)
 	CG_RegisterItemVisuals(item - bg_itemlist);
 
 	// set up in view weapon model
-	weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
+
+	if (cg_com_kotor.integer == 1) //playing kotor
+	{
+		weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].altweaponMdl);
+	}
+	else
+	{
+		/*switch (faction)
+		{
+		case FACTION_KOTOR:
+			weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].altweaponMdl);
+			break;
+		case FACTION_DARK:
+		case FACTION_LIGHT:
+		case FACTION_SOLO:
+		case FACTION_NEUTRAL:
+			weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
+			break;
+		default:
+			weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
+			break;
+		}*/
+		weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
+	}
+
 	{
 		//in case the weaponmodel isn't _w, precache the _w.glm
 		char weapon_model[64];
 
-		Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			Q_strncpyz(weapon_model, weaponData[weapon_num].altweaponMdl, sizeof weapon_model);
+		}
+		else
+		{
+			/*switch (faction)
+			{
+			case FACTION_KOTOR:
+				Q_strncpyz(weapon_model, weaponData[weapon_num].altweaponMdl, sizeof weapon_model);
+				break;
+			case FACTION_DARK:
+			case FACTION_LIGHT:
+			case FACTION_SOLO:
+			case FACTION_NEUTRAL:
+				Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
+				break;
+			default:
+				Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
+				break;
+			}*/
+			Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
+		}
+
 		if (char* spot = strstr(weapon_model, ".md3"))
 		{
 			*spot = 0;
@@ -148,8 +197,29 @@ void CG_RegisterWeapon(const int weapon_num)
 
 	if (weapon_info->weaponModel == 0)
 	{
-		CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl,
-			weaponData[weapon_num].classname);
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].altweaponMdl, weaponData[weapon_num].classname);
+		}
+		else
+		{
+			/*switch (faction)
+			{
+			case FACTION_KOTOR:
+				CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].altweaponMdl, weaponData[weapon_num].classname);
+				break;
+			case FACTION_DARK:
+			case FACTION_LIGHT:
+			case FACTION_SOLO:
+			case FACTION_NEUTRAL:
+				CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl, weaponData[weapon_num].classname);
+				break;
+			default:
+				CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl, weaponData[weapon_num].classname);
+				break;
+			}*/
+			CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl, weaponData[weapon_num].classname);
+		}
 	}
 
 	// calc midpoint for rotation
@@ -160,10 +230,21 @@ void CG_RegisterWeapon(const int weapon_num)
 	}
 
 	// setup the shader we will use for the icon
-	if (weaponData[weapon_num].weaponIcon[0])
+	if (cg_com_kotor.integer == 1) //playing kotor
 	{
-		weapon_info->weaponIcon = cgi_R_RegisterShaderNoMip(weaponData[weapon_num].weaponIcon);
-		weapon_info->weaponIconNoAmmo = cgi_R_RegisterShaderNoMip(va("%s_na", weaponData[weapon_num].weaponIcon));
+		if (weaponData[weapon_num].altweaponIcon[0])
+		{
+			weapon_info->altweaponIcon = cgi_R_RegisterShaderNoMip(weaponData[weapon_num].altweaponIcon);
+			weapon_info->weaponIconNoAmmo = cgi_R_RegisterShaderNoMip(va("%s_na", weaponData[weapon_num].altweaponIcon));
+		}
+	}
+	else
+	{
+		if (weaponData[weapon_num].weaponIcon[0])
+		{
+			weapon_info->weaponIcon = cgi_R_RegisterShaderNoMip(weaponData[weapon_num].weaponIcon);
+			weapon_info->weaponIconNoAmmo = cgi_R_RegisterShaderNoMip(va("%s_na", weaponData[weapon_num].weaponIcon));
+		}
 	}
 
 	for (ammo = bg_itemlist + 1; ammo->classname; ammo++)
@@ -181,7 +262,30 @@ void CG_RegisterWeapon(const int weapon_num)
 
 	for (i = 0; i < weaponData[weapon_num].numBarrels; i++)
 	{
-		Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			Q_strncpyz(path, weaponData[weapon_num].altweaponMdl, sizeof path);
+		}
+		else
+		{
+			/*switch (faction)
+			{
+			case FACTION_KOTOR:
+				Q_strncpyz(path, weaponData[weapon_num].altweaponMdl, sizeof path);
+				break;
+			case FACTION_DARK:
+			case FACTION_LIGHT:
+			case FACTION_SOLO:
+			case FACTION_NEUTRAL:
+				Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+				break;
+			default:
+				Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+				break;
+			}*/
+			Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+		}
+
 		COM_StripExtension(path, path, sizeof path);
 		if (i)
 		{
@@ -200,7 +304,30 @@ void CG_RegisterWeapon(const int weapon_num)
 	}
 
 	// set up the hand that holds the in view weapon - assuming we have one
-	Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+
+	if (cg_com_kotor.integer == 1) //playing kotor
+	{
+		Q_strncpyz(path, weaponData[weapon_num].altweaponMdl, sizeof path);
+	}
+	else
+	{
+		/*switch (faction)
+		{
+		case FACTION_KOTOR:
+			Q_strncpyz(path, weaponData[weapon_num].altweaponMdl, sizeof path);
+			break;
+		case FACTION_DARK:
+		case FACTION_LIGHT:
+		case FACTION_SOLO:
+		case FACTION_NEUTRAL:
+			Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+			break;
+		default:
+			Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+			break;
+		}*/
+		Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+	}
 
 	COM_StripExtension(path, path, sizeof path);
 	Q_strcat(path, sizeof path, "_hand.md3");
@@ -2661,21 +2788,43 @@ void CG_DrawDataPadWeaponSelect()
 
 		++icon_cnt; // Good icon
 
-		if (weaponData[weapon_select_i].weaponIcon[0])
+		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-			CG_RegisterWeapon(weapon_select_i);
-			const weaponInfo_t* weapon_info = &cg_weapons[weapon_select_i];
-
-			if (!CG_WeaponCheck(weapon_select_i))
+			if (weaponData[weapon_select_i].altweaponIcon[0])
 			{
-				CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
-			}
-			else
-			{
-				CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIcon);
-			}
+				CG_RegisterWeapon(weapon_select_i);
+				const weaponInfo_t* weapon_info = &cg_weapons[weapon_select_i];
 
-			hold_x -= small_icon_size + pad;
+				if (!CG_WeaponCheck(weapon_select_i))
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->altweaponIcon);
+				}
+
+				hold_x -= small_icon_size + pad;
+			}
+		}
+		else
+		{
+			if (weaponData[weapon_select_i].weaponIcon[0])
+			{
+				CG_RegisterWeapon(weapon_select_i);
+				const weaponInfo_t* weapon_info = &cg_weapons[weapon_select_i];
+
+				if (!CG_WeaponCheck(weapon_select_i))
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+				}
+
+				hold_x -= small_icon_size + pad;
+			}
 		}
 
 		if (weapon_select_i == WP_CONCUSSION)
@@ -2688,21 +2837,44 @@ void CG_DrawDataPadWeaponSelect()
 	// Current Center Icon
 	cgi_R_SetColor(colorTable[CT_WHITE]);
 
-	if (weaponData[cg.DataPadWeaponSelect].weaponIcon[0])
+	if (cg_com_kotor.integer == 1) //playing kotor
 	{
-		CG_RegisterWeapon(cg.DataPadWeaponSelect);
-		const weaponInfo_t* weapon_info = &cg_weapons[cg.DataPadWeaponSelect];
+		if (weaponData[cg.DataPadWeaponSelect].altweaponIcon[0])
+		{
+			CG_RegisterWeapon(cg.DataPadWeaponSelect);
+			const weaponInfo_t* weapon_info = &cg_weapons[cg.DataPadWeaponSelect];
 
-		// Draw graphic to show weapon has ammo or no ammo
-		if (!CG_WeaponCheck(cg.DataPadWeaponSelect))
-		{
-			CG_DrawPic(center_x_pos - big_icon_size / 2, graphic_y_pos - (big_icon_size - small_icon_size) / 2 + 10,
-				big_icon_size, big_icon_size, weapon_info->weaponIconNoAmmo);
+			// Draw graphic to show weapon has ammo or no ammo
+			if (!CG_WeaponCheck(cg.DataPadWeaponSelect))
+			{
+				CG_DrawPic(center_x_pos - big_icon_size / 2, graphic_y_pos - (big_icon_size - small_icon_size) / 2 + 10,
+					big_icon_size, big_icon_size, weapon_info->weaponIconNoAmmo);
+			}
+			else
+			{
+				CG_DrawPic(center_x_pos - big_icon_size / 2, graphic_y_pos - (big_icon_size - small_icon_size) / 2 + 10,
+					big_icon_size, big_icon_size, weapon_info->altweaponIcon);
+			}
 		}
-		else
+	}
+	else
+	{
+		if (weaponData[cg.DataPadWeaponSelect].weaponIcon[0])
 		{
-			CG_DrawPic(center_x_pos - big_icon_size / 2, graphic_y_pos - (big_icon_size - small_icon_size) / 2 + 10,
-				big_icon_size, big_icon_size, weapon_info->weaponIcon);
+			CG_RegisterWeapon(cg.DataPadWeaponSelect);
+			const weaponInfo_t* weapon_info = &cg_weapons[cg.DataPadWeaponSelect];
+
+			// Draw graphic to show weapon has ammo or no ammo
+			if (!CG_WeaponCheck(cg.DataPadWeaponSelect))
+			{
+				CG_DrawPic(center_x_pos - big_icon_size / 2, graphic_y_pos - (big_icon_size - small_icon_size) / 2 + 10,
+					big_icon_size, big_icon_size, weapon_info->weaponIconNoAmmo);
+			}
+			else
+			{
+				CG_DrawPic(center_x_pos - big_icon_size / 2, graphic_y_pos - (big_icon_size - small_icon_size) / 2 + 10,
+					big_icon_size, big_icon_size, weapon_info->weaponIcon);
+			}
 		}
 	}
 
@@ -2751,23 +2923,47 @@ void CG_DrawDataPadWeaponSelect()
 
 		++icon_cnt; // Good icon
 
-		if (weaponData[weapon_select_i].weaponIcon[0])
+		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-			CG_RegisterWeapon(weapon_select_i);
-			const weaponInfo_t* weapon_info = &cg_weapons[weapon_select_i];
-
-			// Draw graphic to show weapon has ammo or no ammo
-			if (!CG_WeaponCheck(i))
+			if (weaponData[weapon_select_i].altweaponIcon[0])
 			{
-				CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
-			}
-			else
-			{
-				CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIcon);
-			}
+				CG_RegisterWeapon(weapon_select_i);
+				const weaponInfo_t* weapon_info = &cg_weapons[weapon_select_i];
 
-			hold_x += small_icon_size + pad;
+				// Draw graphic to show weapon has ammo or no ammo
+				if (!CG_WeaponCheck(i))
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->altweaponIcon);
+				}
+
+				hold_x += small_icon_size + pad;
+			}
 		}
+		else
+		{
+			if (weaponData[weapon_select_i].weaponIcon[0])
+			{
+				CG_RegisterWeapon(weapon_select_i);
+				const weaponInfo_t* weapon_info = &cg_weapons[weapon_select_i];
+
+				// Draw graphic to show weapon has ammo or no ammo
+				if (!CG_WeaponCheck(i))
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(hold_x, graphic_y_pos, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+				}
+
+				hold_x += small_icon_size + pad;
+			}
+		}
+
 		if (weapon_select_i == WP_CONCUSSION)
 		{
 			drew_conc = qtrue;
@@ -3097,37 +3293,75 @@ void CG_DrawWeaponSelect()
 
 		++icon_cnt; // Good icon
 
-		if (weaponData[i].weaponIcon[0])
+		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-			CG_RegisterWeapon(i);
-			const weaponInfo_t* weapon_info = &cg_weapons[i];
-
-			if (is_on_veh) //PM_WeaponOkOnVehicle
+			if (weaponData[i].altweaponIcon[0])
 			{
-				if (!CG_WeaponCheck(i))
+				CG_RegisterWeapon(i);
+				const weaponInfo_t* weapon_info = &cg_weapons[i];
+
+				if (is_on_veh) //PM_WeaponOkOnVehicle
 				{
-					CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->altweaponIcon);
+					}
 				}
 				else
 				{
-					CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size,
+							weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->altweaponIcon);
+					}
 				}
-			}
-			else
-			{
-				if (!CG_WeaponCheck(i))
-				{
-					CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size,
-						weapon_info->weaponIconNoAmmo);
-				}
-				else
-				{
-					CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
-				}
-			}
 
-			hold_x -= small_icon_size + pad;
+				hold_x -= small_icon_size + pad;
+			}
 		}
+		else
+		{
+			if (weaponData[i].weaponIcon[0])
+			{
+				CG_RegisterWeapon(i);
+				const weaponInfo_t* weapon_info = &cg_weapons[i];
+
+				if (is_on_veh) //PM_WeaponOkOnVehicle
+				{
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+					}
+				}
+				else
+				{
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size,
+							weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+					}
+				}
+
+				hold_x -= small_icon_size + pad;
+			}
+		}
+
 		if (i == WP_CONCUSSION)
 		{
 			drew_conc = qtrue;
@@ -3137,37 +3371,78 @@ void CG_DrawWeaponSelect()
 
 	// Current Center Icon
 	cgi_R_SetColor(nullptr);
-	if (weaponData[cg.weaponSelect].weaponIcon[0])
-	{
-		CG_RegisterWeapon(cg.weaponSelect);
-		const weaponInfo_t* weapon_info = &cg_weapons[cg.weaponSelect];
 
-		if (is_on_veh) //PM_WeaponOkOnVehicle
+	if (cg_com_kotor.integer == 1) //playing kotor
+	{
+		if (weaponData[cg.weaponSelect].altweaponIcon[0])
 		{
-			if (!CG_WeaponCheck(cg.weaponSelect))
+			CG_RegisterWeapon(cg.weaponSelect);
+			const weaponInfo_t* weapon_info = &cg_weapons[cg.weaponSelect];
+
+			if (is_on_veh) //PM_WeaponOkOnVehicle
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
-					big_icon_size, weapon_info->weaponIconNoAmmo);
+				if (!CG_WeaponCheck(cg.weaponSelect))
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+						big_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+						big_icon_size, weapon_info->altweaponIcon);
+				}
 			}
 			else
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
-					big_icon_size, weapon_info->weaponIcon);
+				if (!CG_WeaponCheck(cg.weaponSelect))
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+						big_icon_size,
+						big_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+						big_icon_size,
+						big_icon_size, weapon_info->altweaponIcon);
+				}
 			}
 		}
-		else
+	}
+	else
+	{
+		if (weaponData[cg.weaponSelect].weaponIcon[0])
 		{
-			if (!CG_WeaponCheck(cg.weaponSelect))
+			CG_RegisterWeapon(cg.weaponSelect);
+			const weaponInfo_t* weapon_info = &cg_weapons[cg.weaponSelect];
+
+			if (is_on_veh) //PM_WeaponOkOnVehicle
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
-					big_icon_size,
-					big_icon_size, weapon_info->weaponIconNoAmmo);
+				if (!CG_WeaponCheck(cg.weaponSelect))
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+						big_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+						big_icon_size, weapon_info->weaponIcon);
+				}
 			}
 			else
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
-					big_icon_size,
-					big_icon_size, weapon_info->weaponIcon);
+				if (!CG_WeaponCheck(cg.weaponSelect))
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+						big_icon_size,
+						big_icon_size, weapon_info->weaponIconNoAmmo);
+				}
+				else
+				{
+					CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+						big_icon_size,
+						big_icon_size, weapon_info->weaponIcon);
+				}
 			}
 		}
 	}
@@ -3251,38 +3526,76 @@ void CG_DrawWeaponSelect()
 
 		++icon_cnt; // Good icon
 
-		if (weaponData[i].weaponIcon[0])
+		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-			CG_RegisterWeapon(i);
-			const weaponInfo_t* weapon_info = &cg_weapons[i];
-			// No ammo for this weapon?
-
-			if (is_on_veh) //PM_WeaponOkOnVehicle
+			if (weaponData[i].altweaponIcon[0])
 			{
-				if (!CG_WeaponCheck(i))
+				CG_RegisterWeapon(i);
+				const weaponInfo_t* weapon_info = &cg_weapons[i];
+				// No ammo for this weapon?
+
+				if (is_on_veh) //PM_WeaponOkOnVehicle
 				{
-					CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->altweaponIcon);
+					}
 				}
 				else
 				{
-					CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size,
+							weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->altweaponIcon);
+					}
 				}
-			}
-			else
-			{
-				if (!CG_WeaponCheck(i))
-				{
-					CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size,
-						weapon_info->weaponIconNoAmmo);
-				}
-				else
-				{
-					CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
-				}
-			}
 
-			hold_x += small_icon_size + pad;
+				hold_x += small_icon_size + pad;
+			}
 		}
+		else
+		{
+			if (weaponData[i].weaponIcon[0])
+			{
+				CG_RegisterWeapon(i);
+				const weaponInfo_t* weapon_info = &cg_weapons[i];
+				// No ammo for this weapon?
+
+				if (is_on_veh) //PM_WeaponOkOnVehicle
+				{
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+					}
+				}
+				else
+				{
+					if (!CG_WeaponCheck(i))
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIconNoAmmo);
+					}
+					else
+					{
+						CG_DrawPic(hold_x, y + 10 + y_offset, small_icon_size, small_icon_size, weapon_info->weaponIcon);
+					}
+				}
+
+				hold_x += small_icon_size + pad;
+			}
+		}
+
 		if (i == WP_CONCUSSION)
 		{
 			drew_conc = qtrue;

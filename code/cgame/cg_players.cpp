@@ -3719,6 +3719,7 @@ static void CG_PlayerPowerups(const centity_t* cent)
 			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 0.2f, 0.2f, 1); //blue
 			break;
 		case FACTION_SOLO:
+		case FACTION_KOTOR:
 			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 0.9f, 0.9f, 0.9f); //white
 			break;
 		case FACTION_NEUTRAL:

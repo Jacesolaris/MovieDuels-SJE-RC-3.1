@@ -2761,6 +2761,8 @@ void FS_Startup(const char* gameName) {
 
 	Cvar_Get("com_outcast", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 
+	Cvar_Get("com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
+
 	Cvar_Get("r_weather", "0", CVAR_ARCHIVE);
 
 	// add search path elements in reverse priority order

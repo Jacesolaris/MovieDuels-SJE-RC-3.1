@@ -29,7 +29,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "b_local.h"
 
 extern qboolean missionInfo_Updated;
-
+extern cvar_t* com_kotor;
 extern void CrystalAmmoSettings(gentity_t* ent);
 extern void ChangeWeapon(const gentity_t* ent, int new_weapon);
 extern qboolean PM_InKnockDown(const playerState_t* ps);
@@ -507,6 +507,7 @@ int Pickup_Weapon(gentity_t* ent, gentity_t* other)
 {
 	int quantity;
 	qboolean hadWeapon = qfalse;
+	faction_t faction = FACTION_KOTOR;
 
 	// dropped items are always picked up
 	if (ent->flags & FL_DROPPED_ITEM)
@@ -554,7 +555,29 @@ int Pickup_Weapon(gentity_t* ent, gentity_t* other)
 			}
 			else
 			{
-				G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].altweaponMdl, other->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].altweaponMdl, other->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
+				}
 				//holster sabers
 				WP_SaberAddHolsteredG2SaberModels(ent);
 			}

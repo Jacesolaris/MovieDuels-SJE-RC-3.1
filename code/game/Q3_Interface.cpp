@@ -78,6 +78,7 @@ extern qboolean G_DoDismembermentcin(gentity_t* self, vec3_t point, int mod, int
 extern void G_ChangeScale(const char* data);
 extern void UnLockDoors(const gentity_t* ent);
 extern void LockDoors(const gentity_t* ent);
+extern cvar_t* com_kotor;
 
 const char* GetSaberColor(int color);
 
@@ -545,6 +546,7 @@ stringID_table_t setTable[] =
 	ENUM2STRING(SET_FOLLOWDIST),
 	ENUM2STRING(SET_SCALE),
 	ENUM2STRING(SET_NPC_SCALE),
+	ENUM2STRING(SET_KOTOR_MODE),
 	ENUM2STRING(SET_OBJECTIVE_CLEARALL),
 	ENUM2STRING(SET_OBJECTIVE_LIGHTSIDE),
 	ENUM2STRING(SET_MISSIONSTATUSTEXT),
@@ -3376,6 +3378,7 @@ extern gentity_t* TossClientItems(gentity_t* self);
 
 void G_SetWeapon(gentity_t* self, int wp)
 {
+	faction_t faction = FACTION_KOTOR;
 	qboolean hadWeapon = qfalse;
 
 	if (!self->client)
@@ -3449,7 +3452,29 @@ void G_SetWeapon(gentity_t* self, int wp)
 	}
 	else
 	{
-		G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
+		if (com_kotor->integer == 1) //playing kotor
+		{
+			G_CreateG2AttachedWeaponModel(self, weaponData[wp].altweaponMdl, self->handRBolt, 0);
+		}
+		else
+		{
+			/*switch (faction)
+			{
+			case FACTION_KOTOR:
+				G_CreateG2AttachedWeaponModel(self, weaponData[wp].altweaponMdl, self->handRBolt, 0);
+				break;
+			case FACTION_DARK:
+			case FACTION_LIGHT:
+			case FACTION_SOLO:
+			case FACTION_NEUTRAL:
+				G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
+				break;
+			default:
+				G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
+				break;
+			}*/
+			G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
+		}
 		WP_SaberAddHolsteredG2SaberModels(self);
 	}
 }
@@ -7185,6 +7210,26 @@ static void Q3_setVaderBreath(const int entID, const qboolean usable)
 	}
 }
 
+static void Q3_setKotorMode(const int entID, const qboolean usable)
+{
+	const gentity_t* ent = &g_entities[entID];
+
+	if (!ent)
+	{
+		Quake3Game()->DebugPrint(IGameInterface::WL_WARNING, "Q3_setKotorMode: invalid entID %d\n", entID);
+		return;
+	}
+
+	if (usable)
+	{
+		gi.cvar_set("com_kotor", "1");
+	}
+	else
+	{
+		gi.cvar_set("com_kotor", "0");
+	}
+}
+
 static void Q3_setVaderBreathdamaged(const int entID, const qboolean usable)
 {
 	const gentity_t* ent = &g_entities[entID];
@@ -8825,6 +8870,17 @@ void CQuake3GameInterface::Set(int taskID, int entID, const char* type_name, con
 	case SET_NPC_SCALE:
 		float_data = atof(data);
 		Q3_Set_NPC_Scale(entID, float_data);
+		break;
+
+	case SET_KOTOR_MODE:
+		if (!Q_stricmp("true", data))
+		{
+			Q3_setKotorMode(entID, qtrue);
+		}
+		else
+		{
+			Q3_setKotorMode(entID, qfalse);
+		}
 		break;
 
 	case SET_RENDER_CULL_RADIUS:

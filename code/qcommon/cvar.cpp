@@ -1447,6 +1447,8 @@ void Cvar_Init()
 
 	com_outcast = Cvar_Get("com_outcast", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 
+	com_kotor = Cvar_Get("com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
+
 	g_Weather = Cvar_Get("r_weather", "0", CVAR_ARCHIVE);
 	d_Allowdebuginfo = Cvar_Get("d_Allowdebuginfo", "0", CVAR_ARCHIVE);
 

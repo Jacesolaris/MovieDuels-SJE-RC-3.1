@@ -38,6 +38,7 @@ extern int delayedShutDown;
 extern qboolean G_ValidEnemy(const gentity_t* self, const gentity_t* enemy);
 extern qboolean PM_ReloadAnim(int anim);
 extern qboolean PM_WeponRestAnim(int anim);
+extern cvar_t* com_kotor;
 
 void ChangeWeapon(const gentity_t* ent, int new_weapon);
 
@@ -526,6 +527,7 @@ void G_AimSet(const gentity_t* self, int aim);
 void G_SetEnemy(gentity_t* self, gentity_t* enemy)
 {
 	int event = 0;
+	faction_t faction = FACTION_KOTOR;
 
 	//Must be valid
 	if (enemy == nullptr)
@@ -759,28 +761,120 @@ void G_SetEnemy(gentity_t* self, gentity_t* enemy)
 				ChangeWeapon(self, WP_BLASTER);
 				self->client->ps.weapon = WP_BLASTER;
 				self->client->ps.weaponstate = WEAPON_READY;
-				G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER].weaponMdl, self->handRBolt, 0);
+
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER].altweaponMdl, self->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER].altweaponMdl, self->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER].weaponMdl, self->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER].weaponMdl, self->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER].weaponMdl, self->handRBolt, 0);
+				}
 			}
 			else if (self->client->ps.weapons[WP_BLASTER_PISTOL])
 			{
 				ChangeWeapon(self, WP_BLASTER_PISTOL);
 				self->client->ps.weapon = WP_BLASTER_PISTOL;
 				self->client->ps.weaponstate = WEAPON_READY;
-				G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER_PISTOL].weaponMdl, self->handRBolt, 0);
+
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER_PISTOL].altweaponMdl, self->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER_PISTOL].altweaponMdl, self->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER_PISTOL].weaponMdl, self->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER_PISTOL].weaponMdl, self->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_BLASTER_PISTOL].weaponMdl, self->handRBolt, 0);
+				}
 			}
 			else if (self->client->ps.weapons[WP_DUAL_PISTOL])
 			{
 				ChangeWeapon(self, WP_DUAL_PISTOL);
 				self->client->ps.weapon = WP_DUAL_PISTOL;
 				self->client->ps.weaponstate = WEAPON_READY;
-				G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].weaponMdl, self->handRBolt, 0);
+
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].altweaponMdl, self->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].altweaponMdl, self->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].weaponMdl, self->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].weaponMdl, self->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].weaponMdl, self->handRBolt, 0);
+				}
 			}
 			else if (self->client->ps.weapons[WP_DROIDEKA])
 			{
 				ChangeWeapon(self, WP_DROIDEKA);
 				self->client->ps.weapon = WP_DROIDEKA;
 				self->client->ps.weaponstate = WEAPON_READY;
-				G_CreateG2AttachedWeaponModel(self, weaponData[WP_DROIDEKA].weaponMdl, self->handRBolt, 0);
+
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_DROIDEKA].altweaponMdl, self->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DROIDEKA].altweaponMdl, self->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DROIDEKA].weaponMdl, self->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DROIDEKA].weaponMdl, self->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_DROIDEKA].weaponMdl, self->handRBolt, 0);
+				}
 			}
 		}
 		return;
@@ -1448,6 +1542,7 @@ extern bool in_camera;
 
 void NPC_ChangeWeapon(const int new_weapon)
 {
+	faction_t faction = FACTION_KOTOR;
 	qboolean changing = qfalse;
 	if (new_weapon != NPC->client->ps.weapon)
 	{
@@ -1467,17 +1562,91 @@ void NPC_ChangeWeapon(const int new_weapon)
 		}
 		else if (NPC->client->ps.weapon == WP_DUAL_PISTOL)
 		{
-			G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
-			G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+			if (com_kotor->integer == 1) //playing kotor
+			{
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handLBolt, 1);
+			}
+			else
+			{
+				/*switch (faction)
+				{
+				case FACTION_KOTOR:
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handLBolt, 1);
+					break;
+				case FACTION_DARK:
+				case FACTION_LIGHT:
+				case FACTION_SOLO:
+				case FACTION_NEUTRAL:
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+					break;
+				default:
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+					break;
+				}*/
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+			}
 		}
 		else if (NPC->client->ps.weapon == WP_DROIDEKA)
 		{
-			G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
-			G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+			if (com_kotor->integer == 1) //playing kotor
+			{
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handLBolt, 1);
+			}
+			else
+			{/*
+			switch (faction)
+			{
+			case FACTION_KOTOR:
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handLBolt, 1);
+				break;
+			case FACTION_DARK:
+			case FACTION_LIGHT:
+			case FACTION_SOLO:
+			case FACTION_NEUTRAL:
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+				break;
+			default:
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+				break;
+			}*/
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+			}
 		}
 		else
 		{
-			G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+			if (com_kotor->integer == 1) //playing kotor
+			{
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+			}
+			else
+			{
+				/*switch (faction)
+				{
+				case FACTION_KOTOR:
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+					break;
+				case FACTION_DARK:
+				case FACTION_LIGHT:
+				case FACTION_SOLO:
+				case FACTION_NEUTRAL:
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+					break;
+				default:
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+					break;
+				}*/
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+			}
 			WP_SaberAddHolsteredG2SaberModels(NPC);
 		}
 	}
@@ -1657,7 +1826,7 @@ void WeaponThink()
 {
 	ucmd.buttons &= ~BUTTON_ATTACK;
 
-	if (client->ps.weaponstate == WEAPON_RAISING || 
+	if (client->ps.weaponstate == WEAPON_RAISING ||
 		client->ps.weaponstate == WEAPON_DROPPING ||
 		client->ps.weaponstate == WEAPON_RELOADING)
 	{
@@ -1673,7 +1842,7 @@ void WeaponThink()
 
 	// Can't Fire While Cloaked
 	if (NPC->client &&
-		(NPC->client->ps.powerups[PW_CLOAKED] 
+		(NPC->client->ps.powerups[PW_CLOAKED]
 			|| level.time < NPC->client->ps.powerups[PW_UNCLOAKING]
 			|| NPC->client->ps.powerups[PW_STUNNED]
 			|| NPC->client->ps.powerups[PW_SHOCKED]))
@@ -1700,7 +1869,7 @@ void WeaponThink()
 
 	if (droideka_npc(NPC))
 	{
-		if (in_camera )
+		if (in_camera)
 		{
 			BubbleShield_TurnOn();
 		}
@@ -3023,10 +3192,10 @@ qboolean NPC_CheckCanAttack(float attack_scale)
 		}
 		else
 			attack_ok = qfalse;
-	}
+		}
 
 	return attack_ok;
-}
+	}
 
 //========================================================================================
 //OLD id-style hunt and kill

@@ -459,6 +459,8 @@ vmCvar_t cg_allowcallout;
 
 vmCvar_t cg_allowcalloutmarker;
 
+vmCvar_t cg_com_kotor;
+
 using cvarTable_t = struct
 {
 	vmCvar_t* vmCvar;
@@ -670,6 +672,8 @@ static cvarTable_t cvarTable[] = {
 	{&cg_allowcallout, "g_allowattackorder", "1", CVAR_ARCHIVE},
 
 	{&cg_allowcalloutmarker, "g_allowattackordermarker", "1", CVAR_ARCHIVE},
+
+	{ &cg_com_kotor, "com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART },
 };
 
 static constexpr size_t cvarTableSize = std::size(cvarTable);
@@ -1962,6 +1966,22 @@ HUDMenuItem_t otherHUDBits[] =
 	{"righthud", "weapontype_droideka", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_DEKA
 	{"righthud", "weapontype_nogri", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_NOGRI
 	{"righthud", "weapontype_tusken", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_TUSKEN
+	// OHB_KOTOR
+	{"righthud", "weapontype_kotor_bowcaster2", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_BOWCASTER
+	{"righthud", "weapontype_kotor_bpistol2", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_BPISTOL2
+	{"righthud", "weapontype_kotor_bpistol3", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_BPISTOL3
+	{"righthud", "weapontype_kotor_brifle1", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_BRIFLE1
+	{"righthud", "weapontype_kotor_brifle2", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_BRIFLE2
+	{"righthud", "weapontype_kotor_brifle3", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_BRIFLE3
+	{"righthud", "weapontype_kotor_carbine", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_CARBINE
+	{"righthud", "weapontype_kotor_drifle", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_DRIFLE
+	{"righthud", "weapontype_kotor_hobpistol", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_HOBPISTOL
+	{"righthud", "weapontype_kotor_hpistol", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_HPISTOL
+	{"righthud", "weapontype_kotor_ionrifle", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_IONRIFLE
+	{"righthud", "weapontype_kotor_pistol1", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_PISTOL1
+	{"righthud", "weapontype_kotor_repeater", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_REPEATER
+	{"righthud", "weapontype_kotor_reprifle", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_KOTOR_REPRIFLE
+	/////////////
 	{"lefthud", "scanline", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_SCANLINE_LEFT
 	{"righthud", "scanline", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_SCANLINE_RIGHT
 	{"lefthud", "frame", 0, 0, 0, 0, {0.0f, 0.0f, 0.0f, 0.0f}, NULL_HANDLE}, // OHB_FRAME_LEFT

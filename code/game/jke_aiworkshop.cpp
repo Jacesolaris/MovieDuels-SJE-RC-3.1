@@ -18,6 +18,7 @@ extern stringID_table_t NPCClassTable[];
 extern stringID_table_t RankTable[];
 extern stringID_table_t MoveTypeTable[];
 extern stringID_table_t FPTable[];
+extern cvar_t* com_kotor;
 
 constexpr auto OL_S = 0.5f;
 constexpr auto OL_Y = 30;
@@ -749,6 +750,8 @@ extern void WP_SaberAddHolsteredG2SaberModels(gentity_t* ent, int specific_saber
 
 void Workshop_Set_Weapon_f(gentity_t* ent)
 {
+	faction_t faction = FACTION_KOTOR;
+
 	if (gi.argc() != 2)
 	{
 		gi.Printf("usage: workshop_set_weapon <weapon name or 'me'>\n");
@@ -786,7 +789,29 @@ void Workshop_Set_Weapon_f(gentity_t* ent)
 	}
 	else
 	{
-		G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
+		if (com_kotor->integer == 1) //playing kotor
+		{
+			G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].altweaponMdl, selected->handRBolt, 0);
+		}
+		else
+		{
+			/*switch (faction)
+			{
+			case FACTION_KOTOR:
+				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].altweaponMdl, selected->handRBolt, 0);
+				break;
+			case FACTION_DARK:
+			case FACTION_LIGHT:
+			case FACTION_SOLO:
+			case FACTION_NEUTRAL:
+				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
+				break;
+			default:
+				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
+				break;
+			}*/
+			G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
+		}
 
 		WP_SaberAddHolsteredG2SaberModels(selected);
 	}

@@ -196,6 +196,7 @@ extern cvar_t* d_slowmodeath;
 extern vmCvar_t cg_thirdPersonAlpha;
 extern vmCvar_t cg_thirdPersonAutoAlpha;
 extern qboolean PM_InForceFall();
+extern cvar_t* com_kotor;
 
 void ClientEndPowerUps(const gentity_t* ent);
 
@@ -1863,6 +1864,8 @@ void G_MoverTouchPushTriggers(gentity_t* ent, vec3_t old_org)
 
 void G_MatchPlayerWeapon(gentity_t* ent)
 {
+	faction_t faction = FACTION_KOTOR;
+
 	if (g_entities[0].inuse && g_entities[0].client)
 	{
 		//player is around
@@ -1911,7 +1914,29 @@ void G_MatchPlayerWeapon(gentity_t* ent)
 			}
 			else
 			{
-				G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].altweaponMdl, ent->handRBolt, 0);
+				}
+				else
+				{
+					/*switch (faction)
+					{
+					case FACTION_KOTOR:
+						G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].altweaponMdl, ent->handRBolt, 0);
+						break;
+					case FACTION_DARK:
+					case FACTION_LIGHT:
+					case FACTION_SOLO:
+					case FACTION_NEUTRAL:
+						G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
+						break;
+					default:
+						G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
+						break;
+					}*/
+					G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
+				}
 				//holster sabers
 				WP_SaberAddHolsteredG2SaberModels(ent);
 			}
@@ -8654,7 +8679,6 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 
 				if (client->ps.weapon == WP_SABER && !client->ps.SaberActive() && client->NPC_class != CLASS_YODA) // not yoda he can block lightning with a saber off in his hand
 				{
-					//return qfalse;
 					client->ps.SaberActivate();
 				}
 			}
@@ -9705,7 +9729,7 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 			ent->client->fireHeld = qfalse;
 		}
 	}
-	}
+}
 
 /*
 ==================

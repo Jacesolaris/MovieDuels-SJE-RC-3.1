@@ -47,6 +47,7 @@ using faction_t = enum //# team_e
 	FACTION_LIGHT,
 	FACTION_DARK,
 	FACTION_NEUTRAL,
+	FACTION_KOTOR,
 
 	//# #eol
 	TEAM_NUM_FACTIONS

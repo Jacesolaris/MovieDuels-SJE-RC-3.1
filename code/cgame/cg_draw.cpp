@@ -34,6 +34,7 @@ extern vmCvar_t cg_debugHealthBars;
 extern vmCvar_t cg_debugBlockBars;
 extern vmCvar_t cg_debugFatigueBars;
 extern vmCvar_t cg_saberinfo;
+extern vmCvar_t cg_com_kotor;
 
 extern Vehicle_t* G_IsRidingVehicle(const gentity_t* p_ent);
 extern qboolean G_ControlledByPlayer(const gentity_t* self);
@@ -569,31 +570,80 @@ static void cg_drawweapontype(const centity_t* cent)
 	}
 	else if (cent->currentState.weapon == WP_BRYAR_PISTOL)
 	{
-		wp_index = OHB_BRIAR_PISTOL;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_BPISTOL3;
+		}
+		else
+		{
+			wp_index = OHB_BRIAR_PISTOL;
+		}
 	}
 	else if (cent->currentState.weapon == WP_BLASTER_PISTOL)
 	{
-		wp_index = OHB_BLASTER_PISTOL;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_BPISTOL2;
+		}
+		else
+		{
+			wp_index = OHB_BLASTER_PISTOL;
+		}
 	}
 	else if (cent->currentState.weapon == WP_BLASTER)
 	{
-		wp_index = OHB_BLASTER;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_BRIFLE2;
+		}
+		else
+		{
+			wp_index = OHB_BLASTER;
+		}
 	}
 	else if (cent->currentState.weapon == WP_DISRUPTOR)
 	{
-		wp_index = OHB_DISRUPTOR;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_BRIFLE3;
+		}
+		else
+		{
+			wp_index = OHB_DISRUPTOR;
+		}
 	}
 	else if (cent->currentState.weapon == WP_BOWCASTER)
 	{
-		wp_index = OHB_BOWCASTER;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_BOWCASTER;
+		}
+		else
+		{
+			wp_index = OHB_BOWCASTER;
+		}
 	}
 	else if (cent->currentState.weapon == WP_REPEATER)
 	{
-		wp_index = OHB_REPEATER;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_REPEATER;
+		}
+		else
+		{
+			wp_index = OHB_REPEATER;
+		}
 	}
 	else if (cent->currentState.weapon == WP_DEMP2)
 	{
-		wp_index = OHB_DEMP2;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_IONRIFLE;
+		}
+		else
+		{
+			wp_index = OHB_DEMP2;
+		}
 	}
 	else if (cent->currentState.weapon == WP_FLECHETTE)
 	{
@@ -633,11 +683,25 @@ static void cg_drawweapontype(const centity_t* cent)
 	}
 	else if (cent->currentState.weapon == WP_CLONECARBINE)
 	{
-		wp_index = OHB_CLONECARBINE;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_BRIFLE1;
+		}
+		else
+		{
+			wp_index = OHB_CLONECARBINE;
+		}
 	}
 	else if (cent->currentState.weapon == WP_REBELBLASTER)
 	{
-		wp_index = OHB_REBELBLASTER;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_HPISTOL;
+		}
+		else
+		{
+			wp_index = OHB_REBELBLASTER;
+		}
 	}
 	else if (cent->currentState.weapon == WP_CLONERIFLE)
 	{
@@ -649,11 +713,25 @@ static void cg_drawweapontype(const centity_t* cent)
 	}
 	else if (cent->currentState.weapon == WP_REBELRIFLE)
 	{
-		wp_index = OHB_REBELRIFLE;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_DRIFLE;
+		}
+		else
+		{
+			wp_index = OHB_REBELRIFLE;
+		}
 	}
 	else if (cent->currentState.weapon == WP_REY)
 	{
-		wp_index = OHB_REY;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_HOBPISTOL;
+		}
+		else
+		{
+			wp_index = OHB_REY;
+		}
 	}
 	else if (cent->currentState.weapon == WP_JANGO)
 	{
@@ -661,11 +739,25 @@ static void cg_drawweapontype(const centity_t* cent)
 	}
 	else if (cent->currentState.weapon == WP_BOBA)
 	{
-		wp_index = OHB_BOBA;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_REPRIFLE;
+		}
+		else
+		{
+			wp_index = OHB_BOBA;
+		}
 	}
 	else if (cent->currentState.weapon == WP_CLONEPISTOL)
 	{
-		wp_index = OHB_CLONEPISTOL;
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_PISTOL1;
+		}
+		else
+		{
+			wp_index = OHB_CLONEPISTOL;
+		}
 	}
 	else if (cent->currentState.weapon == WP_WRIST_BLASTER)
 	{

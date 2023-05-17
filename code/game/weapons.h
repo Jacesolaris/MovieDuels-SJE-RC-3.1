@@ -154,6 +154,7 @@ using weaponData_t = struct weaponData_s
 {
 	char classname[32]; // Spawning name
 	char weaponMdl[64]; // Weapon Model
+	char altweaponMdl[64]; //Alt Weapon Model
 	char firingSnd[64]; // Sound made when fired
 	char altFiringSnd[64]; // Sound made when alt-fired
 	//	char	flashSnd[64];		// Sound made by flash
@@ -175,6 +176,7 @@ using weaponData_t = struct weaponData_s
 	int altRange; // Range of alt-fire
 
 	char weaponIcon[64]; // Name of weapon icon file
+	char altweaponIcon[64]; // Name of weapon icon file
 	int numBarrels; // how many barrels should we expect for this weapon?
 
 	char missileMdl[64]; // Missile Model
