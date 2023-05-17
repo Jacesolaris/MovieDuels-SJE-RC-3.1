@@ -884,6 +884,7 @@ void CG_AddViewWeapon(playerState_t* ps);
 void CG_AddViewWeaponDuals(playerState_t* ps);
 
 void CG_DrawWeaponSelect();
+void CG_DrawWeaponSelect_kotor();
 void CG_DrawWeaponSelect_text();
 
 void CG_OutOfAmmoChange(); // should this be in pmove?

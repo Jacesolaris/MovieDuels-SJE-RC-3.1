@@ -75,7 +75,7 @@ void CG_RegisterWeapon(int weapon_num) {
 		weaponInfo->weaponMidpoint[i] = mins[i] + 0.5 * (maxs[i] - mins[i]);
 	}
 
-	weaponInfo->weaponIcon = trap->R_RegisterShader(item->icon);
+	weaponInfo->weapon_Icon = trap->R_RegisterShader(item->icon);
 	weaponInfo->ammoIcon = trap->R_RegisterShader(item->icon);
 
 	for (ammo = bg_itemlist + 1; ammo->classname; ammo++) {

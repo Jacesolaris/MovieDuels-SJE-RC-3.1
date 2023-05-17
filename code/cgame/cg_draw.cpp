@@ -576,7 +576,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_BRIAR_PISTOL;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_BPISTOL3;
+			}
+			else
+			{
+				wp_index = OHB_BRIAR_PISTOL;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_BLASTER_PISTOL)
@@ -587,7 +594,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_BLASTER_PISTOL;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_BPISTOL2;
+			}
+			else
+			{
+				wp_index = OHB_BLASTER_PISTOL;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_BLASTER)
@@ -598,7 +612,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_BLASTER;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_BLASTER;
+			}
+			else
+			{
+				wp_index = OHB_BLASTER;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_DISRUPTOR)
@@ -609,7 +630,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_DISRUPTOR;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_BRIFLE3;
+			}
+			else
+			{
+				wp_index = OHB_DISRUPTOR;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_BOWCASTER)
@@ -620,7 +648,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_BOWCASTER;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_BOWCASTER;
+			}
+			else
+			{
+				wp_index = OHB_BOWCASTER;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_REPEATER)
@@ -631,7 +666,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_REPEATER;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_REPEATER;
+			}
+			else
+			{
+				wp_index = OHB_REPEATER;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_DEMP2)
@@ -642,7 +684,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_DEMP2;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_IONRIFLE;
+			}
+			else
+			{
+				wp_index = OHB_DEMP2;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_FLECHETTE)
@@ -689,7 +738,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_CLONECARBINE;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_BRIFLE1;
+			}
+			else
+			{
+				wp_index = OHB_CLONECARBINE;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_REBELBLASTER)
@@ -700,7 +756,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_REBELBLASTER;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_HPISTOL;
+			}
+			else
+			{
+				wp_index = OHB_REBELBLASTER;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_CLONERIFLE)
@@ -719,7 +782,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_REBELRIFLE;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_DRIFLE;
+			}
+			else
+			{
+				wp_index = OHB_REBELRIFLE;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_REY)
@@ -730,7 +800,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_REY;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_HOBPISTOL;
+			}
+			else
+			{
+				wp_index = OHB_REY;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_JANGO)
@@ -745,7 +822,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_BOBA;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_REPRIFLE;
+			}
+			else
+			{
+				wp_index = OHB_BOBA;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_CLONEPISTOL)
@@ -756,7 +840,14 @@ static void cg_drawweapontype(const centity_t* cent)
 		}
 		else
 		{
-			wp_index = OHB_CLONEPISTOL;
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_PISTOL1;
+			}
+			else
+			{
+				wp_index = OHB_CLONEPISTOL;
+			}
 		}
 	}
 	else if (cent->currentState.weapon == WP_WRIST_BLASTER)
@@ -8449,7 +8540,21 @@ static void CG_Draw2D()
 			}
 		}
 
-		CG_DrawWeaponSelect();
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			CG_DrawWeaponSelect_kotor();
+		}
+		else
+		{
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				CG_DrawWeaponSelect_kotor();
+			}
+			else
+			{
+				CG_DrawWeaponSelect();
+			}
+		}
 
 		if (cg.zoomMode == 0)
 		{

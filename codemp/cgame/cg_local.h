@@ -672,7 +672,7 @@ typedef struct weaponInfo_s {
 	float			flashDlight;
 	vec3_t			flashDlightColor;
 
-	qhandle_t		weaponIcon;
+	qhandle_t		weapon_Icon;
 	qhandle_t		ammoIcon;
 
 	qhandle_t		ammoModel;

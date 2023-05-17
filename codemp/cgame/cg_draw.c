@@ -3809,9 +3809,9 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper) {
 			// draw weapon icon
 			xx += TINYCHAR_WIDTH * 3;
 
-			if (cg_weapons[ci->curWeapon].weaponIcon) {
+			if (cg_weapons[ci->curWeapon].weapon_Icon) {
 				CG_DrawPic(xx + xOffset, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-					cg_weapons[ci->curWeapon].weaponIcon);
+					cg_weapons[ci->curWeapon].weapon_Icon);
 			}
 			else {
 				CG_DrawPic(xx + xOffset, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,

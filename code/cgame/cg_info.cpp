@@ -400,14 +400,14 @@ constexpr int MAXLOADWEAPONS = WP_NUM_WEAPONS;
 constexpr int maxload_forceiconsize = 40; // Size of force power icons
 constexpr int MAXLOAD_FORCEICONPAD = 12; // Padding space between icons
 
-static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons, const int rowIconCnt,
-	const int startIndex)
+static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons, const int rowIconCnt, const int startIndex)
 {
 	int endIndex = 0, printedIconCnt = 0;
 	int x, y;
 	int width, height;
 	vec4_t color;
 	qhandle_t background;
+	const gentity_t* cent = &g_entities[g_entities[0].client->ps.client_num];
 
 	if (!cgi_UI_GetMenuItemInfo(
 		"loadScreen",
@@ -436,17 +436,18 @@ static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons,
 		{
 			continue;
 		}
-
+		
 		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-			if (weaponData[i].altweaponIcon[0])
+
+			if (weaponData[i].alt_weapon_Icon_file[0])
 			{
 				CG_RegisterWeapon(i);
 				const weaponInfo_t* weaponInfo = &cg_weapons[i];
 				endIndex = i;
 
 				constexpr int yOffset = 0;
-				CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->altweaponIcon);
+				CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->alt_weapon_Icon);
 
 				printedIconCnt++;
 				if (printedIconCnt == MAXLOADICONSPERROW)
@@ -459,22 +460,47 @@ static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons,
 		}
 		else
 		{
-			if (weaponData[i].weaponIcon[0])
+			if (cent->friendlyfaction == FACTION_KOTOR)
 			{
-				CG_RegisterWeapon(i);
-				const weaponInfo_t* weaponInfo = &cg_weapons[i];
-				endIndex = i;
 
-				constexpr int yOffset = 0;
-				CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->weaponIcon);
-
-				printedIconCnt++;
-				if (printedIconCnt == MAXLOADICONSPERROW)
+				if (weaponData[i].alt_weapon_Icon_file[0])
 				{
-					break;
-				}
+					CG_RegisterWeapon(i);
+					const weaponInfo_t* weaponInfo = &cg_weapons[i];
+					endIndex = i;
 
-				holdX += iconSize + pad;
+					constexpr int yOffset = 0;
+					CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->alt_weapon_Icon);
+
+					printedIconCnt++;
+					if (printedIconCnt == MAXLOADICONSPERROW)
+					{
+						break;
+					}
+
+					holdX += iconSize + pad;
+				}
+			}
+			else
+			{
+
+				if (weaponData[i].weapon_Icon_file[0])
+				{
+					CG_RegisterWeapon(i);
+					const weaponInfo_t* weaponInfo = &cg_weapons[i];
+					endIndex = i;
+
+					constexpr int yOffset = 0;
+					CG_DrawPic(holdX, y + yOffset, iconSize, iconSize, weaponInfo->weapon_Icon);
+
+					printedIconCnt++;
+					if (printedIconCnt == MAXLOADICONSPERROW)
+					{
+						break;
+					}
+
+					holdX += iconSize + pad;
+				}
 			}
 		}
 	}

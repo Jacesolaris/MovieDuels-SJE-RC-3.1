@@ -175,8 +175,8 @@ using weaponData_t = struct weaponData_s
 	int altFireTime; // Amount of time between alt-firings
 	int altRange; // Range of alt-fire
 
-	char weaponIcon[64]; // Name of weapon icon file
-	char altweaponIcon[64]; // Name of weapon icon file
+	char weapon_Icon_file[64]; // Name of weapon icon file
+	char alt_weapon_Icon_file[64]; // Name of weapon icon file to be loaded
 	int numBarrels; // how many barrels should we expect for this weapon?
 
 	char missileMdl[64]; // Missile Model

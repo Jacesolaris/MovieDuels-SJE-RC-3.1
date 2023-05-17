@@ -374,8 +374,8 @@ void CG_DrawNewTeamInfo(rectDef_t* rect, float text_x, float text_y, float scale
 
 			// weapon used is not that useful, use the space for task
 #if 0
-			if (cg_weapons[ci->curWeapon].weaponIcon) {
-				CG_DrawPic(xx, y, PIC_WIDTH, PIC_WIDTH, cg_weapons[ci->curWeapon].weaponIcon);
+			if (cg_weapons[ci->curWeapon].weapon_Icon) {
+				CG_DrawPic(xx, y, PIC_WIDTH, PIC_WIDTH, cg_weapons[ci->curWeapon].weapon_Icon);
 			}
 			else {
 				CG_DrawPic(xx, y, PIC_WIDTH, PIC_WIDTH, cgs.media.deferShader);

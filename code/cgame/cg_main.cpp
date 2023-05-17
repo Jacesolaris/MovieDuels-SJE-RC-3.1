@@ -39,6 +39,7 @@ extern void CG_RegisterNPCCustomSounds(clientInfo_t* ci);
 extern Vehicle_t* G_IsRidingVehicle(const gentity_t* p_ent);
 extern int G_ParseAnimFileSet(const char* skeleton_name, const char* model_name = nullptr);
 extern void CG_DrawDataPadInventorySelect();
+vmCvar_t cg_com_kotor;
 
 void CG_Init(int serverCommandSequence);
 qboolean CG_ConsoleCommand();
@@ -98,6 +99,7 @@ void CG_DrawIconBackground();
 void CG_DrawSJEIconBackground();
 void CG_DrawDataPadIconBackground(int background_type);
 void CG_DrawDataPadWeaponSelect();
+void CG_DrawDataPadWeaponSelect_kotor();
 void CG_DrawDataPadForceSelect();
 
 /*
@@ -175,7 +177,22 @@ extern "C" Q_EXPORT intptr_t QDECL vmMain(const intptr_t command, const intptr_t
 		if (cg.snap)
 		{
 			CG_DrawDataPadIconBackground(ICON_WEAPONS);
-			CG_DrawDataPadWeaponSelect();
+			if (cg_com_kotor.integer == 1) //playing kotor
+			{
+				CG_DrawDataPadWeaponSelect_kotor();
+			}
+			else
+			{
+				cent = &cg_entities[cg.snap->ps.client_num];
+				if (cent->gent->friendlyfaction == FACTION_KOTOR)
+				{
+					CG_DrawDataPadWeaponSelect_kotor();
+				}
+				else
+				{
+					CG_DrawDataPadWeaponSelect();
+				}
+			}
 		}
 		return 0;
 	case CG_DRAW_DATAPAD_INVENTORY:
@@ -458,8 +475,6 @@ vmCvar_t cg_hudRatio;
 vmCvar_t cg_allowcallout;
 
 vmCvar_t cg_allowcalloutmarker;
-
-vmCvar_t cg_com_kotor;
 
 using cvarTable_t = struct
 {

@@ -1247,7 +1247,7 @@ void CG_DrawWeaponSelect(void) {
 			}
 			else
 			{
-				CG_DrawPic(holdX, y + 10 + yOffset, smallIconSize, smallIconSize, /*weaponInfo->weaponIcon*/cgs.media.weaponIcons[i]);
+				CG_DrawPic(holdX, y + 10 + yOffset, smallIconSize, smallIconSize, /*weaponInfo->weapon_Icon*/cgs.media.weaponIcons[i]);
 			}
 
 			holdX -= (smallIconSize + pad);
@@ -1328,7 +1328,7 @@ void CG_DrawWeaponSelect(void) {
 
 		++iconCnt;					// Good icon
 
-		if (/*weaponData[i].weaponIcon[0]*/cgs.media.weaponIcons[i])
+		if (/*weaponData[i].weapon_Icon[0]*/cgs.media.weaponIcons[i])
 		{
 			//	weaponInfo_t	*weaponInfo;
 			CG_RegisterWeapon(i);
