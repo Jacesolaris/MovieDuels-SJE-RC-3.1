@@ -750,8 +750,6 @@ extern void WP_SaberAddHolsteredG2SaberModels(gentity_t* ent, int specific_saber
 
 void Workshop_Set_Weapon_f(gentity_t* ent)
 {
-	faction_t faction = FACTION_KOTOR;
-
 	if (gi.argc() != 2)
 	{
 		gi.Printf("usage: workshop_set_weapon <weapon name or 'me'>\n");
@@ -795,22 +793,14 @@ void Workshop_Set_Weapon_f(gentity_t* ent)
 		}
 		else
 		{
-			/*switch (faction)
+			if (ent->client->friendlyfaction == FACTION_KOTOR)
 			{
-			case FACTION_KOTOR:
 				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].altweaponMdl, selected->handRBolt, 0);
-				break;
-			case FACTION_DARK:
-			case FACTION_LIGHT:
-			case FACTION_SOLO:
-			case FACTION_NEUTRAL:
+			}
+			else
+			{
 				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
-				break;
-			default:
-				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
-				break;
-			}*/
-			G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].weaponMdl, selected->handRBolt, 0);
+			}
 		}
 
 		WP_SaberAddHolsteredG2SaberModels(selected);

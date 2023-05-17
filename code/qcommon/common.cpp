@@ -1226,6 +1226,11 @@ void Com_Init(char* commandLine)
 		{
 			Com_Printf("Running MovieDuels JKA Mode\n");
 		}
+
+		if (com_kotor->integer == 1)
+		{
+			Cvar_Set("com_kotor", "0");
+		}
 #endif
 
 		Sys_Init(); // this also detects CPU type, so I can now do this CPU check below...

@@ -92,7 +92,7 @@ void CG_RegisterWeapon(const int weapon_num)
 	char path[MAX_QPATH];
 	vec3_t mins, maxs;
 	int i;
-	faction_t faction = FACTION_KOTOR;
+	faction_t friendlyfaction = FACTION_KOTOR;
 
 	weaponInfo_t* weapon_info = &cg_weapons[weapon_num];
 
@@ -135,7 +135,7 @@ void CG_RegisterWeapon(const int weapon_num)
 	}
 	else
 	{
-		/*switch (faction)
+		switch (friendlyfaction)
 		{
 		case FACTION_KOTOR:
 			weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].altweaponMdl);
@@ -149,8 +149,8 @@ void CG_RegisterWeapon(const int weapon_num)
 		default:
 			weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
 			break;
-		}*/
-		weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
+		}
+		//weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].weaponMdl);
 	}
 
 	{
@@ -163,7 +163,7 @@ void CG_RegisterWeapon(const int weapon_num)
 		}
 		else
 		{
-			/*switch (faction)
+			switch (friendlyfaction)
 			{
 			case FACTION_KOTOR:
 				Q_strncpyz(weapon_model, weaponData[weapon_num].altweaponMdl, sizeof weapon_model);
@@ -177,8 +177,8 @@ void CG_RegisterWeapon(const int weapon_num)
 			default:
 				Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
 				break;
-			}*/
-			Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
+			}
+			//Q_strncpyz(weapon_model, weaponData[weapon_num].weaponMdl, sizeof weapon_model);
 		}
 
 		if (char* spot = strstr(weapon_model, ".md3"))
@@ -203,7 +203,7 @@ void CG_RegisterWeapon(const int weapon_num)
 		}
 		else
 		{
-			/*switch (faction)
+			switch (friendlyfaction)
 			{
 			case FACTION_KOTOR:
 				CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].altweaponMdl, weaponData[weapon_num].classname);
@@ -217,8 +217,8 @@ void CG_RegisterWeapon(const int weapon_num)
 			default:
 				CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl, weaponData[weapon_num].classname);
 				break;
-			}*/
-			CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl, weaponData[weapon_num].classname);
+			}
+			//CG_Error("Couldn't find weapon model %s for weapon %s\n", weaponData[weapon_num].weaponMdl, weaponData[weapon_num].classname);
 		}
 	}
 
@@ -268,7 +268,7 @@ void CG_RegisterWeapon(const int weapon_num)
 		}
 		else
 		{
-			/*switch (faction)
+			switch (friendlyfaction)
 			{
 			case FACTION_KOTOR:
 				Q_strncpyz(path, weaponData[weapon_num].altweaponMdl, sizeof path);
@@ -282,8 +282,8 @@ void CG_RegisterWeapon(const int weapon_num)
 			default:
 				Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
 				break;
-			}*/
-			Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+			}
+			//Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
 		}
 
 		COM_StripExtension(path, path, sizeof path);
@@ -311,7 +311,7 @@ void CG_RegisterWeapon(const int weapon_num)
 	}
 	else
 	{
-		/*switch (faction)
+		switch (friendlyfaction)
 		{
 		case FACTION_KOTOR:
 			Q_strncpyz(path, weaponData[weapon_num].altweaponMdl, sizeof path);
@@ -325,8 +325,8 @@ void CG_RegisterWeapon(const int weapon_num)
 		default:
 			Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
 			break;
-		}*/
-		Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
+		}
+		//Q_strncpyz(path, weaponData[weapon_num].weaponMdl, sizeof path);
 	}
 
 	COM_StripExtension(path, path, sizeof path);

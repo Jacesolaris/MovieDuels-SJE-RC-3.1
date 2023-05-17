@@ -3378,7 +3378,6 @@ extern gentity_t* TossClientItems(gentity_t* self);
 
 void G_SetWeapon(gentity_t* self, int wp)
 {
-	faction_t faction = FACTION_KOTOR;
 	qboolean hadWeapon = qfalse;
 
 	if (!self->client)
@@ -3458,22 +3457,14 @@ void G_SetWeapon(gentity_t* self, int wp)
 		}
 		else
 		{
-			/*switch (faction)
+			if (self->client->friendlyfaction == FACTION_KOTOR)
 			{
-			case FACTION_KOTOR:
 				G_CreateG2AttachedWeaponModel(self, weaponData[wp].altweaponMdl, self->handRBolt, 0);
-				break;
-			case FACTION_DARK:
-			case FACTION_LIGHT:
-			case FACTION_SOLO:
-			case FACTION_NEUTRAL:
+			}
+			else
+			{
 				G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
-				break;
-			default:
-				G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
-				break;
-			}*/
-			G_CreateG2AttachedWeaponModel(self, weaponData[wp].weaponMdl, self->handRBolt, 0);
+			}
 		}
 		WP_SaberAddHolsteredG2SaberModels(self);
 	}

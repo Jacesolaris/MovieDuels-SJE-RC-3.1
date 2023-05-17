@@ -303,8 +303,6 @@ extern qboolean droideka_npc(const gentity_t* ent);
 
 void NPC_SetMiscDefaultData(gentity_t* ent)
 {
-	faction_t faction = FACTION_KOTOR;
-
 	if (ent->spawnflags & SFB_CINEMATIC)
 	{
 		//if a cinematic guy, default us to wait b_state
@@ -675,22 +673,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+					}
 				}
 			}
 		}
@@ -707,22 +697,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+					}
 				}
 				WP_SaberAddHolsteredG2SaberModels(ent);
 			}
@@ -740,22 +722,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 					}
 					else
 					{
-						/*switch (faction)
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
 						{
-						case FACTION_KOTOR:
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
-							break;
-						case FACTION_DARK:
-						case FACTION_LIGHT:
-						case FACTION_SOLO:
-						case FACTION_NEUTRAL:
+						}
+						else
+						{
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						default:
-							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						}*/
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
 					}
 				}
 				break;
@@ -773,22 +747,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 					}
 					else
 					{
-						/*switch (faction)
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
 						{
-						case FACTION_KOTOR:
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
-							break;
-						case FACTION_DARK:
-						case FACTION_LIGHT:
-						case FACTION_SOLO:
-						case FACTION_NEUTRAL:
+						}
+						else
+						{
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						default:
-							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						}*/
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
 					}
 				}
 				break;
@@ -806,25 +772,16 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 					}
 					else
 					{
-						/*switch (faction)
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
 						{
-						case FACTION_KOTOR:
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
-							break;
-						case FACTION_DARK:
-						case FACTION_LIGHT:
-						case FACTION_SOLO:
-						case FACTION_NEUTRAL:
+						}
+						else
+						{
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						default:
-							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						}*/
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
 					}
 				}
-				//ent->NPC->scriptFlags |= SCF_ALT_FIRE;
 				break;
 
 			case WP_JANGO:
@@ -940,22 +897,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+					}
 				}
 			}
 		}
@@ -983,22 +932,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+					}
 				}
 				WP_SaberAddHolsteredG2SaberModels(ent);
 			}
@@ -1024,22 +965,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 					}
 					else
 					{
-						/*switch (faction)
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
 						{
-						case FACTION_KOTOR:
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
-							break;
-						case FACTION_DARK:
-						case FACTION_LIGHT:
-						case FACTION_SOLO:
-						case FACTION_NEUTRAL:
+						}
+						else
+						{
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						default:
-							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						}*/
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
 					}
 				}
 				break;
@@ -1056,22 +989,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 					}
 					else
 					{
-						/*switch (faction)
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
 						{
-						case FACTION_KOTOR:
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
-							break;
-						case FACTION_DARK:
-						case FACTION_LIGHT:
-						case FACTION_SOLO:
-						case FACTION_NEUTRAL:
+						}
+						else
+						{
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						default:
-							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						}*/
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
 					}
 				}
 				break;
@@ -1088,25 +1013,16 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 					}
 					else
 					{
-						/*switch (faction)
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
 						{
-						case FACTION_KOTOR:
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
-							break;
-						case FACTION_DARK:
-						case FACTION_LIGHT:
-						case FACTION_SOLO:
-						case FACTION_NEUTRAL:
+						}
+						else
+						{
 							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						default:
-							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
-							break;
-						}*/
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
 					}
 				}
-				//ent->NPC->scriptFlags |= SCF_ALT_FIRE;
 				break;
 
 			case WP_DISRUPTOR:
@@ -1191,22 +1107,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 			}
 			else
 			{
-				/*switch (faction)
+				if (ent->client->friendlyfaction == FACTION_KOTOR)
 				{
-				case FACTION_KOTOR:
 					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
-					break;
-				case FACTION_DARK:
-				case FACTION_LIGHT:
-				case FACTION_SOLO:
-				case FACTION_NEUTRAL:
+				}
+				else
+				{
 					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-					break;
-				default:
-					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-					break;
-				}*/
-				G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+				}
 			}
 			WP_SaberAddHolsteredG2SaberModels(ent);
 		}
@@ -1252,22 +1160,14 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 			}
 			else
 			{
-				/*switch (faction)
+				if (ent->client->friendlyfaction == FACTION_KOTOR)
 				{
-				case FACTION_KOTOR:
 					G_CreateG2AttachedWeaponModel(ent, weaponData[WP_SCEPTER].altweaponMdl, ent->handLBolt, 1);
-					break;
-				case FACTION_DARK:
-				case FACTION_LIGHT:
-				case FACTION_SOLO:
-				case FACTION_NEUTRAL:
+				}
+				else
+				{
 					G_CreateG2AttachedWeaponModel(ent, weaponData[WP_SCEPTER].weaponMdl, ent->handLBolt, 1);
-					break;
-				default:
-					G_CreateG2AttachedWeaponModel(ent, weaponData[WP_SCEPTER].weaponMdl, ent->handLBolt, 1);
-					break;
-				}*/
-				G_CreateG2AttachedWeaponModel(ent, weaponData[WP_SCEPTER].weaponMdl, ent->handLBolt, 1);
+				}
 			}
 		}
 		ent->genericBolt1 = gi.G2API_AddBolt(&ent->ghoul2[ent->weaponModel[1]], "*flash");

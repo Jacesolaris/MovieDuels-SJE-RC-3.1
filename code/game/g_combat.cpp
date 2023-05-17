@@ -62,6 +62,7 @@ extern cvar_t* g_broadsword;
 gentity_t* g_lastClientDamaged;
 extern cvar_t* g_lightningdamage;
 extern qboolean jedi_win_po(const gentity_t* self);
+extern cvar_t* com_kotor;
 
 extern void NPC_SetPainEvent(gentity_t* self);
 extern qboolean PM_FaceProtectAnim(int anim);
@@ -189,10 +190,20 @@ gentity_t* TossClientItems(gentity_t* self)
 		return nullptr; // reduce memory use to increase fps
 	}
 
+	if (com_kotor->integer == 1)
+	{
+		return nullptr; // reduce memory use to increase fps
+	}
+
 	if (strcmp(s, "md_ga_jedi") == 0
 		|| strcmp(s, "md_ga_sith") == 0
 		|| strcmp(s, "md_gb_sith") == 0
 		|| strcmp(s, "md_gb_jedi") == 0)
+	{
+		return nullptr; // reduce memory use to increase fps
+	}
+
+	if (self->client->friendlyfaction == FACTION_KOTOR)
 	{
 		return nullptr; // reduce memory use to increase fps
 	}

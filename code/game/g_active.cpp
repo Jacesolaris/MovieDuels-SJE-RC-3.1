@@ -1864,8 +1864,6 @@ void G_MoverTouchPushTriggers(gentity_t* ent, vec3_t old_org)
 
 void G_MatchPlayerWeapon(gentity_t* ent)
 {
-	faction_t faction = FACTION_KOTOR;
-
 	if (g_entities[0].inuse && g_entities[0].client)
 	{
 		//player is around
@@ -1920,22 +1918,14 @@ void G_MatchPlayerWeapon(gentity_t* ent)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].altweaponMdl, ent->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(ent, weaponData[new_weap].weaponMdl, ent->handRBolt, 0);
+					}
 				}
 				//holster sabers
 				WP_SaberAddHolsteredG2SaberModels(ent);
@@ -2256,7 +2246,7 @@ void ClientEvents(gentity_t* ent, const int old_event_sequence)
 			else
 			{
 				FireWeapon(ent, qfalse);
-			}
+		}
 			break;
 
 		case EV_ALT_FIRE:
@@ -2274,12 +2264,12 @@ void ClientEvents(gentity_t* ent, const int old_event_sequence)
 			else
 			{
 				FireWeapon(ent, qtrue);
-			}
+	}
 			break;
 
 		default:
 			break;
-		}
+}
 	}
 	//by the way, if you have your saber in hand and it's on, do the damage trace
 	if (client->ps.weapon == WP_SABER)

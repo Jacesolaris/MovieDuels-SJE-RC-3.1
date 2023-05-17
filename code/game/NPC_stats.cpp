@@ -1448,7 +1448,6 @@ extern int NPC_WeaponsForTeam(team_t team, int spawnflags, const char* npc_type)
 
 void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const char* np_ctype)
 {
-	faction_t faction = FACTION_KOTOR;
 	const int weapons = NPC_WeaponsForTeam(player_team, spawnflags, np_ctype);
 	for (int cur_weap = WP_SABER; cur_weap < WP_NUM_WEAPONS; cur_weap++)
 	{
@@ -1467,23 +1466,14 @@ void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const c
 			}
 			else
 			{
-
-				/*switch (faction)
+				if (NPC->client->friendlyfaction == FACTION_KOTOR)
 				{
-				case FACTION_KOTOR:
 					strcpy(weapon_model, weaponData[cur_weap].altweaponMdl);
-					break;
-				case FACTION_DARK:
-				case FACTION_LIGHT:
-				case FACTION_SOLO:
-				case FACTION_NEUTRAL:
+				}
+				else
+				{
 					strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
-					break;
-				default:
-					strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
-					break;
-				}*/
-				strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
+				}
 			}
 			if (char* spot = strstr(weapon_model, ".md3"))
 			{
@@ -1692,7 +1682,7 @@ void CG_NPC_Precache(gentity_t* spawner)
 	clientInfo_t ci = {};
 	renderInfo_t ri = {};
 	team_t player_team = TEAM_FREE;
-	faction_t friendlyfaction = FACTION_KOTOR;
+	faction_t friendlyfaction;
 	faction_t enemyfaction = FACTION_DARK;
 	const char* token;
 	const char* value;
@@ -4389,12 +4379,12 @@ qboolean NPC_ParseParms(const char* npc_name, gentity_t* npc)
 				gi.Printf("WARNING: unknown keyword '%s' while parsing '%s'\n", token, npc_name);
 			}
 			SkipRestOfLine(&p);
-		}
+			}
 #ifdef _WIN32
 #pragma endregion
 #endif
 		COM_EndParseSession();
-	}
+		}
 
 	ci->infoValid = qfalse;
 
@@ -4478,7 +4468,7 @@ qboolean NPC_ParseParms(const char* npc_name, gentity_t* npc)
 	}
 
 	return qtrue;
-}
+	}
 
 void NPC_LoadParms()
 {

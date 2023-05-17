@@ -11875,7 +11875,6 @@ PM_FinishWeaponChange
 static void PM_FinishWeaponChange()
 {
 	qboolean true_switch = qtrue;
-	faction_t faction = FACTION_KOTOR;
 
 	if (pm->gent && pm->gent->client && pm->gent->client->pers.enterTime >= level.time - 500)
 	{
@@ -12068,137 +12067,70 @@ static void PM_FinishWeaponChange()
 			}
 			else
 			{
-
-				//switch (faction)
-				//{
-				//case FACTION_KOTOR:
-				//	if (weaponData[weapon].altweaponMdl[0])
-				//	{
-				//		//might be NONE, so check if it has a model
-				//		G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].altweaponMdl, pm->gent->handRBolt, 0);
-
-				//		if (PM_AllowedDualPistol() && g_allowdualpistols->integer == 1 && pm->gent->client->NPC_class != CLASS_JANGODUAL)
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].altweaponMdl, pm->gent->handLBolt, 1);
-				//			pm->ps->eFlags |= EF2_DUAL_PISTOLS;
-				//		}
-				//		else
-				//		{
-				//			pm->ps->eFlags &= ~EF2_DUAL_PISTOLS;
-				//		}
-
-				//		if (weapon == WP_DUAL_PISTOL && (pm->gent && pm->gent->client && pm->gent->client->NPC_class == CLASS_JANGODUAL))
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_PISTOL].altweaponMdl, pm->gent->handLBolt, 1);
-				//			pm->ps->eFlags |= EF2_JANGO_DUALS;
-				//		}
-				//		else
-				//		{
-				//			pm->ps->eFlags &= ~EF2_JANGO_DUALS;
-				//		}
-
-				//		if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].altweaponMdl, pm->gent->handLBolt, 1);
-				//		}
-				//	}
-				//	break;
-				//case FACTION_DARK:
-				//case FACTION_LIGHT:
-				//case FACTION_SOLO:
-				//case FACTION_NEUTRAL:
-				//	if (weaponData[weapon].weaponMdl[0])
-				//	{
-				//		//might be NONE, so check if it has a model
-				//		G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handRBolt, 0);
-
-				//		if (PM_AllowedDualPistol() && g_allowdualpistols->integer == 1 && pm->gent->client->NPC_class != CLASS_JANGODUAL)
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handLBolt, 1);
-				//			pm->ps->eFlags |= EF2_DUAL_PISTOLS;
-				//		}
-				//		else
-				//		{
-				//			pm->ps->eFlags &= ~EF2_DUAL_PISTOLS;
-				//		}
-
-				//		if (weapon == WP_DUAL_PISTOL && (pm->gent && pm->gent->client && pm->gent->client->NPC_class == CLASS_JANGODUAL))
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_PISTOL].weaponMdl, pm->gent->handLBolt, 1);
-				//			pm->ps->eFlags |= EF2_JANGO_DUALS;
-				//		}
-				//		else
-				//		{
-				//			pm->ps->eFlags &= ~EF2_JANGO_DUALS;
-				//		}
-
-				//		if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].weaponMdl, pm->gent->handLBolt, 1);
-				//		}
-				//	}
-				//	break;
-				//default:
-				//	if (weaponData[weapon].weaponMdl[0])
-				//	{
-				//		//might be NONE, so check if it has a model
-				//		G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handRBolt, 0);
-
-				//		if (PM_AllowedDualPistol() && g_allowdualpistols->integer == 1 && pm->gent->client->NPC_class != CLASS_JANGODUAL)
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handLBolt, 1);
-				//			pm->ps->eFlags |= EF2_DUAL_PISTOLS;
-				//		}
-				//		else
-				//		{
-				//			pm->ps->eFlags &= ~EF2_DUAL_PISTOLS;
-				//		}
-
-				//		if (weapon == WP_DUAL_PISTOL && (pm->gent && pm->gent->client && pm->gent->client->NPC_class == CLASS_JANGODUAL))
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_PISTOL].weaponMdl, pm->gent->handLBolt, 1);
-				//			pm->ps->eFlags |= EF2_JANGO_DUALS;
-				//		}
-				//		else
-				//		{
-				//			pm->ps->eFlags &= ~EF2_JANGO_DUALS;
-				//		}
-
-				//		if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
-				//		{
-				//			G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].weaponMdl, pm->gent->handLBolt, 1);
-				//		}
-				//	}
-				//	break;
-				//}
-				if (weaponData[weapon].weaponMdl[0])
+				if (pm->gent->friendlyfaction == FACTION_KOTOR)
 				{
-					//might be NONE, so check if it has a model
-					G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handRBolt, 0);
+					if (weaponData[weapon].altweaponMdl[0])
+					{
+						//might be NONE, so check if it has a model
+						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].altweaponMdl, pm->gent->handRBolt, 0);
 
-					if (PM_AllowedDualPistol() && g_allowdualpistols->integer == 1 && pm->gent->client->NPC_class != CLASS_JANGODUAL)
-					{
-						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handLBolt, 1);
-						pm->ps->eFlags |= EF2_DUAL_PISTOLS;
-					}
-					else
-					{
-						pm->ps->eFlags &= ~EF2_DUAL_PISTOLS;
-					}
+						if (PM_AllowedDualPistol() && g_allowdualpistols->integer == 1 && pm->gent->client->NPC_class != CLASS_JANGODUAL)
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].altweaponMdl, pm->gent->handLBolt, 1);
+							pm->ps->eFlags |= EF2_DUAL_PISTOLS;
+						}
+						else
+						{
+							pm->ps->eFlags &= ~EF2_DUAL_PISTOLS;
+						}
 
-					if (weapon == WP_DUAL_PISTOL && (pm->gent && pm->gent->client && pm->gent->client->NPC_class == CLASS_JANGODUAL))
-					{
-						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_PISTOL].weaponMdl, pm->gent->handLBolt, 1);
-						pm->ps->eFlags |= EF2_JANGO_DUALS;
-					}
-					else
-					{
-						pm->ps->eFlags &= ~EF2_JANGO_DUALS;
-					}
+						if (weapon == WP_DUAL_PISTOL && (pm->gent && pm->gent->client && pm->gent->client->NPC_class == CLASS_JANGODUAL))
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_PISTOL].altweaponMdl, pm->gent->handLBolt, 1);
+							pm->ps->eFlags |= EF2_JANGO_DUALS;
+						}
+						else
+						{
+							pm->ps->eFlags &= ~EF2_JANGO_DUALS;
+						}
 
-					if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
+						if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].altweaponMdl, pm->gent->handLBolt, 1);
+						}
+					}
+				}
+				else
+				{
+					if (weaponData[weapon].weaponMdl[0])
 					{
-						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].weaponMdl, pm->gent->handLBolt, 1);
+						//might be NONE, so check if it has a model
+						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handRBolt, 0);
+
+						if (PM_AllowedDualPistol() && g_allowdualpistols->integer == 1 && pm->gent->client->NPC_class != CLASS_JANGODUAL)
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[weapon].weaponMdl, pm->gent->handLBolt, 1);
+							pm->ps->eFlags |= EF2_DUAL_PISTOLS;
+						}
+						else
+						{
+							pm->ps->eFlags &= ~EF2_DUAL_PISTOLS;
+						}
+
+						if (weapon == WP_DUAL_PISTOL && (pm->gent && pm->gent->client && pm->gent->client->NPC_class == CLASS_JANGODUAL))
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_PISTOL].weaponMdl, pm->gent->handLBolt, 1);
+							pm->ps->eFlags |= EF2_JANGO_DUALS;
+						}
+						else
+						{
+							pm->ps->eFlags &= ~EF2_JANGO_DUALS;
+						}
+
+						if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].weaponMdl, pm->gent->handLBolt, 1);
+						}
 					}
 				}
 			}
@@ -20788,7 +20720,6 @@ static void PM_Weapon()
 {
 	int add_time, amount, true_count = 1;
 	qboolean delayed_fire = qfalse;
-	faction_t faction = FACTION_KOTOR;
 
 	if (pm->ps->eFlags & EF_HELD_BY_WAMPA)
 	{
@@ -21045,64 +20976,32 @@ static void PM_Weapon()
 			}
 			else
 			{
-
-				//switch (faction)
-				//{
-				//case FACTION_KOTOR:
-
-				//	if (weaponData[pm->ps->weapon].altweaponMdl[0])
-				//	{
-				//		//might be NONE, so check if it has a model
-				//		G_CreateG2AttachedWeaponModel(pm->gent, weaponData[pm->ps->weapon].altweaponMdl, pm->gent->handRBolt, 0);
-				//		//make it sound like we took another one out from... uh.. somewhere...
-				//		if (cg.time > 0)
-				//		{
-				//			//this way we don't get that annoying change weapon sound every time a map starts
-				//			PM_AddEvent(EV_CHANGE_WEAPON);
-				//		}
-				//	}
-				//	break;
-				//case FACTION_DARK:
-				//case FACTION_LIGHT:
-				//case FACTION_SOLO:
-				//case FACTION_NEUTRAL:
-
-				//	if (weaponData[pm->ps->weapon].weaponMdl[0])
-				//	{
-				//		//might be NONE, so check if it has a model
-				//		G_CreateG2AttachedWeaponModel(pm->gent, weaponData[pm->ps->weapon].weaponMdl, pm->gent->handRBolt, 0);
-				//		//make it sound like we took another one out from... uh.. somewhere...
-				//		if (cg.time > 0)
-				//		{
-				//			//this way we don't get that annoying change weapon sound every time a map starts
-				//			PM_AddEvent(EV_CHANGE_WEAPON);
-				//		}
-				//	}
-				//	break;
-				//default:
-
-				//	if (weaponData[pm->ps->weapon].weaponMdl[0])
-				//	{
-				//		//might be NONE, so check if it has a model
-				//		G_CreateG2AttachedWeaponModel(pm->gent, weaponData[pm->ps->weapon].weaponMdl, pm->gent->handRBolt, 0);
-				//		//make it sound like we took another one out from... uh.. somewhere...
-				//		if (cg.time > 0)
-				//		{
-				//			//this way we don't get that annoying change weapon sound every time a map starts
-				//			PM_AddEvent(EV_CHANGE_WEAPON);
-				//		}
-				//	}
-				//	break;
-				//}
-				if (weaponData[pm->ps->weapon].weaponMdl[0])
+				if (pm->gent->friendlyfaction == FACTION_KOTOR)
 				{
-					//might be NONE, so check if it has a model
-					G_CreateG2AttachedWeaponModel(pm->gent, weaponData[pm->ps->weapon].weaponMdl, pm->gent->handRBolt, 0);
-					//make it sound like we took another one out from... uh.. somewhere...
-					if (cg.time > 0)
+					if (weaponData[pm->ps->weapon].altweaponMdl[0])
 					{
-						//this way we don't get that annoying change weapon sound every time a map starts
-						PM_AddEvent(EV_CHANGE_WEAPON);
+						//might be NONE, so check if it has a model
+						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[pm->ps->weapon].altweaponMdl, pm->gent->handRBolt, 0);
+						//make it sound like we took another one out from... uh.. somewhere...
+						if (cg.time > 0)
+						{
+							//this way we don't get that annoying change weapon sound every time a map starts
+							PM_AddEvent(EV_CHANGE_WEAPON);
+						}
+					}
+				}
+				else
+				{
+					if (weaponData[pm->ps->weapon].weaponMdl[0])
+					{
+						//might be NONE, so check if it has a model
+						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[pm->ps->weapon].weaponMdl, pm->gent->handRBolt, 0);
+						//make it sound like we took another one out from... uh.. somewhere...
+						if (cg.time > 0)
+						{
+							//this way we don't get that annoying change weapon sound every time a map starts
+							PM_AddEvent(EV_CHANGE_WEAPON);
+						}
 					}
 				}
 			}

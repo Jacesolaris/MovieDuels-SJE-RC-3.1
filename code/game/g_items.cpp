@@ -507,7 +507,6 @@ int Pickup_Weapon(gentity_t* ent, gentity_t* other)
 {
 	int quantity;
 	qboolean hadWeapon = qfalse;
-	faction_t faction = FACTION_KOTOR;
 
 	// dropped items are always picked up
 	if (ent->flags & FL_DROPPED_ITEM)
@@ -561,22 +560,14 @@ int Pickup_Weapon(gentity_t* ent, gentity_t* other)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].altweaponMdl, other->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].weaponMdl, other->handRBolt, 0);
+					}
 				}
 				//holster sabers
 				WP_SaberAddHolsteredG2SaberModels(ent);

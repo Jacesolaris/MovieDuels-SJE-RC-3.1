@@ -932,7 +932,6 @@ void G_UpdateEmplacedWeaponData(gentity_t* ent)
 
 void ExitEmplacedWeapon(gentity_t* ent)
 {
-	faction_t faction = FACTION_KOTOR;
 	// requesting to unlock from the weapon
 	// We'll leave the gun pointed in the direction it was last facing, though we'll cut out the pitch
 	if (ent->client)
@@ -1086,22 +1085,14 @@ void ExitEmplacedWeapon(gentity_t* ent)
 				}
 				else
 				{
-					/*switch (faction)
+					if (ent->client->friendlyfaction == FACTION_KOTOR)
 					{
-					case FACTION_KOTOR:
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handRBolt, 0);
-						break;
-					case FACTION_DARK:
-					case FACTION_LIGHT:
-					case FACTION_SOLO:
-					case FACTION_NEUTRAL:
+					}
+					else
+					{
 						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					default:
-						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
-						break;
-					}*/
-					G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handRBolt, 0);
+					}
 				}
 				//holster sabers
 				WP_SaberAddHolsteredG2SaberModels(ent);

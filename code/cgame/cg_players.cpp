@@ -3677,21 +3677,21 @@ CG_PlayerPowerups
 //extern void CG_Seeker( centity_t *cent );
 static void CG_PlayerPowerups(const centity_t* cent)
 {
-	faction_t faction = FACTION_NEUTRAL;
+	faction_t friendlyfaction;
 
 	if (cent->gent && cent->gent->client)
 	{
-		faction = cent->gent->client->friendlyfaction;
+		friendlyfaction = cent->gent->client->friendlyfaction;
 	}
 	else if (cent->gent && cent->gent->owner)
 	{
 		if (cent->gent->owner->client)
 		{
-			faction = cent->gent->owner->client->friendlyfaction;
+			friendlyfaction = cent->gent->owner->client->friendlyfaction;
 		}
 		else
 		{
-			faction = cent->gent->owner->noDamageFaction;
+			friendlyfaction = cent->gent->owner->noDamageFaction;
 		}
 	}
 	if (!cent->currentState.powerups)
@@ -3710,7 +3710,7 @@ static void CG_PlayerPowerups(const centity_t* cent)
 		&& (cent->currentState.powerups & 1 << PW_FORCE_PUSH || cent->currentState.powerups & 1 <<
 			PW_FORCE_PUSH_RHAND))
 	{
-		switch (faction)
+		switch (cent->gent->friendlyfaction)
 		{
 		case FACTION_DARK:
 			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 1, 0.2f, 0.2f); //red
@@ -3736,7 +3736,7 @@ static void CG_PlayerPowerups(const centity_t* cent)
 		&& cent->gent->health > 1
 		&& cent->currentState.powerups & 1 << PW_MEDITATE)
 	{
-		switch (faction)
+		switch (cent->gent->friendlyfaction)
 		{
 		case FACTION_DARK:
 			cgi_R_AddLightToScene(cent->lerpOrigin, 150 + (rand() & 31), 1, 0.2f, 0.2f); //red

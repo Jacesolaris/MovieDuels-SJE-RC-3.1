@@ -1510,6 +1510,7 @@ struct gentity_s
 	int reloadCooldown;
 	int weaponfiredelaytime;
 	int TimeOfWeaponDrop;
+	faction_t friendlyfaction;
 
 	void sg_export(
 		ojk::SavedGameHelper& saved_game) const
@@ -1628,6 +1629,7 @@ struct gentity_s
 		saved_game.write<int32_t>(setTime);
 		saved_game.write<int32_t>(cameraGroup);
 		saved_game.write<int32_t>(noDamageTeam);
+		saved_game.write<int32_t>(noDamageFaction);
 		saved_game.write<int16_t>(headModel);
 		saved_game.write<int16_t>(headRootBone);
 		saved_game.write<int16_t>(headMotionBone);
@@ -1726,6 +1728,7 @@ struct gentity_s
 		saved_game.write<int32_t>(reloadCooldown);
 		saved_game.write<int32_t>(weaponfiredelaytime);
 		saved_game.write<int32_t>(TimeOfWeaponDrop);
+		saved_game.write<int32_t>(friendlyfaction);
 	}
 
 	void sg_import(
@@ -1845,6 +1848,7 @@ struct gentity_s
 		saved_game.read<int32_t>(setTime);
 		saved_game.read<int32_t>(cameraGroup);
 		saved_game.read<int32_t>(noDamageTeam);
+		saved_game.read<int32_t>(noDamageFaction);
 		saved_game.read<int16_t>(headModel);
 		saved_game.read<int16_t>(headRootBone);
 		saved_game.read<int16_t>(headMotionBone);
@@ -1943,6 +1947,7 @@ struct gentity_s
 		saved_game.read<int32_t>(reloadCooldown);
 		saved_game.read<int32_t>(weaponfiredelaytime);
 		saved_game.read<int32_t>(TimeOfWeaponDrop);
+		saved_game.read<int32_t>(friendlyfaction);
 	}
 };
 #endif //#ifdef GAME_INCLUDE
