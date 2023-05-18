@@ -1227,7 +1227,7 @@ void Com_Init(char* commandLine)
 			Com_Printf("Running MovieDuels JKA Mode\n");
 		}
 
-		if (com_kotor->integer == 1)
+		if (com_kotor->integer == 1)//playing kotor
 		{
 			Cvar_Set("com_kotor", "0");
 		}

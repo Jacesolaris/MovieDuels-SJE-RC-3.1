@@ -1449,6 +1449,7 @@ extern int NPC_WeaponsForTeam(team_t team, int spawnflags, const char* npc_type)
 void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const char* np_ctype)
 {
 	const int weapons = NPC_WeaponsForTeam(player_team, spawnflags, np_ctype);
+
 	for (int cur_weap = WP_SABER; cur_weap < WP_NUM_WEAPONS; cur_weap++)
 	{
 		if (weapons & 1 << cur_weap)
@@ -1466,14 +1467,7 @@ void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const c
 			}
 			else
 			{
-				if (NPC->client->friendlyfaction == FACTION_KOTOR)
-				{
-					strcpy(weapon_model, weaponData[cur_weap].altweaponMdl);
-				}
-				else
-				{
-					strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
-				}
+				strcpy(weapon_model, weaponData[cur_weap].weaponMdl);
 			}
 			if (char* spot = strstr(weapon_model, ".md3"))
 			{
