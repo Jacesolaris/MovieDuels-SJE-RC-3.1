@@ -560,7 +560,7 @@ int Pickup_Weapon(gentity_t* ent, gentity_t* other)
 				}
 				else
 				{
-					if (ent->client->friendlyfaction == FACTION_KOTOR)
+					if (other->client->friendlyfaction == FACTION_KOTOR)
 					{
 						G_CreateG2AttachedWeaponModel(other, weaponData[ent->item->giTag].altweaponMdl, other->handRBolt, 0);
 					}
