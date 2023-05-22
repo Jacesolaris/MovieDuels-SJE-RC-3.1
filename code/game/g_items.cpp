@@ -542,7 +542,6 @@ int Pickup_Weapon(gentity_t* ent, gentity_t* other)
 			|| ent->item->giTag == WP_SABER)
 		{
 			//NPC with no weapon picked up a weapon, change to this weapon
-			//FIXME: clear/set the alt-fire flag based on the picked up weapon and my class?
 			other->client->ps.weapon = ent->item->giTag;
 			other->client->ps.weaponstate = WEAPON_RAISING;
 			ChangeWeapon(other, ent->item->giTag);

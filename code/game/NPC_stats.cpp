@@ -1485,13 +1485,6 @@ void NPC_PrecacheWeapons(const team_t player_team, const int spawnflags, const c
 	}
 }
 
-/*
-void NPC_PrecacheByClassName ( char *NPCName )
-
-This runs all the class specific precache functions
-
-*/
-
 extern void npc_shadow_trooper_precache();
 extern void NPC_Gonk_Precache();
 extern void NPC_Mouse_Precache();
@@ -2046,9 +2039,6 @@ void CG_NPC_Precache(gentity_t* spawner)
 	NPC_PrecacheByClassName(spawner->NPC_type);
 
 	CG_RegisterNPCCustomSounds(&ci);
-
-	//CG_RegisterNPCEffects( playerTeam );
-	//FIXME: Look for a "sounds" directory and precache death, pain, alert sounds
 }
 
 void NPC_BuildRandom()

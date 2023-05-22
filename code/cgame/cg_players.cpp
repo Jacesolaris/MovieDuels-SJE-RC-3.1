@@ -3704,11 +3704,12 @@ static void CG_PlayerPowerups(const centity_t* cent)
 		return;
 	}
 
-	if (cg_SerenityJediEngineMode.integer == 2
+	if (cg_SerenityJediEngineMode.integer == 2 && cg_SaberInnonblockableAttackWarning.integer == 1
 		&& cent->gent->client->ps.forcePower > 80
 		&& cent->gent->health > 1
-		&& (cent->currentState.powerups & 1 << PW_FORCE_PUSH || cent->currentState.powerups & 1 <<
-			PW_FORCE_PUSH_RHAND))
+		&& (cent->currentState.powerups & 1 << PW_FORCE_PUSH
+			|| cent->currentState.powerups & 1 << PW_FORCE_PUSH_RHAND
+			|| cent->currentState.powerups & 1 << PW_MEDITATE))
 	{
 		switch (cent->gent->friendlyfaction)
 		{
@@ -3721,31 +3722,6 @@ static void CG_PlayerPowerups(const centity_t* cent)
 		case FACTION_SOLO:
 		case FACTION_KOTOR:
 			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 0.9f, 0.9f, 0.9f); //white
-			break;
-		case FACTION_NEUTRAL:
-			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 0.0f, 0.0f, 0.0f); //clear
-			break;
-		default:
-			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 0.0f, 0.0f, 0.0f); //clear
-			break;
-		}
-	}
-
-	if (cg_SerenityJediEngineMode.integer == 2
-		&& cent->gent->client->ps.forcePower > 80
-		&& cent->gent->health > 1
-		&& cent->currentState.powerups & 1 << PW_MEDITATE)
-	{
-		switch (cent->gent->friendlyfaction)
-		{
-		case FACTION_DARK:
-			cgi_R_AddLightToScene(cent->lerpOrigin, 150 + (rand() & 31), 1, 0.2f, 0.2f); //red
-			break;
-		case FACTION_LIGHT:
-			cgi_R_AddLightToScene(cent->lerpOrigin, 150 + (rand() & 31), 0.2f, 0.2f, 1); //blue
-			break;
-		case FACTION_SOLO:
-			cgi_R_AddLightToScene(cent->lerpOrigin, 150 + (rand() & 31), 0.9f, 0.9f, 0.9f); //white
 			break;
 		case FACTION_NEUTRAL:
 			cgi_R_AddLightToScene(cent->lerpOrigin, 60 + (rand() & 20), 0.0f, 0.0f, 0.0f); //clear
@@ -5942,7 +5918,7 @@ void CG_AddRefEntityWithPowerups(refEntity_t* ent, int powerups, centity_t* cent
 		theFxScheduler.PlayEffect(cgs.effects.forceInvincibility, cent->lerpOrigin);
 	}
 
-	if (cg_SerenityJediEngineMode.integer == 2
+	if (cg_SerenityJediEngineMode.integer == 2 && cg_SaberInnonblockableAttackWarning.integer == 1
 		&& cent->gent->client->ps.forcePower > 80
 		&& cent->gent->health > 1
 		&& powerups & 1 << PW_MEDITATE && !in_camera)
@@ -5994,8 +5970,9 @@ void CG_AddRefEntityWithPowerups(refEntity_t* ent, int powerups, centity_t* cent
 
 	if (cg_SerenityJediEngineMode.integer && !in_camera)
 	{
-		if (cg_SaberInnonblockableAttackWarning.integer == 1 || d_SaberactionInfo->integer || cg_DebugSaberCombat.
-			integer)
+		if (cg_SaberInnonblockableAttackWarning.integer == 1
+			|| d_SaberactionInfo->integer
+			|| cg_DebugSaberCombat.integer)
 		{
 			if (cent->gent->s.number >= MAX_CLIENTS && !G_ControlledByPlayer(cent->gent))
 			{
@@ -13639,92 +13616,92 @@ static void CG_AddSaberBladeGo(centity_t* cent, centity_t* scent, const int rend
 						}
 					}
 
-								const float diff = cg.time - saber_trail->lastTime;
-								// I'm not sure that clipping this is really the best idea
-								if (diff <= SABER_TRAIL_TIME * 2)
-								{
-									// build a quad
-									auto fx = new CTrail;
+					const float diff = cg.time - saber_trail->lastTime;
+					// I'm not sure that clipping this is really the best idea
+					if (diff <= SABER_TRAIL_TIME * 2)
+					{
+						// build a quad
+						auto fx = new CTrail;
 
-									float duration;
+						float duration;
 
-									if (cent->gent->client->ps.saber[saber_num].type == SABER_SITH_SWORD
-										|| !WP_SaberBladeUseSecondBladeStyle(&client->ps.saber[saber_num], blade_num) && client->ps.
-										saber[saber_num].trailStyle == 1
-										|| WP_SaberBladeUseSecondBladeStyle(&client->ps.saber[saber_num], blade_num) && client->ps.
-										saber[saber_num].trailStyle2 == 1
-										)
-									{
-										fx->mShader = cgs.media.swordTrailShader;
-										duration = saber_trail->duration / 2.0f; // stay around twice as long
-										VectorSet(rgb1, 32.0f, 32.0f, 32.0f); // make the sith sword trail pretty faint
-									}
-									else if (client->ps.saber[saber_num].blade[blade_num].color == SABER_BLACK)
-									{
-										fx->mShader = cgs.media.blackSaberBlurShader;
-										duration = saber_trail->duration / 5.0f;
-									}
-									else if (cent->gent->client->ps.saber[saber_num].type == SABER_UNSTABLE
-										|| cent->gent->client->ps.saber[saber_num].type == SABER_STAFF_UNSTABLE)
-									{
-										fx->mShader = cgs.media.unstableBlurShader;
-										duration = saber_trail->duration / 5.0f;
-									}
-									else
-									{
-										fx->mShader = cgs.media.saberBlurShader;
-										duration = saber_trail->duration / 5.0f;
-									}
+						if (cent->gent->client->ps.saber[saber_num].type == SABER_SITH_SWORD
+							|| !WP_SaberBladeUseSecondBladeStyle(&client->ps.saber[saber_num], blade_num) && client->ps.
+							saber[saber_num].trailStyle == 1
+							|| WP_SaberBladeUseSecondBladeStyle(&client->ps.saber[saber_num], blade_num) && client->ps.
+							saber[saber_num].trailStyle2 == 1
+							)
+						{
+							fx->mShader = cgs.media.swordTrailShader;
+							duration = saber_trail->duration / 2.0f; // stay around twice as long
+							VectorSet(rgb1, 32.0f, 32.0f, 32.0f); // make the sith sword trail pretty faint
+						}
+						else if (client->ps.saber[saber_num].blade[blade_num].color == SABER_BLACK)
+						{
+							fx->mShader = cgs.media.blackSaberBlurShader;
+							duration = saber_trail->duration / 5.0f;
+						}
+						else if (cent->gent->client->ps.saber[saber_num].type == SABER_UNSTABLE
+							|| cent->gent->client->ps.saber[saber_num].type == SABER_STAFF_UNSTABLE)
+						{
+							fx->mShader = cgs.media.unstableBlurShader;
+							duration = saber_trail->duration / 5.0f;
+						}
+						else
+						{
+							fx->mShader = cgs.media.saberBlurShader;
+							duration = saber_trail->duration / 5.0f;
+						}
 
-									const float old_alpha = 1.0f - diff / duration;
+						const float old_alpha = 1.0f - diff / duration;
 
-									// Go from new muzzle to new end...then to old end...back down to old muzzle...finally
-									//	connect back to the new muzzle...this is our trail quad
-									VectorCopy(org, fx->mVerts[0].origin);
-									VectorMA(end, 3.0f, axis[0], fx->mVerts[1].origin);
+						// Go from new muzzle to new end...then to old end...back down to old muzzle...finally
+						//	connect back to the new muzzle...this is our trail quad
+						VectorCopy(org, fx->mVerts[0].origin);
+						VectorMA(end, 3.0f, axis[0], fx->mVerts[1].origin);
 
-									VectorCopy(saber_trail->tip, fx->mVerts[2].origin);
-									VectorCopy(saber_trail->base, fx->mVerts[3].origin);
+						VectorCopy(saber_trail->tip, fx->mVerts[2].origin);
+						VectorCopy(saber_trail->base, fx->mVerts[3].origin);
 
-									// New muzzle
-									VectorCopy(rgb1, fx->mVerts[0].rgb);
-									fx->mVerts[0].alpha = 255.0f;
+						// New muzzle
+						VectorCopy(rgb1, fx->mVerts[0].rgb);
+						fx->mVerts[0].alpha = 255.0f;
 
-									fx->mVerts[0].ST[0] = 0.0f;
-									fx->mVerts[0].ST[1] = 0.99f;
-									fx->mVerts[0].destST[0] = 0.99f;
-									fx->mVerts[0].destST[1] = 0.99f;
+						fx->mVerts[0].ST[0] = 0.0f;
+						fx->mVerts[0].ST[1] = 0.99f;
+						fx->mVerts[0].destST[0] = 0.99f;
+						fx->mVerts[0].destST[1] = 0.99f;
 
-									// new tip
-									VectorCopy(rgb1, fx->mVerts[1].rgb);
-									fx->mVerts[1].alpha = 255.0f;
+						// new tip
+						VectorCopy(rgb1, fx->mVerts[1].rgb);
+						fx->mVerts[1].alpha = 255.0f;
 
-									fx->mVerts[1].ST[0] = 0.0f;
-									fx->mVerts[1].ST[1] = 0.0f;
-									fx->mVerts[1].destST[0] = 0.99f;
-									fx->mVerts[1].destST[1] = 0.0f;
+						fx->mVerts[1].ST[0] = 0.0f;
+						fx->mVerts[1].ST[1] = 0.0f;
+						fx->mVerts[1].destST[0] = 0.99f;
+						fx->mVerts[1].destST[1] = 0.0f;
 
-									// old tip
-									VectorCopy(rgb1, fx->mVerts[2].rgb);
-									fx->mVerts[2].alpha = 255.0f;
+						// old tip
+						VectorCopy(rgb1, fx->mVerts[2].rgb);
+						fx->mVerts[2].alpha = 255.0f;
 
-									fx->mVerts[2].ST[0] = 0.99f - old_alpha; // NOTE: this just happens to contain the value I want
-									fx->mVerts[2].ST[1] = 0.0f;
-									fx->mVerts[2].destST[0] = 0.99f + fx->mVerts[2].ST[0];
-									fx->mVerts[2].destST[1] = 0.0f;
+						fx->mVerts[2].ST[0] = 0.99f - old_alpha; // NOTE: this just happens to contain the value I want
+						fx->mVerts[2].ST[1] = 0.0f;
+						fx->mVerts[2].destST[0] = 0.99f + fx->mVerts[2].ST[0];
+						fx->mVerts[2].destST[1] = 0.0f;
 
-									// old muzzle
-									VectorCopy(rgb1, fx->mVerts[3].rgb);
-									fx->mVerts[3].alpha = 255.0f;
+						// old muzzle
+						VectorCopy(rgb1, fx->mVerts[3].rgb);
+						fx->mVerts[3].alpha = 255.0f;
 
-									fx->mVerts[3].ST[0] = 0.99f - old_alpha; // NOTE: this just happens to contain the value I want
-									fx->mVerts[3].ST[1] = 0.99f;
-									fx->mVerts[3].destST[0] = 0.99f + fx->mVerts[2].ST[0];
-									fx->mVerts[3].destST[1] = 0.99f;
+						fx->mVerts[3].ST[0] = 0.99f - old_alpha; // NOTE: this just happens to contain the value I want
+						fx->mVerts[3].ST[1] = 0.99f;
+						fx->mVerts[3].destST[0] = 0.99f + fx->mVerts[2].ST[0];
+						fx->mVerts[3].destST[1] = 0.99f;
 
-									//				fx->SetFlags( FX_USE_ALPHA );
-									FX_AddPrimitive(reinterpret_cast<CEffect**>(&fx), duration); //SABER_TRAIL_TIME );
-								}
+						//				fx->SetFlags( FX_USE_ALPHA );
+						FX_AddPrimitive(reinterpret_cast<CEffect**>(&fx), duration); //SABER_TRAIL_TIME );
+					}
 				}
 
 				// we must always do this, even if we aren't active..otherwise we won't know where to pick up from

@@ -128,7 +128,6 @@ void CG_RegisterWeapon(const int weapon_num)
 	CG_RegisterItemVisuals(item - bg_itemlist);
 
 	// set up in view weapon model
-
 	if (cg_com_kotor.integer == 1) //playing kotor
 	{
 		weapon_info->weaponModel = cgi_R_RegisterModel(weaponData[weapon_num].altweaponMdl);

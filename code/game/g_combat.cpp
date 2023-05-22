@@ -406,7 +406,6 @@ gentity_t* TossClientItems(gentity_t* self)
 					NULL_HANDLE, NULL_HANDLE, 0, 0);
 				dropped->s.radius = 10;
 			}
-			//dropped->TimeOfWeaponDrop = level.time + WeaponRemovalTime();
 		}
 	}
 	else if (client && client->NPC_class == CLASS_MARK1)
