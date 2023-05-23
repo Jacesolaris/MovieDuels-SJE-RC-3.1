@@ -4089,6 +4089,19 @@ qboolean jedi_dodge_evasion(gentity_t* self, gentity_t* shooter, trace_t* tr, in
 		return qfalse;
 	}
 
+	if (self->client->NPC_class == CLASS_BOBAFETT 
+		|| self->client->NPC_class == CLASS_MANDALORIAN 
+		|| self->client->NPC_class == CLASS_JANGO 
+		|| self->client->NPC_class == CLASS_JANGODUAL
+		|| self->client->NPC_class == CLASS_ROCKETTROOPER)
+	{
+		if (!Q_irand(0, 4))
+		{//20% chance of not drawing this engine glow this frame
+			return qfalse;
+			self->client->ps.forceJumpCharge = 280;
+		}
+	}
+
 	if (self->enemy == shooter)
 	{
 		//FIXME: make it so that we are better able to dodge shots from my current enemy
@@ -4998,9 +5011,7 @@ evasionType_t jedi_saber_block_go(gentity_t* self, usercmd_t* cmd, vec3_t p_hitl
 		|| self->client->NPC_class == CLASS_JANGO
 		|| self->client->NPC_class == CLASS_JANGODUAL)
 	{
-		saber_busy = qtrue;
-		do_dodge = qtrue;
-		always_dodge_or_roll = qtrue;
+		return EVASION_NONE;
 	}
 	else
 	{
@@ -5077,10 +5088,6 @@ evasionType_t jedi_saber_block_go(gentity_t* self, usercmd_t* cmd, vec3_t p_hitl
 	if (self->client->NPC_class == CLASS_REBORN && self->s.weapon != WP_SABER
 		|| self->client->NPC_class == CLASS_SITHLORD && self->s.weapon != WP_SABER
 		|| self->client->NPC_class == CLASS_GROGU && self->s.weapon != WP_SABER
-		|| self->client->NPC_class == CLASS_BOBAFETT
-		|| self->client->NPC_class == CLASS_MANDALORIAN
-		|| self->client->NPC_class == CLASS_JANGO
-		|| self->client->NPC_class == CLASS_JANGODUAL
 		|| self->s.weapon == WP_SABER && !self->client->ps.SaberActive()
 		|| self->s.weapon == WP_SABER && self->client->ps.saberInFlight)
 	{
@@ -5089,11 +5096,7 @@ evasionType_t jedi_saber_block_go(gentity_t* self, usercmd_t* cmd, vec3_t p_hitl
 
 	qboolean do_roll = qfalse;
 
-	if ((self->client->NPC_class == CLASS_BOBAFETT
-		|| self->client->NPC_class == CLASS_MANDALORIAN
-		|| self->client->NPC_class == CLASS_JANGO
-		|| self->client->NPC_class == CLASS_JANGODUAL //boba fett
-		|| self->client->NPC_class == CLASS_REBORN && self->s.weapon != WP_SABER //boba fett
+	if ((self->client->NPC_class == CLASS_REBORN && self->s.weapon != WP_SABER //boba fett
 		|| self->client->NPC_class == CLASS_GROGU && self->s.weapon != WP_SABER //boba fett
 		|| self->client->NPC_class == CLASS_SITHLORD && self->s.weapon != WP_SABER) //non-saber reborn (cultist)
 		&& !Q_irand(0, 2))
