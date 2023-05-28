@@ -988,6 +988,10 @@ extern void WP_RemoveSecondSaber(gentity_t* ent, int saber_num);
 
 static void Svcmd_PlayerModel_f()
 {
+	if (cg_trueguns.integer > 0)
+	{
+		gi.cvar_set("cg_trueguns", "0");
+	}
 	if (g_entities[0].s.groundEntityNum == ENTITYNUM_NONE && PM_InLedgeMove(g_entities[0].client->ps.legsAnim))
 	{
 		g_entities[0].client->ps.pm_flags &= ~PMF_STUCK_TO_WALL;

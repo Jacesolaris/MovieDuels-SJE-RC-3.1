@@ -439,6 +439,8 @@ void G_AttackDelay(const gentity_t* self, const gentity_t* enemy)
 			}
 			break;
 		case WP_CLONEPISTOL:
+		case WP_DUAL_CLONEPISTOL:
+		case WP_DUAL_PISTOL:
 			att_delay -= Q_irand(500, 1500);
 			break;
 
@@ -456,18 +458,6 @@ void G_AttackDelay(const gentity_t* self, const gentity_t* enemy)
 			{
 				//regular blaster
 				att_delay -= Q_irand(0, 500);
-			}
-			break;
-		case WP_DUAL_PISTOL:
-			if (self->NPC->scriptFlags & SCF_ALT_FIRE)
-			{
-				//rapid-fire blasters
-				att_delay += Q_irand(500, 1500);
-			}
-			else
-			{
-				//regular blaster
-				att_delay += Q_irand(500, 1500);
 			}
 			break;
 		case WP_DROIDEKA:
@@ -695,6 +685,7 @@ void G_SetEnemy(gentity_t* self, gentity_t* enemy)
 			self->s.weapon == WP_THERMAL ||
 			self->s.weapon == WP_BLASTER_PISTOL ||
 			self->s.weapon == WP_DUAL_PISTOL ||
+			self->s.weapon == WP_DUAL_CLONEPISTOL ||
 			self->s.weapon == WP_DROIDEKA ||
 			self->s.weapon == WP_BOWCASTER ||
 			self->s.weapon == WP_BATTLEDROID ||
@@ -818,6 +809,28 @@ void G_SetEnemy(gentity_t* self, gentity_t* enemy)
 					else
 					{
 						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_PISTOL].weaponMdl, self->handRBolt, 0);
+					}
+				}
+			}
+			else if (self->client->ps.weapons[WP_DUAL_CLONEPISTOL])
+			{
+				ChangeWeapon(self, WP_DUAL_CLONEPISTOL);
+				self->client->ps.weapon = WP_DUAL_CLONEPISTOL;
+				self->client->ps.weaponstate = WEAPON_READY;
+
+				if (com_kotor->integer == 1) //playing kotor
+				{
+					G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_CLONEPISTOL].altweaponMdl, self->handRBolt, 0);
+				}
+				else
+				{
+					if (self->client->friendlyfaction == FACTION_KOTOR)
+					{
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_CLONEPISTOL].altweaponMdl, self->handRBolt, 0);
+					}
+					else
+					{
+						G_CreateG2AttachedWeaponModel(self, weaponData[WP_DUAL_CLONEPISTOL].weaponMdl, self->handRBolt, 0);
 					}
 				}
 			}
@@ -1380,6 +1393,32 @@ void ChangeWeapon(const gentity_t* ent, const int new_weapon)
 			ent->NPC->burstSpacing = 600; //attack debounce
 		break;
 
+	case WP_DUAL_CLONEPISTOL:
+	case WP_DUAL_PISTOL:
+		if (ent->NPC->scriptFlags & SCF_ALT_FIRE)
+		{
+			ent->NPC->aiFlags |= NPCAI_BURST_WEAPON;
+			ent->NPC->burstMin = 2;
+			ent->NPC->burstMean = 2;
+			ent->NPC->burstMax = 2;
+			if (g_spskill->integer == 0)
+				ent->NPC->burstSpacing = 1900; //attack debounce
+			else if (g_spskill->integer == 1)
+				ent->NPC->burstSpacing = 1200; //attack debounce
+			else
+				ent->NPC->burstSpacing = 900; //attack debounce
+		}
+		else
+		{
+			if (g_spskill->integer == 0)
+				ent->NPC->burstSpacing = 1000; //attack debounce
+			else if (g_spskill->integer == 1)
+				ent->NPC->burstSpacing = 750; //attack debounce
+			else
+				ent->NPC->burstSpacing = 600; //attack debounce
+		}
+		break;
+
 	case WP_JANGO:
 		if (ent->NPC->scriptFlags & SCF_ALT_FIRE)
 		{
@@ -1403,36 +1442,6 @@ void ChangeWeapon(const gentity_t* ent, const int new_weapon)
 				ent->NPC->burstSpacing = 1150; //attack debounce
 			else
 				ent->NPC->burstSpacing = 800; //attack debounce
-		}
-		break;
-
-	case WP_DUAL_PISTOL:
-		if (ent->NPC->scriptFlags & SCF_ALT_FIRE)
-		{
-			ent->NPC->aiFlags |= NPCAI_BURST_WEAPON;
-			ent->NPC->burstMin = 2;
-			ent->NPC->burstMean = 2;
-			ent->NPC->burstMax = 2;
-
-			ent->NPC->burstSpacing = 1500; //attack debounce
-		}
-		else
-		{
-			ent->NPC->aiFlags &= ~NPCAI_BURST_WEAPON;
-
-			if (ent->weaponModel[1] > 0)
-			{
-				//commando
-				ent->NPC->aiFlags |= NPCAI_BURST_WEAPON;
-				ent->NPC->burstMin = 2;
-				ent->NPC->burstMean = 2;
-				ent->NPC->burstMax = 2;
-				ent->NPC->burstSpacing = 600; //attack debounce
-			}
-			else
-			{
-				ent->NPC->burstSpacing = 750; //attack debounce
-			}
 		}
 		break;
 	case WP_DROIDEKA:
@@ -1549,6 +1558,27 @@ void NPC_ChangeWeapon(const int new_weapon)
 				}
 			}
 		}
+		else if (NPC->client->ps.weapon == WP_DUAL_CLONEPISTOL)
+		{
+			if (com_kotor->integer == 1) //playing kotor
+			{
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+				G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handLBolt, 1);
+			}
+			else
+			{
+				if (NPC->client->friendlyfaction == FACTION_KOTOR)
+				{
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handRBolt, 0);
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].altweaponMdl, NPC->handLBolt, 1);
+				}
+				else
+				{
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handRBolt, 0);
+					G_CreateG2AttachedWeaponModel(NPC, weaponData[NPC->client->ps.weapon].weaponMdl, NPC->handLBolt, 1);
+				}
+			}
+		}
 		else if (NPC->client->ps.weapon == WP_DROIDEKA)
 		{
 			if (com_kotor->integer == 1) //playing kotor
@@ -1636,16 +1666,7 @@ void NPC_ApplyWeaponFireDelay()
 			client->fireDelay = 300;
 		}
 		break;
-
-	case WP_BOBA:
-	case WP_JANGO:
-	case WP_DUAL_PISTOL:
-	case WP_CLONECARBINE:
-		if (NPCInfo->scriptFlags & SCF_ALT_FIRE)
-		{
-			client->fireDelay = Q_irand(1000, 3000);
-		}
-		break;
+	
 	case WP_DROIDEKA:
 		if (NPCInfo->scriptFlags & SCF_ALT_FIRE)
 		{
@@ -2079,6 +2100,7 @@ float NPC_MaxDistSquaredForWeapon()
 		return 1024 * 1024;
 
 	case WP_CLONEPISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		return 1024 * 1024;
 
 	case WP_BLASTER_PISTOL: //prifle
@@ -2793,7 +2815,7 @@ qboolean NPC_ClearShot(const gentity_t* ent)
 
 	// add aim error
 	// use weapon instead of specific npc types, although you could add certain npc classes if you wanted
-	if (NPC->s.weapon == WP_BLASTER || NPC->s.weapon == WP_BLASTER_PISTOL || NPC->s.weapon == WP_DUAL_PISTOL || NPC->s.weapon == WP_DROIDEKA)
+	if (NPC->s.weapon == WP_BLASTER || NPC->s.weapon == WP_BLASTER_PISTOL || NPC->s.weapon == WP_DUAL_PISTOL || NPC->s.weapon == WP_DUAL_CLONEPISTOL || NPC->s.weapon == WP_DROIDEKA)
 		// any other guns to check for?
 	{
 		constexpr vec3_t mins = { -2, -2, -2 };
@@ -2858,7 +2880,7 @@ int NPC_ShotEntity(const gentity_t* ent, vec3_t impact_pos)
 	// add aim error
 	// use weapon instead of specific npc types, although you could add certain npc classes if you wanted
 	//	if ( NPC->client->playerTeam == TEAM_SCAVENGERS )
-	if (NPC->s.weapon == WP_BLASTER || NPC->s.weapon == WP_BLASTER_PISTOL || NPC->s.weapon == WP_DUAL_PISTOL || NPC->s.weapon == WP_DROIDEKA)
+	if (NPC->s.weapon == WP_BLASTER || NPC->s.weapon == WP_BLASTER_PISTOL || NPC->s.weapon == WP_DUAL_PISTOL || NPC->s.weapon == WP_DUAL_CLONEPISTOL || NPC->s.weapon == WP_DROIDEKA)
 		// any other guns to check for?
 	{
 		constexpr vec3_t mins = { -2, -2, -2 };
@@ -3171,6 +3193,7 @@ float IdealDistance()
 	case WP_REY:
 	case WP_JANGO:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_DROIDEKA:
 	case WP_JAWA:
 	default:

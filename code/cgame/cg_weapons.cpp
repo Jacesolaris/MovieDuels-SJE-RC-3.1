@@ -813,6 +813,7 @@ void CG_RegisterWeapon(const int weapon_num)
 		break;
 
 	case WP_CLONEPISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		cgs.effects.cloneShotEffect = theFxScheduler.RegisterEffect("clone/projectile");
 		cgs.effects.clonePowerupShotEffect = theFxScheduler.RegisterEffect("clone/crackleShot");
 		cgs.effects.cloneWallImpactEffect = theFxScheduler.RegisterEffect("clone/wall_impact");
@@ -1520,7 +1521,8 @@ void CG_AddViewWeapon(playerState_t* ps)
 	float fov_offset, lean_offset;
 	const qboolean doing_dash_action = cg.predicted_player_state.communicatingflags & 1 << DASHING ? qtrue : qfalse;
 
-	if (cg.renderingThirdPerson && !cg_trueguns.integer && !cg.zoomMode && (ps->eFlags & EF2_JANGO_DUALS || ps->eFlags & EF2_DUAL_PISTOLS || ps->weapon == WP_DROIDEKA))
+	if (cg.renderingThirdPerson && !cg_trueguns.integer && !cg.zoomMode &&
+		(ps->eFlags & EF2_JANGO_DUALS || ps->eFlags & EF2_DUAL_CLONE_PISTOLS || ps->eFlags & EF2_DUAL_PISTOLS || ps->weapon == WP_DROIDEKA || ps->weapon == WP_DUAL_PISTOL || ps->weapon == WP_DUAL_CLONEPISTOL))
 	{
 		vec3_t origin;
 		cent = &cg_entities[ps->client_num];
@@ -1535,7 +1537,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 		w_data = &weaponData[ps->weapon];
 
 		// Not doing regular flashes
-		if (!(ps->eFlags & EF2_JANGO_DUALS) && !(ps->eFlags & EF2_DUAL_PISTOLS) && ps->weapon != WP_DROIDEKA)
+		if (!(ps->eFlags & EF2_JANGO_DUALS) && !(ps->eFlags & EF2_DUAL_CLONE_PISTOLS) && !(ps->eFlags & EF2_DUAL_PISTOLS) && ps->weapon != WP_DROIDEKA)
 		{
 			CG_DoMuzzleFlash(cent, origin, cg.refdef.viewaxis[0], w_data);
 		}
@@ -1663,7 +1665,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 		weapon = &cg_weapons[ps->weapon];
 		w_data = &weaponData[ps->weapon];
 
-		if (!(ps->eFlags & EF2_JANGO_DUALS) && !(ps->eFlags & EF2_DUAL_PISTOLS) && ps->weapon != WP_DROIDEKA)
+		if (!(ps->eFlags & EF2_JANGO_DUALS) && !(ps->eFlags & EF2_DUAL_CLONE_PISTOLS) && !(ps->eFlags & EF2_DUAL_PISTOLS) && ps->weapon != WP_DROIDEKA)
 		{
 			CG_DoMuzzleFlash(cent, origin, cg.refdef.viewaxis[0], w_data);
 		}
@@ -1891,7 +1893,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 		// Seems like we should always do this in case we have an animating muzzle flash....that way we can always store the correct muzzle dir, etc.
 		CG_PositionEntityOnTag(&flash, &gun, gun.hModel, "tag_flash");
 
-		if (!(ps->eFlags & EF2_JANGO_DUALS) && !(ps->eFlags & EF2_DUAL_PISTOLS) && ps->weapon != WP_DROIDEKA)
+		if (!(ps->eFlags & EF2_JANGO_DUALS) && !(ps->eFlags & EF2_DUAL_CLONE_PISTOLS) && !(ps->eFlags & EF2_DUAL_PISTOLS) && ps->weapon != WP_DROIDEKA)
 		{
 			CG_DoMuzzleFlash(cent, flash.origin, flash.axis[0], w_data);
 		}
@@ -2009,7 +2011,12 @@ void CG_AddViewWeapon(playerState_t* ps)
 		}
 	}
 
-	if (ps->eFlags & EF2_JANGO_DUALS || ps->eFlags & EF2_DUAL_PISTOLS || ps->weapon == WP_DROIDEKA)
+	if (ps->eFlags & EF2_JANGO_DUALS ||
+		ps->eFlags & EF2_DUAL_PISTOLS || 
+		ps->eFlags & EF2_DUAL_CLONE_PISTOLS || 
+		ps->weapon == WP_DUAL_PISTOL || 
+		ps->weapon == WP_DUAL_CLONEPISTOL ||
+		ps->weapon == WP_DROIDEKA)
 	{
 		if (cg.time - cent->muzzleFlashTimeR <= MUZZLE_FLASH_TIME - 10)
 		{
@@ -3287,6 +3294,7 @@ void CG_DrawWeaponSelect()
 				|| i == WP_JANGO
 				|| i == WP_BOBA
 				|| i == WP_CLONEPISTOL
+				|| i == WP_DUAL_CLONEPISTOL
 				|| i == WP_DUAL_PISTOL))
 		{
 			count++;
@@ -3418,6 +3426,7 @@ void CG_DrawWeaponSelect()
 				i != WP_JANGO &&
 				i != WP_BOBA &&
 				i != WP_CLONEPISTOL &&
+				i != WP_DUAL_CLONEPISTOL &&
 				i != WP_DUAL_PISTOL)
 			{
 				if (i == WP_CONCUSSION)
@@ -3572,6 +3581,7 @@ void CG_DrawWeaponSelect()
 				i != WP_JANGO &&
 				i != WP_BOBA &&
 				i != WP_CLONEPISTOL &&
+				i != WP_DUAL_CLONEPISTOL &&
 				i != WP_DUAL_PISTOL)
 			{
 				if (i == WP_CONCUSSION)
@@ -3719,6 +3729,7 @@ void CG_DrawWeaponSelect_kotor()
 				|| i == WP_JANGO
 				|| i == WP_BOBA
 				|| i == WP_CLONEPISTOL
+				|| i == WP_DUAL_CLONEPISTOL
 				|| i == WP_DUAL_PISTOL))
 		{
 			count++;
@@ -3850,6 +3861,7 @@ void CG_DrawWeaponSelect_kotor()
 				i != WP_JANGO &&
 				i != WP_BOBA &&
 				i != WP_CLONEPISTOL &&
+				i != WP_DUAL_CLONEPISTOL &&
 				i != WP_DUAL_PISTOL)
 			{
 				if (i == WP_CONCUSSION)
@@ -4004,6 +4016,7 @@ void CG_DrawWeaponSelect_kotor()
 				i != WP_JANGO &&
 				i != WP_BOBA &&
 				i != WP_CLONEPISTOL &&
+				i != WP_DUAL_CLONEPISTOL &&
 				i != WP_DUAL_PISTOL)
 			{
 				if (i == WP_CONCUSSION)
@@ -4143,6 +4156,7 @@ void CG_DrawWeaponSelect_text()
 				|| i == WP_JANGO
 				|| i == WP_BOBA
 				|| i == WP_CLONEPISTOL
+				|| i == WP_DUAL_CLONEPISTOL
 				|| i == WP_DUAL_PISTOL))
 		{
 			count++;
@@ -4252,6 +4266,7 @@ qboolean CG_WeaponSelectable(int i, const int original, const qboolean dp_mode)
 			i != WP_JANGO &&
 			i != WP_BOBA &&
 			i != WP_CLONEPISTOL &&
+			i != WP_DUAL_CLONEPISTOL &&
 			i != WP_DUAL_PISTOL)
 		{
 			return qfalse;
@@ -4372,6 +4387,7 @@ void CG_NextWeapon_f()
 		if (cg_entities[0].gent->s.weapon == WP_BRYAR_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_BLASTER_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_DUAL_PISTOL ||
+			cg_entities[0].gent->s.weapon == WP_DUAL_CLONEPISTOL ||
 			cg_entities[0].gent->s.weapon == WP_REY ||
 			cg_entities[0].gent->s.weapon == WP_JANGO ||
 			cg_entities[0].gent->s.weapon == WP_CLONEPISTOL ||
@@ -4631,6 +4647,7 @@ void CG_PrevWeapon_f()
 		if (cg_entities[0].gent->s.weapon == WP_BRYAR_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_BLASTER_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_DUAL_PISTOL ||
+			cg_entities[0].gent->s.weapon == WP_DUAL_CLONEPISTOL ||
 			cg_entities[0].gent->s.weapon == WP_REY ||
 			cg_entities[0].gent->s.weapon == WP_JANGO ||
 			cg_entities[0].gent->s.weapon == WP_CLONEPISTOL ||
@@ -4792,6 +4809,7 @@ void CG_ChangeWeapon(const int num)
 		if (cg_entities[0].gent->s.weapon == WP_BRYAR_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_BLASTER_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_DUAL_PISTOL ||
+			cg_entities[0].gent->s.weapon == WP_DUAL_CLONEPISTOL ||
 			cg_entities[0].gent->s.weapon == WP_REY ||
 			cg_entities[0].gent->s.weapon == WP_JANGO ||
 			cg_entities[0].gent->s.weapon == WP_CLONEPISTOL ||
@@ -4928,6 +4946,7 @@ void CG_Weapon_f()
 		if (cg_entities[0].gent->s.weapon == WP_BRYAR_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_BLASTER_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_DUAL_PISTOL ||
+			cg_entities[0].gent->s.weapon == WP_DUAL_CLONEPISTOL ||
 			cg_entities[0].gent->s.weapon == WP_REY ||
 			cg_entities[0].gent->s.weapon == WP_JANGO ||
 			cg_entities[0].gent->s.weapon == WP_CLONEPISTOL ||
@@ -5269,6 +5288,7 @@ void CG_FireWeapon(centity_t* cent, const qboolean alt_fire)
 		if (cg_entities[0].gent->s.weapon == WP_BRYAR_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_BLASTER_PISTOL ||
 			cg_entities[0].gent->s.weapon == WP_DUAL_PISTOL ||
+			cg_entities[0].gent->s.weapon == WP_DUAL_CLONEPISTOL ||
 			cg_entities[0].gent->s.weapon == WP_REY ||
 			cg_entities[0].gent->s.weapon == WP_JANGO ||
 			cg_entities[0].gent->s.weapon == WP_CLONEPISTOL ||
@@ -5309,7 +5329,12 @@ void CG_FireWeapon(centity_t* cent, const qboolean alt_fire)
 
 	cent->muzzleFlashTime = cg.time;
 
-	if (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_PISTOLS || ent->weapon == WP_DROIDEKA)
+	if (cent->currentState.eFlags & EF2_JANGO_DUALS ||
+		cent->currentState.eFlags & EF2_DUAL_PISTOLS ||
+		cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS ||
+		ent->weapon == WP_DROIDEKA || 
+		ent->weapon == WP_DUAL_PISTOL ||
+		ent->weapon == WP_DUAL_CLONEPISTOL)
 	{
 		cent->muzzleFlashTimeR = cg.time;
 		cent->muzzleFlashTimeL = cg.time;
@@ -5634,6 +5659,7 @@ void CG_MissileHitWall(const centity_t* cent, const int weapon, vec3_t origin, v
 		break;
 
 	case WP_CLONEPISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		if (alt_fire)
 		{
 			parm = 0;
@@ -5871,6 +5897,7 @@ void CG_MissileHitPlayer(const centity_t* cent, const int weapon, vec3_t origin,
 		break;
 
 	case WP_CLONEPISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		if (alt_fire)
 		{
 			FX_CloneAltHitPlayer(origin, dir, humanoid);

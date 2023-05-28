@@ -233,6 +233,11 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 			return;
 	}
 
+	if (cg_trueguns.integer > 0)
+	{
+		gi.cvar_set("cg_trueguns", "0");
+	}
+
 	if (give_all || Q_stricmp(name, "inventory") == 0)
 	{
 		// Huh?  Was doing a INV_MAX+1 which was wrong because then you'd actually have every inventory item including INV_MAX
@@ -297,7 +302,8 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 						|| ent->client->NPC_class == CLASS_JANGO
 						|| ent->client->NPC_class == CLASS_JANGODUAL
 						|| ent->client->NPC_class == CLASS_MANDALORIAN
-						|| !Q_stricmp("md_dindjarin", ent->NPC_type))
+						|| !Q_stricmp("md_dindjarin", ent->NPC_type)
+						|| !Q_stricmp("bokatan", ent->NPC_type))
 					{
 						ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 						
@@ -306,7 +312,14 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 							|| ent->client->NPC_class == CLASS_JANGODUAL
 							|| ent->client->NPC_class == CLASS_MANDALORIAN
 							|| !Q_stricmp("boba_fett_esb", ent->NPC_type)
-							|| !Q_stricmp("md_boba_fett", ent->NPC_type))
+							|| !Q_stricmp("md_boba_fett", ent->NPC_type)
+							|| !Q_stricmp("pazvizsla", ent->NPC_type)
+							|| !Q_stricmp("pazvizsla_nohelm", ent->NPC_type)
+							|| !Q_stricmp("bokatan", ent->NPC_type)
+							|| !Q_stricmp("bokatan_jet", ent->NPC_type)
+							|| !Q_stricmp("bokatan_helm", ent->NPC_type)
+							|| !Q_stricmp("armorer", ent->NPC_type)
+							|| !Q_stricmp("armorer_jet", ent->NPC_type))
 						{
 							ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 						}

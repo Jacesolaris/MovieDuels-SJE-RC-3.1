@@ -66,6 +66,7 @@ cvar_t* g_update6firststartup;
 cvar_t* g_totgfirststartup;
 cvar_t* g_Weather;
 cvar_t* com_kotor;
+cvar_t* g_trueguns;
 
 #ifndef _WIN32
 cvar_t* com_ansiColor = nullptr;
@@ -1173,6 +1174,8 @@ void Com_Init(char* commandLine)
 		com_outcast = Cvar_Get("com_outcast", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 		com_kotor = Cvar_Get("com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 
+		g_trueguns = Cvar_Get("cg_trueguns", "0", 0);
+
 		g_Weather = Cvar_Get("r_weather", "0", CVAR_ARCHIVE);
 
 		g_update6firststartup = Cvar_Get("g_update6firststartup", "1", 0);
@@ -1227,10 +1230,9 @@ void Com_Init(char* commandLine)
 			Com_Printf("Running MovieDuels JKA Mode\n");
 		}
 
-		if (com_kotor->integer == 1)//playing kotor
-		{
-			Cvar_Set("com_kotor", "0");
-		}
+		Cvar_Set("com_kotor", "0");
+		Cvar_Set("cg_trueguns", "0");
+
 #endif
 
 		Sys_Init(); // this also detects CPU type, so I can now do this CPU check below...

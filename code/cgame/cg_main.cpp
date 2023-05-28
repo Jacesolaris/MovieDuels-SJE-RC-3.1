@@ -688,7 +688,7 @@ static cvarTable_t cvarTable[] = {
 
 	{&cg_allowcalloutmarker, "g_allowattackordermarker", "1", CVAR_ARCHIVE},
 
-	{ &cg_com_kotor, "com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART },
+	{&cg_com_kotor, "com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART },
 };
 
 static constexpr size_t cvarTableSize = std::size(cvarTable);

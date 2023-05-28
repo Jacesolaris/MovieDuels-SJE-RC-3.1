@@ -1298,9 +1298,83 @@ void Boba_Fire()
 				}
 			}
 			break;
+
+		case WP_DUAL_CLONEPISTOL:
+
+			if (TIMER_Done(NPC, "nextBlasterAltFireDecide"))
+			{
+				if (Q_irand(0, NPC->count * 2 + 3) > 2)
+				{
+					TIMER_Set(NPC, "nextBlasterAltFireDecide", Q_irand(3000, 8000));
+					if (!(NPCInfo->scriptFlags & SCF_ALT_FIRE))
+					{
+						Boba_Printf("ALT FIRE On");
+						NPCInfo->scriptFlags |= SCF_ALT_FIRE;
+						NPC_ChangeWeapon(WP_DUAL_CLONEPISTOL); // Update Delay Timers
+					}
+				}
+				else
+				{
+					TIMER_Set(NPC, "nextBlasterAltFireDecide", Q_irand(2000, 5000));
+					if (NPCInfo->scriptFlags & SCF_ALT_FIRE)
+					{
+						Boba_Printf("ALT FIRE Off");
+						NPCInfo->scriptFlags &= ~SCF_ALT_FIRE;
+						NPC_ChangeWeapon(WP_DUAL_CLONEPISTOL); // Update Delay Timers
+					}
+				}
+			}
+			break;
 		default:;
 		}
 	}
+}
+
+qboolean Mandalorian_Repeater(const gentity_t* self)
+{
+	if (self->client->NPC_class == CLASS_MANDALORIAN
+		&& (Q_stricmp("pazvizsla", self->NPC_type) == 0 ||
+			Q_stricmp("pazvizsla_nohelm", self->NPC_type) == 0))
+	{
+		return qtrue;
+	}
+	return qfalse;
+}
+
+qboolean Mandalorian_Clone_Pistol(const gentity_t* self)
+{
+	if (self->client->NPC_class == CLASS_MANDALORIAN
+		&& (Q_stricmp("bokatan", self->NPC_type) == 0 ||
+			Q_stricmp("bokatan_jet", self->NPC_type) == 0 ||
+			Q_stricmp("bokatan_helm", self->NPC_type) == 0))
+	{
+		return qtrue;
+	}
+	return qfalse;
+}
+
+qboolean Mandalorian_Boba(const gentity_t* self)
+{
+	if (self->client->NPC_class == CLASS_MANDALORIAN
+		&& (Q_stricmp("bobba_fett_mand1", self->NPC_type) == 0 ||
+			Q_stricmp("bobba_fett_mand2", self->NPC_type) == 0 ||
+			Q_stricmp("boba_fett_nohelmet", self->NPC_type) == 0 ||
+			Q_stricmp("boba_fett_nohelmet2", self->NPC_type) == 0))
+	{
+		return qtrue;
+	}
+	return qfalse;
+}
+
+qboolean Mandalorian_Dual_Pistols(const gentity_t* self)
+{
+	if (Q_stricmp("bokatan", self->NPC_type) == 0 ||
+		Q_stricmp("bokatan_jet", self->NPC_type) == 0 ||
+		Q_stricmp("bokatan_helm", self->NPC_type) == 0)
+	{
+		return qtrue;
+	}
+	return qfalse;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1319,40 +1393,48 @@ void Boba_FireDecide()
 		!NPC->enemy || // Only If There Is An Enemy
 		NPC->s.weapon == WP_NONE || // Only If Using A Valid Weapon
 		!TIMER_Done(NPC, "nextAttackDelay") || // Only If Ready To Shoot Again
-		!Boba_CanSeeEnemy(NPC) // Only If Enemy Recently Seen
-		)
+		!Boba_CanSeeEnemy(NPC)) // Only If Enemy Recently Seen
 	{
 		return;
 	}
 
 	// Now Check Weapon Specific Parameters To See If We Should Shoot Or Not
 	//-----------------------------------------------------------------------
-	switch (NPC->s.weapon)
+
+	if (Mandalorian_Repeater(NPC) || Mandalorian_Clone_Pistol(NPC) || Mandalorian_Dual_Pistols(NPC))
 	{
-	case WP_ROCKET_LAUNCHER:
-		if (Distance(NPC->currentOrigin, NPC->enemy->currentOrigin) > 400.0f)
+		WeaponThink();
+	}
+	else
+	{
+		switch (NPC->s.weapon)
 		{
+		case WP_ROCKET_LAUNCHER:
+			if (Distance(NPC->currentOrigin, NPC->enemy->currentOrigin) > 400.0f)
+			{
+				Boba_Fire();
+			}
+			break;
+		case WP_DISRUPTOR:
 			Boba_Fire();
+			break;
+		case WP_BOBA:
+			Boba_Fire();
+			break;
+		case WP_CLONECARBINE:
+			Boba_Fire();
+			break;
+		case WP_JANGO:
+			Boba_Fire();
+			break;
+		case WP_DUAL_PISTOL:
+			Boba_Fire();
+			break;
+		case WP_DUAL_CLONEPISTOL:
+			Boba_Fire();
+			break;
+		default:;
 		}
-		break;
-
-	case WP_DISRUPTOR:
-		Boba_Fire();
-		break;
-
-	case WP_BOBA:
-		Boba_Fire();
-		break;
-	case WP_CLONECARBINE:
-		Boba_Fire();
-		break;
-	case WP_JANGO:
-		Boba_Fire();
-		break;
-	case WP_DUAL_PISTOL:
-		Boba_Fire();
-		break;
-	default:;
 	}
 }
 
@@ -1463,7 +1545,14 @@ void Boba_TacticsSelect()
 		{
 		case BTS_FLAMETHROW:
 			Boba_Printf("NEW TACTIC: Flame Thrower");
-			Boba_ChangeWeapon(WP_NONE);
+			if (Mandalorian_Repeater(NPC) || Mandalorian_Clone_Pistol(NPC) || Mandalorian_Dual_Pistols(NPC))
+			{
+				Boba_ChangeWeapon(WP_MELEE);
+			}
+			else
+			{
+				Boba_ChangeWeapon(WP_NONE);
+			}
 			Boba_DoFlameThrower(NPC);
 			break;
 
@@ -1483,13 +1572,35 @@ void Boba_TacticsSelect()
 			}
 			else if (NPC->client->NPC_class == CLASS_MANDALORIAN)
 			{
-				Boba_ChangeWeapon(WP_CLONECARBINE);
+				if (Mandalorian_Repeater(NPC))
+				{
+					Boba_ChangeWeapon(WP_REPEATER);
+				}
+				else if (Mandalorian_Clone_Pistol(NPC))
+				{
+					Boba_ChangeWeapon(WP_DUAL_CLONEPISTOL);
+				}
+				else
+				{
+					Boba_ChangeWeapon(WP_CLONECARBINE);
+				}
 			}
 			break;
 
 		case BTS_MISSILE:
 			Boba_Printf("NEW TACTIC: Rocket Launcher");
-			Boba_ChangeWeapon(WP_ROCKET_LAUNCHER);
+			if (Mandalorian_Repeater(NPC))
+			{
+				Boba_ChangeWeapon(WP_REPEATER);
+			}
+			else if (Mandalorian_Clone_Pistol(NPC))
+			{
+				Boba_ChangeWeapon(WP_DUAL_CLONEPISTOL);
+			}
+			else
+			{
+				Boba_ChangeWeapon(WP_ROCKET_LAUNCHER);
+			}
 			break;
 
 		case BTS_SNIPER:
@@ -1500,13 +1611,31 @@ void Boba_TacticsSelect()
 			}
 			else
 			{
-				Boba_ChangeWeapon(WP_DISRUPTOR);
+				if (Mandalorian_Repeater(NPC))
+				{
+					Boba_ChangeWeapon(WP_REPEATER);
+				}
+				else if (Mandalorian_Clone_Pistol(NPC))
+				{
+					Boba_ChangeWeapon(WP_DUAL_CLONEPISTOL);
+				}
+				else
+				{
+					Boba_ChangeWeapon(WP_DISRUPTOR);
+				}
 			}
 			break;
 
 		case BTS_AMBUSHWAIT:
 			Boba_Printf("NEW TACTIC: Ambush");
-			Boba_ChangeWeapon(WP_NONE);
+			if (Mandalorian_Repeater(NPC) || Mandalorian_Clone_Pistol(NPC) || Mandalorian_Dual_Pistols(NPC))
+			{
+				Boba_ChangeWeapon(WP_MELEE);
+			}
+			else
+			{
+				Boba_ChangeWeapon(WP_NONE);
+			}
 			break;
 		default:;
 		}

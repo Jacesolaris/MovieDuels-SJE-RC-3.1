@@ -85,6 +85,7 @@ using weapon_t = enum //# weapon_e
 	WP_WRIST_BLASTER,
 
 	WP_DUAL_PISTOL,
+	WP_DUAL_CLONEPISTOL,
 	//pistol
 
 	WP_BOT_LASER,

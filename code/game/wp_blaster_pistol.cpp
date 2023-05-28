@@ -969,6 +969,163 @@ void WP_FireClonePistolDuals(gentity_t* ent, const qboolean alt_fire, const qboo
 }
 
 //---------------------------------------------------------
+void WP_FireMandoClonePistolDuals(gentity_t* ent, const qboolean alt_fire, const qboolean second_pistol)
+//---------------------------------------------------------
+{
+	vec3_t start;
+	int damage = !alt_fire ? weaponData[WP_DUAL_CLONEPISTOL].damage : weaponData[WP_DUAL_CLONEPISTOL].altDamage;
+
+	if (second_pistol)
+	{
+		VectorCopy(muzzle2, start);
+	}
+	else
+	{
+		VectorCopy(muzzle, start);
+	}
+
+	WP_TraceSetStart(ent, start);
+	//make sure our start point isn't on the other side of a wall
+
+	if (ent->client && ent->client->NPC_class == CLASS_VEHICLE)
+	{
+		//no inherent aim screw up
+	}
+	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	{//force sight 2+ gives perfect aim
+		vec3_t angs;
+
+		vectoangles(forward_vec, angs);
+
+		if (alt_fire)
+		{
+			if (ent->s.number < MAX_CLIENTS || G_ControlledByPlayer(ent))
+			{
+				if (PM_CrouchAnim(ent->client->ps.legsAnim))
+				{// firing position
+					angs[PITCH] += Q_flrand(-0.0f, 0.0f);
+					angs[YAW] += Q_flrand(-0.0f, 0.0f);
+				}
+				else
+				{
+					if (PM_RunningAnim(ent->client->ps.legsAnim) || ent->client->ps.BlasterAttackChainCount >= BLASTERMISHAPLEVEL_FULL)
+					{ // running or very fatigued
+						angs[PITCH] += Q_flrand(-2.0f, 2.0f) * RUNNING_SPREAD;
+						angs[YAW] += Q_flrand(-2.0f, 2.0f) * RUNNING_SPREAD;
+					}
+					else if (PM_WalkingAnim(ent->client->ps.legsAnim) || ent->client->ps.BlasterAttackChainCount >= BLASTERMISHAPLEVEL_HEAVY)
+					{//walking or fatigued a bit
+						angs[PITCH] += Q_flrand(-1.5f, 1.5f) * WALKING_SPREAD;
+						angs[YAW] += Q_flrand(-1.5f, 1.5f) * WALKING_SPREAD;
+					}
+					else
+					{// just standing
+						angs[PITCH] += Q_flrand(-1.0f, 1.0f) * BLASTER_ALT_SPREAD;
+						angs[YAW] += Q_flrand(-1.0f, 1.0f) * BLASTER_ALT_SPREAD;
+					}
+				}
+			}
+			else
+			{// add some slop to the alt-fire direction for NPC,s
+				angs[PITCH] += Q_flrand(-1.0f, 1.0f) * BLASTER_ALT_SPREAD;
+				angs[YAW] += Q_flrand(-1.0f, 1.0f) * BLASTER_ALT_SPREAD;
+			}
+		}
+		else
+		{
+			if (ent->s.number < MAX_CLIENTS || G_ControlledByPlayer(ent))
+			{
+				if (PM_CrouchAnim(ent->client->ps.legsAnim))
+				{// firing position
+					angs[PITCH] += Q_flrand(-0.0f, 0.0f);
+					angs[YAW] += Q_flrand(-0.0f, 0.0f);
+				}
+				else
+				{
+					if (PM_RunningAnim(ent->client->ps.legsAnim) || ent->client->ps.BlasterAttackChainCount >= BLASTERMISHAPLEVEL_FULL)
+					{ // running or very fatigued
+						angs[PITCH] += Q_flrand(-2.0f, 2.0f) * RUNNING_SPREAD;
+						angs[YAW] += Q_flrand(-2.0f, 2.0f) * RUNNING_SPREAD;
+					}
+					else if (PM_WalkingAnim(ent->client->ps.legsAnim) || ent->client->ps.BlasterAttackChainCount >= BLASTERMISHAPLEVEL_HALF)
+					{//walking or fatigued a bit
+						angs[PITCH] += Q_flrand(-1.1f, 1.1f) * WALKING_SPREAD;
+						angs[YAW] += Q_flrand(-1.1f, 1.1f) * WALKING_SPREAD;
+					}
+					else
+					{// just standing
+						angs[PITCH] += Q_flrand(-1.0f, 1.0f) * BLASTER_MAIN_SPREAD;
+						angs[YAW] += Q_flrand(-1.0f, 1.0f) * BLASTER_MAIN_SPREAD;
+					}
+				}
+			}
+			else
+			{// add some slop to the fire direction for NPC,s
+				angs[PITCH] += Q_flrand(-0.0f, 0.5f);
+				angs[YAW] += Q_flrand(-0.0f, 0.5f);
+			}
+		}
+
+		AngleVectors(angs, forward_vec, nullptr, nullptr);
+	}
+
+	WP_MissileTargetHint(ent, start, forward_vec);
+
+	gentity_t* missile = create_missile(start, forward_vec, BRYAR_PISTOL_VEL, 10000, ent, alt_fire);
+
+	missile->classname = "clone_proj";
+	if (ent->s.weapon == WP_CLONEPISTOL)
+	{
+		//*SIGH*... I hate our weapon system...
+		missile->s.weapon = ent->s.weapon;
+	}
+	else
+	{
+		missile->s.weapon = WP_DUAL_CLONEPISTOL;
+	}
+
+	if (alt_fire)
+	{
+		int count = (level.time - ent->client->ps.weaponChargeTime) / BRYAR_CHARGE_UNIT;
+
+		if (count < 1)
+		{
+			count = 1;
+		}
+		else if (count > 5)
+		{
+			count = 5;
+		}
+
+		damage *= count;
+		missile->count = count; // this will get used in the projectile rendering code to make a beefier effect
+	}
+
+	missile->damage = damage;
+	missile->dflags = DAMAGE_DEATH_KNOCKBACK;
+
+	if (alt_fire)
+	{
+		missile->methodOfDeath = MOD_CLONEPISTOL_ALT;
+	}
+	else
+	{
+		missile->methodOfDeath = MOD_CLONEPISTOL;
+	}
+
+	missile->clipmask = MASK_SHOT | CONTENTS_LIGHTSABER;
+
+	// we don't want it to bounce forever
+	missile->bounceCount = 8;
+
+	if (ent->weaponModel[1] > 0)
+	{
+		//dual pistols, toggle the muzzle point back and forth between the two pistols each time he fires
+		ent->count = ent->count ? 0 : 1;
+	}
+}
+
+//---------------------------------------------------------
 void WP_FireSBDPistol(gentity_t* ent, const qboolean alt_fire)
 //---------------------------------------------------------
 {

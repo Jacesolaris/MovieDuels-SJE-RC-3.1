@@ -162,6 +162,7 @@ qboolean playerUsableWeapons[WP_NUM_WEAPONS] =
 	qfalse, //WP_SBD_BLASTER,
 	qfalse, //WP_WRIST_BLASTER,
 	qtrue, //WP_DUAL_PISTOL,
+	qtrue, //WP_DUAL_CLONEPISTOL,
 
 	qfalse, //WP_BOT_LASER,		// Probe droid	- Laser blast
 
@@ -291,6 +292,7 @@ const int defaultDamage[] = {
 	CLONECOMMANDO_DAMAGE, // WP_WRIST_BLASTER
 
 	JANGO_DAMAGE, // WP_DUAL_PISTOL
+	CLONEPISTOL_DAMAGE, // WP_DUAL_CLONEPISTOL
 	BRYAR_PISTOL_DAMAGE, // WP_BOT_LASER
 	0, // WP_TURRET			// handled elsewhere
 	EMPLACED_DAMAGE, // WP_TIE_FIGHTER
@@ -354,6 +356,7 @@ const int defaultAltDamage[] = {
 	CLONERIFLE_DAMAGE, // WP_WRIST_BLASTER
 
 	JANGO_DAMAGE, // WP_DUAL_PISTOL
+	CLONEPISTOL_DAMAGE, // WP_DUAL_CLONEPISTOL
 	BRYAR_PISTOL_DAMAGE, // WP_BOT_LASER
 	0, // WP_TURRET				// handled elsewhere
 	EMPLACED_DAMAGE, // WP_TIE_FIGHTER
@@ -414,6 +417,7 @@ const int defaultSplashDamage[] = {
 	0, // WP_SBD_BLASTER
 	0, // WP_WRIST_BLASTER
 	0, // WP_DUAL_PISTOL
+	0, // WP_DUAL_CLONEPISTOL
 	0, // WP_BOT_LASER
 	0, // WP_TURRET
 	0, // WP_TIE_FIGHTER
@@ -466,6 +470,7 @@ constexpr float defaultSplashRadius[] = {
 	0.0f, // WP_SBD_BLASTER
 	0.0f, // WP_WRIST_BLASTER
 	0.0f, // WP_DUAL_PISTOL
+	0.0f, // WP_DUAL_CLONEPISTOL
 	0.0f, // WP_BOT_LASER
 	0.0f, // WP_TURRET
 	0.0f, // WP_TIE_FIGHTER
@@ -518,6 +523,7 @@ const int defaultAltSplashDamage[] = {
 	0, // WP_SBD_BLASTER
 	0, // WP_WRIST_BLASTER
 	0, // WP_DUAL_PISTOL
+	0, // WP_DUAL_CLONEPISTOL
 	0, // WP_BOT_LASER
 	0, // WP_TURRET		// handled elsewhere
 	0, // WP_TIE_FIGHTER
@@ -570,6 +576,7 @@ constexpr float defaultAltSplashRadius[] = {
 	0.0f, // WP_SBD_BLASTER
 	0.0f, // WP_WRIST_BLASTER
 	0.0f, // WP_DUAL_PISTOL
+	0.0f, // WP_DUAL_CLONEPISTOL
 	0.0f, // WP_BOT_LASER
 	0.0f, // WP_TURRET		// handled elsewhere
 	0.0f, // WP_TIE_FIGHTER
@@ -712,6 +719,8 @@ void WPN_WeaponType(const char** hold_buf)
 		weaponNum = WP_WRIST_BLASTER;
 	else if (!Q_stricmp(token_str, "WP_DUAL_PISTOL"))
 		weaponNum = WP_DUAL_PISTOL;
+	else if (!Q_stricmp(token_str, "WP_DUAL_CLONEPISTOL"))
+		weaponNum = WP_DUAL_CLONEPISTOL;
 	else if (!Q_stricmp(token_str, "WP_MELEE"))
 		weaponNum = WP_MELEE;
 	else if (!Q_stricmp(token_str, "WP_TURRET"))

@@ -7162,6 +7162,7 @@ qboolean pm_is_pistoleer()
 	case WP_REBELBLASTER:
 	case WP_BLASTER_PISTOL:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		return qtrue;
 	default:;
 	}
@@ -7819,6 +7820,7 @@ void PM_TorsoAnimation()
 				case WP_JANGO:
 				case WP_CLONEPISTOL:
 				case WP_DUAL_PISTOL:
+				case WP_DUAL_CLONEPISTOL:
 					if (pm->gent && pm->gent->weaponModel[1] > 0)
 					{
 						//dual pistols
@@ -8477,6 +8479,7 @@ void PM_TorsoAnimation()
 				case WP_JANGO:
 				case WP_CLONEPISTOL:
 				case WP_DUAL_PISTOL:
+				case WP_DUAL_CLONEPISTOL:
 					if (pm->ps->forcePowersActive & 1 << FP_GRIP && pm->ps->forcePowerLevel[FP_GRIP] > FORCE_LEVEL_1)
 					{
 						//holding an enemy aloft with force-grip

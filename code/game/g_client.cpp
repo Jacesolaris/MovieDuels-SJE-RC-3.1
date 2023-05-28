@@ -2630,12 +2630,18 @@ void G_ChangeScale(const char* data)
 }
 
 extern const char* GetSaberColor(int color);
+extern qboolean Mandalorian_Dual_Pistols(const gentity_t* self);
 
 void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 {
 	if (!ent || !ent->client || !new_model)
 	{
 		return;
+	}
+
+	if (cg_trueguns.integer > 0)
+	{
+		gi.cvar_set("cg_trueguns", "0");
 	}
 
 	if (ent->client && (ent->client->moveType == MT_FLYSWIM || ent->s.groundEntityNum == ENTITYNUM_NONE ||
@@ -2680,6 +2686,16 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 	if (ent->client->ps.weapon != WP_DUAL_PISTOL && ent->client->ps.eFlags & EF2_JANGO_DUALS)
 	{
 		ent->client->ps.eFlags &= ~EF2_JANGO_DUALS;
+	}
+
+	if (ent->client->ps.weapon != WP_DUAL_CLONEPISTOL)
+	{
+		ent->client->ps.eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
+	}
+
+	if (!Mandalorian_Dual_Pistols(ent))
+	{
+		ent->client->ps.eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
 	}
 
 	if ((!AllowedDualPistol(ent) || g_allowdualpistols->integer < 1) && ent->client->ps.eFlags & EF2_DUAL_PISTOLS)
@@ -2826,7 +2842,8 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 								|| ent->client->NPC_class == CLASS_JANGO
 								|| ent->client->NPC_class == CLASS_JANGODUAL
 								|| ent->client->NPC_class == CLASS_MANDALORIAN
-								|| !Q_stricmp("md_dindjarin", ent->NPC_type))
+								|| !Q_stricmp("md_dindjarin", ent->NPC_type)
+								|| !Q_stricmp("bokatan", ent->NPC_type))
 							{
 								ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 
@@ -2835,7 +2852,14 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 									|| ent->client->NPC_class == CLASS_JANGODUAL
 									|| ent->client->NPC_class == CLASS_MANDALORIAN
 									|| !Q_stricmp("boba_fett_esb", ent->NPC_type)
-									|| !Q_stricmp("md_boba_fett", ent->NPC_type))
+									|| !Q_stricmp("md_boba_fett", ent->NPC_type)
+									|| !Q_stricmp("pazvizsla", ent->NPC_type)
+									|| !Q_stricmp("pazvizsla_nohelm", ent->NPC_type)
+									|| !Q_stricmp("bokatan", ent->NPC_type)
+									|| !Q_stricmp("bokatan_jet", ent->NPC_type)
+									|| !Q_stricmp("bokatan_helm", ent->NPC_type)
+									|| !Q_stricmp("armorer", ent->NPC_type)
+									|| !Q_stricmp("armorer_jet", ent->NPC_type))
 								{
 									ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 								}
@@ -2999,7 +3023,8 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 								|| ent->client->NPC_class == CLASS_JANGO
 								|| ent->client->NPC_class == CLASS_JANGODUAL
 								|| ent->client->NPC_class == CLASS_MANDALORIAN
-								|| !Q_stricmp("md_dindjarin", ent->NPC_type))
+								|| !Q_stricmp("md_dindjarin", ent->NPC_type)
+								|| !Q_stricmp("bokatan", ent->NPC_type))
 							{
 								ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 
@@ -3008,7 +3033,14 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 									|| ent->client->NPC_class == CLASS_JANGODUAL
 									|| ent->client->NPC_class == CLASS_MANDALORIAN
 									|| !Q_stricmp("boba_fett_esb", ent->NPC_type)
-									|| !Q_stricmp("md_boba_fett", ent->NPC_type))
+									|| !Q_stricmp("md_boba_fett", ent->NPC_type)
+									|| !Q_stricmp("pazvizsla", ent->NPC_type)
+									|| !Q_stricmp("pazvizsla_nohelm", ent->NPC_type)
+									|| !Q_stricmp("bokatan", ent->NPC_type)
+									|| !Q_stricmp("bokatan_jet", ent->NPC_type)
+									|| !Q_stricmp("bokatan_helm", ent->NPC_type)
+									|| !Q_stricmp("armorer", ent->NPC_type)
+									|| !Q_stricmp("armorer_jet", ent->NPC_type))
 								{
 									ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 								}

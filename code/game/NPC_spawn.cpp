@@ -40,6 +40,7 @@ extern cvar_t* com_kotor;
 
 extern void G_MatchPlayerWeapon(gentity_t* ent);
 extern void Q3_SetParm(int entID, int parmNum, const char* parmValue);
+extern qboolean Mandalorian_Dual_Pistols(const gentity_t* self);
 
 extern void PM_SetTorsoAnimTimer(gentity_t* ent, int* torso_anim_timer, int time);
 extern void PM_SetLegsAnimTimer(gentity_t* ent, int* legs_anim_timer, int time);
@@ -371,7 +372,13 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 		if (Q_stricmp("boba_fett_mand1", ent->NPC_type) == 0
 			|| Q_stricmp("boba_fett_mand2", ent->NPC_type) == 0
 			|| Q_stricmp("boba_fett_nohelmet", ent->NPC_type) == 0
-			|| Q_stricmp("boba_fett_nohelmet2", ent->NPC_type) == 0)
+			|| Q_stricmp("boba_fett_nohelmet2", ent->NPC_type) == 0
+			|| Q_stricmp("pazvizsla", ent->NPC_type) == 0
+			|| Q_stricmp("pazvizsla_nohelm", ent->NPC_type) == 0
+			|| Q_stricmp("bokatan_jet", ent->NPC_type) == 0
+			|| Q_stricmp("bokatan_helm", ent->NPC_type) == 0
+			|| Q_stricmp("armorer", ent->NPC_type) == 0
+			|| Q_stricmp("armorer_jet", ent->NPC_type) == 0)
 		{
 			ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 		}
@@ -452,7 +459,8 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 		ent->client->dismembered = qfalse;
 	}
 
-	if (Q_stricmp("md_dindjarin", ent->NPC_type) == 0)
+	if (Q_stricmp("md_dindjarin", ent->NPC_type) == 0
+		|| Q_stricmp("bokatan", ent->NPC_type) == 0)
 	{
 		ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 		ent->flags |= FL_SABERDAMAGE_RESIST; //Partially resistant to sabers
@@ -759,6 +767,31 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				}
 				break;
 
+			case WP_DUAL_CLONEPISTOL:
+				if (Mandalorian_Dual_Pistols(ent)
+					&& (!(ent->NPC->aiFlags & NPCAI_MATCHPLAYERWEAPON) || !ent->weaponModel[0]))
+					//they do this themselves
+				{
+					//dual blaster pistols, so add the left-hand one, too
+
+					if (com_kotor->integer == 1) //playing kotor
+					{
+						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
+					}
+					else
+					{
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
+						{
+							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
+						}
+						else
+						{
+							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
+					}
+				}
+				break;
+
 			case WP_DROIDEKA:
 				if (ent->client->NPC_class == CLASS_DROIDEKA
 					&& (!(ent->NPC->aiFlags & NPCAI_MATCHPLAYERWEAPON) || !ent->weaponModel[0]))
@@ -978,6 +1011,30 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				break;
 			case WP_DUAL_PISTOL:
 				if ((ent->client->NPC_class == CLASS_JANGODUAL || Q_stricmp(ent->NPC_type, "md_jango_dual") == 0)
+					&& (!(ent->NPC->aiFlags & NPCAI_MATCHPLAYERWEAPON) || !ent->weaponModel[0]))
+					//they do this themselves
+				{
+					//dual blaster pistols, so add the left-hand one, too
+
+					if (com_kotor->integer == 1) //playing kotor
+					{
+						G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
+					}
+					else
+					{
+						if (ent->client->friendlyfaction == FACTION_KOTOR)
+						{
+							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].altweaponMdl, ent->handLBolt, 1);
+						}
+						else
+						{
+							G_CreateG2AttachedWeaponModel(ent, weaponData[ent->client->ps.weapon].weaponMdl, ent->handLBolt, 1);
+						}
+					}
+				}
+				break;
+			case WP_DUAL_CLONEPISTOL:
+				if (Mandalorian_Dual_Pistols(ent)
 					&& (!(ent->NPC->aiFlags & NPCAI_MATCHPLAYERWEAPON) || !ent->weaponModel[0]))
 					//they do this themselves
 				{

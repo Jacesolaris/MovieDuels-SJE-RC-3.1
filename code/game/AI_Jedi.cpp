@@ -1102,6 +1102,7 @@ qboolean self_is_gunner(const gentity_t* self)
 	case WP_REY:
 	case WP_JANGO:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_BOBA:
 	case WP_CLONEPISTOL:
 	case WP_SBD_BLASTER:
@@ -4089,19 +4090,6 @@ qboolean jedi_dodge_evasion(gentity_t* self, gentity_t* shooter, trace_t* tr, in
 		return qfalse;
 	}
 
-	if (self->client->NPC_class == CLASS_BOBAFETT 
-		|| self->client->NPC_class == CLASS_MANDALORIAN 
-		|| self->client->NPC_class == CLASS_JANGO 
-		|| self->client->NPC_class == CLASS_JANGODUAL
-		|| self->client->NPC_class == CLASS_ROCKETTROOPER)
-	{
-		if (!Q_irand(0, 4))
-		{//20% chance of not drawing this engine glow this frame
-			return qfalse;
-			self->client->ps.forceJumpCharge = 280;
-		}
-	}
-
 	if (self->enemy == shooter)
 	{
 		//FIXME: make it so that we are better able to dodge shots from my current enemy
@@ -6103,60 +6091,71 @@ static qboolean jedi_saber_block()
 
 	if ((evasion_type = jedi_saber_block_go(NPC, &ucmd, hitloc, dir, nullptr, dist)) != EVASION_NONE)
 	{
-		//did some sort of evasion
-		if (evasion_type != EVASION_DODGE)
+		if (NPC->client->NPC_class == CLASS_BOBAFETT
+			|| NPC->client->NPC_class == CLASS_MANDALORIAN
+			|| NPC->client->NPC_class == CLASS_JANGO
+			|| NPC->client->NPC_class == CLASS_JANGODUAL)
 		{
-			//(not dodge)
-			if (!NPC->client->ps.saberInFlight)
-			{
-				//make sure saber is on
-				NPC->client->ps.SaberActivate();
-			}
 
-			//debounce our parry recalc time
-			const int parry_re_calc_time = jedi_re_calc_parry_time(NPC, evasion_type);
-
-			TIMER_Set(NPC, "parryReCalcTime", Q_irand(0, parry_re_calc_time));
-
-			if (d_JediAI->integer)
-			{
-				gi.Printf("Keep parry choice until: %d\n", level.time + parry_re_calc_time);
-			}
-
-			//determine how long to hold this anim
-			if (TIMER_Done(NPC, "parryTime"))
-			{
-				if (g_SerenityJediEngineMode->integer == 2)
-				{
-					TIMER_Set(NPC, "parryTime", Q_irand(1, 2) * parry_re_calc_time);
-				}
-				else
-				{
-					if (NPC->client->NPC_class == CLASS_TAVION
-						|| NPC->client->NPC_class == CLASS_SHADOWTROOPER
-						|| NPC->client->NPC_class == CLASS_ALORA)
-					{
-						TIMER_Set(NPC, "parryTime", Q_irand(parry_re_calc_time / 2, parry_re_calc_time * 1.5));
-					}
-					else
-					{
-						//others hold it longer
-						TIMER_Set(NPC, "parryTime", Q_irand(1, 2) * parry_re_calc_time);
-					}
-				}
-			}
+			jedi_dodge_evasion(NPC, nullptr, &tr, HL_NONE);
 		}
 		else
 		{
-			//dodged
-			int dodge_time = NPC->client->ps.torsoAnimTimer;
-			if (NPCInfo->rank > RANK_LT_JG && NPC->client->NPC_class != CLASS_DESANN)
+			//did some sort of evasion
+			if (evasion_type != EVASION_DODGE)
 			{
-				//higher-level guys can dodge faster
-				dodge_time -= 200;
+				//(not dodge)
+				if (!NPC->client->ps.saberInFlight)
+				{
+					//make sure saber is on
+					NPC->client->ps.SaberActivate();
+				}
+
+				//debounce our parry recalc time
+				const int parry_re_calc_time = jedi_re_calc_parry_time(NPC, evasion_type);
+
+				TIMER_Set(NPC, "parryReCalcTime", Q_irand(0, parry_re_calc_time));
+
+				if (d_JediAI->integer)
+				{
+					gi.Printf("Keep parry choice until: %d\n", level.time + parry_re_calc_time);
+				}
+
+				//determine how long to hold this anim
+				if (TIMER_Done(NPC, "parryTime"))
+				{
+					if (g_SerenityJediEngineMode->integer == 2)
+					{
+						TIMER_Set(NPC, "parryTime", Q_irand(1, 2) * parry_re_calc_time);
+					}
+					else
+					{
+						if (NPC->client->NPC_class == CLASS_TAVION
+							|| NPC->client->NPC_class == CLASS_SHADOWTROOPER
+							|| NPC->client->NPC_class == CLASS_ALORA)
+						{
+							TIMER_Set(NPC, "parryTime", Q_irand(parry_re_calc_time / 2, parry_re_calc_time * 1.5));
+						}
+						else
+						{
+							//others hold it longer
+							TIMER_Set(NPC, "parryTime", Q_irand(1, 2) * parry_re_calc_time);
+						}
+					}
+				}
 			}
-			TIMER_Set(NPC, "parryReCalcTime", dodge_time);
-			TIMER_Set(NPC, "parryTime", dodge_time);
+			else
+			{
+				//dodged
+				int dodge_time = NPC->client->ps.torsoAnimTimer;
+				if (NPCInfo->rank > RANK_LT_JG && NPC->client->NPC_class != CLASS_DESANN)
+				{
+					//higher-level guys can dodge faster
+					dodge_time -= 200;
+				}
+				TIMER_Set(NPC, "parryReCalcTime", dodge_time);
+				TIMER_Set(NPC, "parryTime", dodge_time);
+			}
 		}
 	}
 	if (evasion_type != EVASION_DUCK_PARRY
@@ -7400,6 +7399,7 @@ static void jedi_combat_timers_update(const int enemy_dist)
 			case WP_REY:
 			case WP_JANGO:
 			case WP_DUAL_PISTOL:
+			case WP_DUAL_CLONEPISTOL:
 			case WP_BOBA:
 			case WP_CLONEPISTOL:
 			case WP_JAWA:
@@ -8380,9 +8380,10 @@ static void jedi_combat()
 				//hunt him down
 				if ((NPC_ClearLOS(NPC->enemy) || NPCInfo->enemyLastSeenTime > level.time - 500) && NPC_FaceEnemy(qtrue))
 				{
-					if (NPC->client && (NPC->client->NPC_class == CLASS_BOBAFETT || NPC->client->NPC_class ==
-						CLASS_MANDALORIAN
-						|| NPC->client->NPC_class == CLASS_JANGO || NPC->client->NPC_class == CLASS_JANGODUAL))
+					if (NPC->client && (NPC->client->NPC_class == CLASS_BOBAFETT
+						|| NPC->client->NPC_class == CLASS_MANDALORIAN
+						|| NPC->client->NPC_class == CLASS_JANGO
+						|| NPC->client->NPC_class == CLASS_JANGODUAL))
 					{
 						Boba_FireDecide();
 					}
@@ -8500,8 +8501,10 @@ static void jedi_combat()
 		else
 		{
 		}
-		if (NPC->client->NPC_class == CLASS_BOBAFETT || NPC->client->NPC_class == CLASS_MANDALORIAN || NPC->client->
-			NPC_class == CLASS_JANGO || NPC->client->NPC_class == CLASS_JANGODUAL)
+		if (NPC->client->NPC_class == CLASS_BOBAFETT || 
+			NPC->client->NPC_class == CLASS_MANDALORIAN	||
+			NPC->client->NPC_class == CLASS_JANGO ||
+			NPC->client->NPC_class == CLASS_JANGODUAL)
 		{
 			Boba_FireDecide();
 		}

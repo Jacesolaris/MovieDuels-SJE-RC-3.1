@@ -445,6 +445,7 @@ constexpr auto EF2_BOWCASTERSCOPE = 1 << 9; //[BowcasterScope];
 constexpr auto EF2_PLAYERHIT = 1 << 10; //[SPShield];
 constexpr auto EF2_JANGO_DUALS = 1 << 11;
 constexpr auto EF2_DUAL_PISTOLS = 1 << 12;
+constexpr auto EF2_DUAL_CLONE_PISTOLS = 1 << 13;
 
 using powerup_t = enum
 {

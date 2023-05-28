@@ -6512,6 +6512,7 @@ qboolean GunisShort(const gentity_t* ent)
 	case WP_BLASTER_PISTOL:
 	case WP_BRYAR_PISTOL:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_JAWA:
 	case WP_REBELBLASTER:
 	case WP_REY:
@@ -7756,6 +7757,7 @@ qboolean is_holding_reloadable_gun(const gentity_t* ent)
 	case WP_CONCUSSION:
 	case WP_BRYAR_PISTOL:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_DROIDEKA:
 	case WP_TUSKEN_RIFLE:
 	case WP_BATTLEDROID:
@@ -7839,6 +7841,7 @@ void wp_reload_gun(gentity_t* ent)
 			if (ent->s.weapon == WP_BRYAR_PISTOL ||
 				ent->s.weapon == WP_BLASTER_PISTOL ||
 				ent->s.weapon == WP_DUAL_PISTOL ||
+				ent->s.weapon == WP_DUAL_CLONEPISTOL ||
 				ent->s.weapon == WP_REY ||
 				ent->s.weapon == WP_JANGO ||
 				ent->s.weapon == WP_CLONEPISTOL ||
@@ -7881,6 +7884,7 @@ void wp_reload_gun(gentity_t* ent)
 				ent->s.weapon == WP_REY ||
 				ent->s.weapon == WP_JANGO ||
 				ent->s.weapon == WP_DUAL_PISTOL ||
+				ent->s.weapon == WP_DUAL_CLONEPISTOL ||
 				ent->s.weapon == WP_DROIDEKA ||
 				ent->s.weapon == WP_REBELBLASTER)
 			{
@@ -7891,6 +7895,7 @@ void wp_reload_gun(gentity_t* ent)
 					if (ent->s.weapon == WP_BRYAR_PISTOL ||
 						ent->s.weapon == WP_BLASTER_PISTOL ||
 						ent->s.weapon == WP_DUAL_PISTOL ||
+						ent->s.weapon == WP_DUAL_CLONEPISTOL ||
 						ent->s.weapon == WP_REY ||
 						ent->s.weapon == WP_JANGO ||
 						ent->s.weapon == WP_REBELBLASTER)
@@ -7923,6 +7928,7 @@ void wp_reload_gun(gentity_t* ent)
 					if (ent->s.weapon == WP_BRYAR_PISTOL ||
 						ent->s.weapon == WP_BLASTER_PISTOL ||
 						ent->s.weapon == WP_DUAL_PISTOL ||
+						ent->s.weapon == WP_DUAL_CLONEPISTOL ||
 						ent->s.weapon == WP_REY ||
 						ent->s.weapon == WP_JANGO ||
 						ent->s.weapon == WP_REBELBLASTER)

@@ -2007,6 +2007,7 @@ qboolean HeHasGun(const gentity_t* ent)
 	case WP_CLONEPISTOL:
 	case WP_SBD_BLASTER:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_DROIDEKA:
 		return qtrue;
 	default:;

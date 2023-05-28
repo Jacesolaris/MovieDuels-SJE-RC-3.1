@@ -850,6 +850,24 @@ static void cg_drawweapontype(const centity_t* cent)
 			}
 		}
 	}
+	else if (cent->currentState.weapon == WP_DUAL_CLONEPISTOL)
+	{
+		if (cg_com_kotor.integer == 1) //playing kotor
+		{
+			wp_index = OHB_KOTOR_PISTOL1;
+		}
+		else
+		{
+			if (cent->gent->friendlyfaction == FACTION_KOTOR)
+			{
+				wp_index = OHB_KOTOR_PISTOL1;
+			}
+			else
+			{
+				wp_index = OHB_CLONEPISTOL;
+			}
+		}
+	}
 	else if (cent->currentState.weapon == WP_WRIST_BLASTER)
 	{
 		wp_index = OHB_WRIST;
@@ -6453,11 +6471,14 @@ static void CG_DrawCrosshair(vec3_t world_point)
 	}
 
 	if ((cg.snap->ps.weapon == WP_DUAL_PISTOL ||
+		cg.snap->ps.weapon == WP_DUAL_CLONEPISTOL ||
 		cg.snap->ps.weapon == WP_BLASTER_PISTOL ||
 		cg.snap->ps.weapon == WP_REY ||
 		cg.snap->ps.weapon == WP_JANGO ||
 		cg.snap->ps.weapon == WP_CLONEPISTOL ||
-		cg.snap->ps.weapon == WP_REBELBLASTER) && (cg_entities[0].currentState.eFlags & EF2_JANGO_DUALS || cg_entities[0].currentState.eFlags & EF2_DUAL_PISTOLS) && cg_trueguns.integer)
+		cg.snap->ps.weapon == WP_REBELBLASTER) &&
+		(cg_entities[0].currentState.eFlags & EF2_JANGO_DUALS || cg_entities[0].currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cg_entities[0].currentState.eFlags & EF2_DUAL_PISTOLS) &&
+		cg_trueguns.integer)
 	{
 		w = h = cg_crosshairDualSize.value;
 	}
@@ -6507,12 +6528,14 @@ static void CG_DrawCrosshair(vec3_t world_point)
 		}
 	}
 	else if ((cg.snap->ps.weapon == WP_DUAL_PISTOL ||
+		cg.snap->ps.weapon == WP_DUAL_CLONEPISTOL ||
 		cg.snap->ps.weapon == WP_BLASTER_PISTOL ||
 		cg.snap->ps.weapon == WP_REY ||
 		cg.snap->ps.weapon == WP_JANGO ||
 		cg.snap->ps.weapon == WP_CLONEPISTOL ||
-		cg.snap->ps.weapon == WP_REBELBLASTER) && (cg_entities[0].currentState.eFlags & EF2_JANGO_DUALS || cg_entities[
-			0].currentState.eFlags & EF2_DUAL_PISTOLS) && cg_trueguns.integer)
+		cg.snap->ps.weapon == WP_REBELBLASTER) &&
+		(cg_entities[0].currentState.eFlags & EF2_JANGO_DUALS || cg_entities[0].currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cg_entities[0].currentState.eFlags & EF2_DUAL_PISTOLS) &&
+		cg_trueguns.integer)
 	{
 		cgi_R_DrawStretchPic(x + cg.refdef.x + 0.5 * (640 - w), y + cg.refdef.y + 0.5 * (480 - h), w, h, 0, 0, 1, 1,
 			cgs.media.crosshairShader[4]);
@@ -6555,12 +6578,14 @@ static void CG_DrawCrosshair(vec3_t world_point)
 					1, 1, cgs.media.crosshairShader[3]);
 			}
 			else if ((cg.snap->ps.weapon == WP_DUAL_PISTOL ||
+				cg.snap->ps.weapon == WP_DUAL_CLONEPISTOL ||
 				cg.snap->ps.weapon == WP_BLASTER_PISTOL ||
 				cg.snap->ps.weapon == WP_REY ||
 				cg.snap->ps.weapon == WP_JANGO ||
 				cg.snap->ps.weapon == WP_CLONEPISTOL ||
-				cg.snap->ps.weapon == WP_REBELBLASTER) && (cg_entities[0].currentState.eFlags & EF2_JANGO_DUALS ||
-					cg_entities[0].currentState.eFlags & EF2_DUAL_PISTOLS) && cg_trueguns.integer)
+				cg.snap->ps.weapon == WP_REBELBLASTER) &&
+				(cg_entities[0].currentState.eFlags & EF2_JANGO_DUALS || cg_entities[0].currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cg_entities[0].currentState.eFlags & EF2_DUAL_PISTOLS) &&
+				cg_trueguns.integer)
 			{
 				cgi_R_DrawStretchPic(x + cg.refdef.x + 0.5 * (640 - w), y + cg.refdef.y + 0.5 * (480 - h), w, h, 0, 0,
 					1, 1, cgs.media.crosshairShader[4]);

@@ -14869,6 +14869,7 @@ int WP_SaberBlockCost(gentity_t* defender, const gentity_t* attacker, vec3_t hit
 		if (attacker->activator && attacker->activator->s.weapon == WP_BRYAR_PISTOL
 			|| attacker->activator && attacker->activator->s.weapon == WP_BLASTER_PISTOL
 			|| attacker->activator && attacker->activator->s.weapon == WP_DUAL_PISTOL
+			|| attacker->activator && attacker->activator->s.weapon == WP_DUAL_CLONEPISTOL
 			|| attacker->activator && attacker->activator->s.weapon == WP_DROIDEKA
 			|| attacker->activator && attacker->activator->s.weapon == WP_SBD_BLASTER
 			|| attacker->activator && attacker->activator->s.weapon == WP_REPEATER
@@ -15189,6 +15190,7 @@ int WP_SaberBoltBlockCost(gentity_t* defender, const gentity_t* attacker)
 		if (attacker->activator && attacker->activator->s.weapon == WP_BRYAR_PISTOL
 			|| attacker->activator && attacker->activator->s.weapon == WP_BLASTER_PISTOL
 			|| attacker->activator && attacker->activator->s.weapon == WP_DUAL_PISTOL
+			|| attacker->activator && attacker->activator->s.weapon == WP_DUAL_CLONEPISTOL
 			|| attacker->activator && attacker->activator->s.weapon == WP_DROIDEKA
 			|| attacker->activator && attacker->activator->s.weapon == WP_SBD_BLASTER
 			|| attacker->activator && attacker->activator->s.weapon == WP_REPEATER
@@ -30632,6 +30634,7 @@ qboolean ThisGuyIsAGunner(const gentity_t* self)
 	case WP_CLONEPISTOL:
 	case WP_SBD_BLASTER:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		return qtrue;
 	default:;
 	}

@@ -70,6 +70,7 @@ float weaponSpeed[WP_NUM_WEAPONS][2] =
 	{BRYAR_PISTOL_VEL,BRYAR_PISTOL_VEL}, //WP_SBD_BLASTER,
 	{CLONECOMMANDO_VELOCITY, CLONECOMMANDO_VELOCITY}, // WP_WRIST_BLASTER
 	{JANGO_VELOCITY, JANGO_VELOCITY}, // WP_DUAL_PISTOL
+	{CLONEPISTOL_VEL, CLONEPISTOL_VEL}, // WP_DUAL_CLONEPISTOL
 	{BRYAR_PISTOL_VEL,BRYAR_PISTOL_VEL}, //WP_BOT_LASER,		// Probe droid	- Laser blast
 	{0, 0}, //WP_TURRET,			// turret guns
 	{ATST_MAIN_VEL,ATST_MAIN_VEL}, //WP_ATST_MAIN,
@@ -437,6 +438,7 @@ qboolean W_AccuracyLoggableWeapon(const int weapon, const qboolean alt_fire, con
 		case WP_WRIST_BLASTER:
 		case WP_JAWA:
 		case WP_DUAL_PISTOL:
+		case WP_DUAL_CLONEPISTOL:
 		case WP_DROIDEKA:
 			return qtrue;
 			//non-alt standard
@@ -659,6 +661,7 @@ void CalcMuzzlePoint(gentity_t* const ent, vec3_t forward_vec, vec3_t muzzle_poi
 		break;
 
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_DROIDEKA:
 		ViewHeightFix(ent);
 		muzzle_point[2] += ent->client->ps.viewheight; //By eyes
@@ -771,6 +774,7 @@ vec3_t WP_MuzzlePoint[WP_NUM_WEAPONS] =
 	{12, 6, -6}, // WP_SBD_BLASTER,
 	{12, 6, -6}, // WP_WRIST_BLASTER,
 	{12, 6, -6}, // WP_DUAL_PISTOL,
+	{12, 6, -6}, // WP_DUAL_CLONEPISTOL,
 	{12, 6, -6}, // WP_BATTLEDROID,
 	{12, 6, -6}, // WP_THEFIRSTORDER,
 	{12, 6, -6}, // WP_CLONECARBINE,
@@ -1528,6 +1532,7 @@ void FireWeapon(gentity_t* ent, const qboolean alt_fire)
 		if (ent->s.weapon == WP_BRYAR_PISTOL ||
 			ent->s.weapon == WP_BLASTER_PISTOL ||
 			ent->s.weapon == WP_DUAL_PISTOL ||
+			ent->s.weapon == WP_DUAL_CLONEPISTOL ||
 			ent->s.weapon == WP_REY ||
 			ent->s.weapon == WP_JANGO ||
 			ent->s.weapon == WP_CLONEPISTOL ||
@@ -1745,7 +1750,7 @@ void FireWeapon(gentity_t* ent, const qboolean alt_fire)
 		{
 			CalcMuzzlePoint(ent, forward_vec, muzzle, 0);
 
-			if (!cg_trueguns.integer && !cg.renderingThirdPerson && (ent->client->ps.eFlags & EF2_JANGO_DUALS || ent->client->ps.eFlags & EF2_DUAL_PISTOLS))
+			if (!cg_trueguns.integer && !cg.renderingThirdPerson && (ent->client->ps.eFlags & EF2_JANGO_DUALS || ent->client->ps.eFlags & EF2_DUAL_CLONE_PISTOLS || ent->client->ps.eFlags & EF2_DUAL_PISTOLS))
 			{
 				CalcMuzzlePoint2(ent, muzzle2, 0);
 			}
@@ -2047,6 +2052,21 @@ void FireWeapon(gentity_t* ent, const qboolean alt_fire)
 		else
 		{
 			WP_FireJangoDualPistol(ent, alt_fire);
+		}
+		break;
+	case WP_DUAL_CLONEPISTOL:
+		if (!cg_trueguns.integer && !cg.renderingThirdPerson)
+		{
+			WP_FireMandoClonePistolDuals(ent, alt_fire, qfalse);
+
+			if (ent->client->ps.eFlags & EF2_DUAL_CLONE_PISTOLS)
+			{
+				WP_FireMandoClonePistolDuals(ent, alt_fire, qtrue);
+			}
+		}
+		else
+		{
+			WP_FireClonePistol(ent, alt_fire);
 		}
 		break;
 

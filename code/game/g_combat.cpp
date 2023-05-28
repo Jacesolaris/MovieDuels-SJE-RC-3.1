@@ -273,7 +273,7 @@ gentity_t* TossClientItems(gentity_t* self)
 	{
 		//FIXME: either drop the pistol and make the pickup only give ammo or drop ammo
 	}
-	else if (weapon == WP_STUN_BATON || weapon == WP_MELEE || weapon == WP_DUAL_PISTOL || weapon == WP_DROIDEKA)
+	else if (weapon == WP_STUN_BATON || weapon == WP_MELEE || weapon == WP_DUAL_PISTOL || weapon == WP_DUAL_CLONEPISTOL || weapon == WP_DROIDEKA)
 	{
 		//never drop these
 	}
@@ -4951,7 +4951,7 @@ void player_die(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, cons
 		}
 	}
 	else if (self->s.weapon != WP_BRYAR_PISTOL && self->s.weapon != WP_SBD_BLASTER && self->s.weapon != WP_JAWA
-		&& self->s.weapon != WP_DUAL_PISTOL && self->s.weapon != WP_WRIST_BLASTER && self->s.weapon != WP_DROIDEKA)
+		&& self->s.weapon != WP_DUAL_PISTOL && self->s.weapon != WP_DUAL_CLONEPISTOL && self->s.weapon != WP_WRIST_BLASTER && self->s.weapon != WP_DROIDEKA)
 	{
 		//since player can't pick up bryar pistols, never drop those
 		self->s.weapon = WP_NONE;
@@ -8755,6 +8755,7 @@ void G_Damage(gentity_t* targ, gentity_t* inflictor, gentity_t* attacker, const 
 			|| inflictor->s.weapon == WP_BOWCASTER
 			|| inflictor->s.weapon == WP_JANGO
 			|| inflictor->s.weapon == WP_DUAL_PISTOL
+			|| inflictor->s.weapon == WP_DUAL_CLONEPISTOL
 			|| inflictor->s.weapon == WP_BOBA
 			|| inflictor->s.weapon == WP_CLONEPISTOL
 			|| inflictor->s.weapon == WP_DROIDEKA

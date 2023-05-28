@@ -177,6 +177,7 @@ extern void ItemUse_Jetpack(const gentity_t* ent);
 extern void Jetpack_Off(const gentity_t* ent);
 
 static void PM_SetWaterLevelAtPoint(vec3_t org, int* waterlevel, int* watertype);
+extern qboolean Mandalorian_Dual_Pistols(const gentity_t* self);
 
 constexpr auto FLY_NONE = 0;
 constexpr auto FLY_NORMAL = 1;
@@ -10616,6 +10617,7 @@ static void PM_Footsteps()
 				if (pm->ps->weapon == WP_BLASTER_PISTOL ||
 					pm->ps->weapon == WP_BRYAR_PISTOL ||
 					pm->ps->weapon == WP_DUAL_PISTOL ||
+					pm->ps->weapon == WP_DUAL_CLONEPISTOL ||
 					pm->ps->weapon == WP_REY ||
 					pm->ps->weapon == WP_CLONEPISTOL ||
 					pm->ps->weapon == WP_REBELBLASTER ||
@@ -10778,6 +10780,7 @@ static void PM_Footsteps()
 				if (pm->ps->weapon == WP_BLASTER_PISTOL ||
 					pm->ps->weapon == WP_BRYAR_PISTOL ||
 					pm->ps->weapon == WP_DUAL_PISTOL ||
+					pm->ps->weapon == WP_DUAL_CLONEPISTOL ||
 					pm->ps->weapon == WP_REY ||
 					pm->ps->weapon == WP_CLONEPISTOL ||
 					pm->ps->weapon == WP_REBELBLASTER ||
@@ -10965,6 +10968,7 @@ static void PM_Footsteps()
 					else if (pm->ps->weapon == WP_BLASTER_PISTOL ||
 						pm->ps->weapon == WP_BRYAR_PISTOL ||
 						pm->ps->weapon == WP_DUAL_PISTOL ||
+						pm->ps->weapon == WP_DUAL_CLONEPISTOL ||
 						pm->ps->weapon == WP_REY ||
 						pm->ps->weapon == WP_CLONEPISTOL ||
 						pm->ps->weapon == WP_REBELBLASTER ||
@@ -11406,6 +11410,7 @@ static void PM_Footsteps()
 				{
 					if (pm->ps->weapon == WP_BLASTER_PISTOL ||
 						pm->ps->weapon == WP_DUAL_PISTOL ||
+						pm->ps->weapon == WP_DUAL_CLONEPISTOL ||
 						pm->ps->weapon == WP_BRYAR_PISTOL ||
 						pm->ps->weapon == WP_REY ||
 						pm->ps->weapon == WP_CLONEPISTOL ||
@@ -11781,6 +11786,12 @@ static void PM_BeginWeaponChange(const int weapon)
 		pm->ps->eFlags &= ~EF2_JANGO_DUALS;
 	}
 
+	if (pm->ps->weapon != WP_DUAL_CLONEPISTOL)
+	{
+		//Changing weaps, remove dual weaps
+		pm->ps->eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
+	}
+
 	if (!PM_AllowedDualPistol() || g_allowdualpistols->integer < 1)
 	{
 		//Changing weaps, remove dual weaps
@@ -12059,6 +12070,16 @@ static void PM_FinishWeaponChange()
 						pm->ps->eFlags &= ~EF2_JANGO_DUALS;
 					}
 
+					if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Mandalorian_Dual_Pistols(pm->gent)))
+					{
+						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_CLONEPISTOL].altweaponMdl, pm->gent->handLBolt, 1);
+						pm->ps->eFlags |= EF2_DUAL_CLONE_PISTOLS;
+					}
+					else
+					{
+						pm->ps->eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
+					}
+
 					if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
 					{
 						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].altweaponMdl, pm->gent->handLBolt, 1);
@@ -12094,6 +12115,16 @@ static void PM_FinishWeaponChange()
 							pm->ps->eFlags &= ~EF2_JANGO_DUALS;
 						}
 
+						if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Mandalorian_Dual_Pistols(pm->gent)))
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_CLONEPISTOL].altweaponMdl, pm->gent->handLBolt, 1);
+							pm->ps->eFlags |= EF2_DUAL_CLONE_PISTOLS;
+						}
+						else
+						{
+							pm->ps->eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
+						}
+
 						if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
 						{
 							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DROIDEKA].altweaponMdl, pm->gent->handLBolt, 1);
@@ -12125,6 +12156,16 @@ static void PM_FinishWeaponChange()
 						else
 						{
 							pm->ps->eFlags &= ~EF2_JANGO_DUALS;
+						}
+
+						if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Mandalorian_Dual_Pistols(pm->gent)))
+						{
+							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_CLONEPISTOL].weaponMdl, pm->gent->handLBolt, 1);
+							pm->ps->eFlags |= EF2_DUAL_CLONE_PISTOLS;
+						}
+						else
+						{
+							pm->ps->eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
 						}
 
 						if (weapon == WP_DROIDEKA && pm->gent->client->NPC_class == CLASS_DROIDEKA)
@@ -12178,6 +12219,11 @@ static void PM_FinishWeaponChange()
 	if (weapon != WP_DUAL_PISTOL)
 	{
 		pm->ps->eFlags &= ~EF2_JANGO_DUALS;
+	}
+
+	if (weapon != WP_DUAL_CLONEPISTOL)
+	{
+		pm->ps->eFlags &= ~EF2_DUAL_CLONE_PISTOLS;
 	}
 
 	if (!PM_AllowedDualPistol() || g_allowdualpistols->integer < 1)
@@ -20702,6 +20748,7 @@ qboolean PM_IsFatiguedGunner()
 	case WP_CLONEPISTOL:
 	case WP_SBD_BLASTER:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 	case WP_DROIDEKA:
 		return qtrue;
 	default:;
@@ -20918,6 +20965,7 @@ static void PM_Weapon()
 			case WP_JANGO:
 			case WP_CLONEPISTOL:
 			case WP_DUAL_PISTOL:
+			case WP_DUAL_CLONEPISTOL:
 				if (pm->gent && pm->gent->weaponModel[1] > 0)
 				{
 					//dual pistols
@@ -21200,6 +21248,7 @@ static void PM_Weapon()
 			case WP_JANGO:
 			case WP_CLONEPISTOL:
 			case WP_DUAL_PISTOL:
+			case WP_DUAL_CLONEPISTOL:
 			case WP_REBELBLASTER:
 				if (pm->gent && pm->gent->weaponModel[1] > 0)
 				{
@@ -22405,6 +22454,7 @@ qboolean PM_WeaponOkOnVehicle(const int weapon)
 	case WP_BOBA:
 	case WP_CLONEPISTOL:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		return qtrue;
 	default:;
 	}
@@ -23024,6 +23074,7 @@ void Pmove(pmove_t* pmove)
 			|| pm->ps->weapon == WP_JANGO
 			|| pm->ps->weapon == WP_BOBA
 			|| pm->ps->weapon == WP_CLONEPISTOL
+			|| pm->ps->weapon == WP_DUAL_CLONEPISTOL
 			|| pm->ps->weapon == WP_DUAL_PISTOL
 			//
 			|| pm->ps->weaponstate == WEAPON_DROPPING //changing weapon - dropping
@@ -23333,6 +23384,7 @@ qboolean PM_IsMerc()
 	case WP_CLONEPISTOL:
 	case WP_SBD_BLASTER:
 	case WP_DUAL_PISTOL:
+	case WP_DUAL_CLONEPISTOL:
 		return qtrue;
 	default:;
 	}

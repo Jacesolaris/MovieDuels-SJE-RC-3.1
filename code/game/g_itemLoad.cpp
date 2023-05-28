@@ -175,6 +175,8 @@ static void IT_Name(const char** hold_buf)
 		itemNum = ITM_SBD_BLASTER_PICKUP;
 	else if (!Q_stricmp(token_str, "ITM_DUALPISTOL_PICKUP"))
 		itemNum = ITM_DUALPISTOL_PICKUP;
+	else if (!Q_stricmp(token_str, "ITM_DUALCLONEPISTOLPISTOL_PICKUP"))
+		itemNum = ITM_DUALCLONEPISTOLPISTOL_PICKUP;
 	else if (!Q_stricmp(token_str, "ITM_WRIST_BLASTER_PICKUP"))
 		itemNum = ITM_WRIST_BLASTER_PICKUP;
 
@@ -377,6 +379,8 @@ static void IT_Tag(const char** hold_buf)
 		tag = WP_SBD_BLASTER;
 	else if (!Q_stricmp(token_str, "WP_DUAL_PISTOL"))
 		tag = WP_DUAL_PISTOL;
+	else if (!Q_stricmp(token_str, "WP_DUAL_CLONEPISTOL"))
+		tag = WP_DUAL_CLONEPISTOL;
 	else if (!Q_stricmp(token_str, "WP_MELEE"))
 		tag = WP_MELEE;
 	else if (!Q_stricmp(token_str, "WP_TURRET"))

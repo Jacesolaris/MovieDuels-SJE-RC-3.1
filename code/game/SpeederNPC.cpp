@@ -1015,6 +1015,7 @@ void AnimateRiders(Vehicle_t* p_veh)
 			pilotPS->weapon == WP_JANGO ||
 			pilotPS->weapon == WP_BOBA ||
 			pilotPS->weapon == WP_CLONEPISTOL ||
+			pilotPS->weapon == WP_DUAL_CLONEPISTOL ||
 			pilotPS->weapon == WP_DUAL_PISTOL)
 		{
 			WeaponPose = WPOSE_BLASTER;
