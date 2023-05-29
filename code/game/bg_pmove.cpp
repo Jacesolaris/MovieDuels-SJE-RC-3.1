@@ -177,7 +177,7 @@ extern void ItemUse_Jetpack(const gentity_t* ent);
 extern void Jetpack_Off(const gentity_t* ent);
 
 static void PM_SetWaterLevelAtPoint(vec3_t org, int* waterlevel, int* watertype);
-extern qboolean Mandalorian_Dual_Pistols(const gentity_t* self);
+extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
 
 constexpr auto FLY_NONE = 0;
 constexpr auto FLY_NORMAL = 1;
@@ -12070,7 +12070,7 @@ static void PM_FinishWeaponChange()
 						pm->ps->eFlags &= ~EF2_JANGO_DUALS;
 					}
 
-					if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Mandalorian_Dual_Pistols(pm->gent)))
+					if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Bokatan_Dual_Clone_Pistol(pm->gent)))
 					{
 						G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_CLONEPISTOL].altweaponMdl, pm->gent->handLBolt, 1);
 						pm->ps->eFlags |= EF2_DUAL_CLONE_PISTOLS;
@@ -12115,7 +12115,7 @@ static void PM_FinishWeaponChange()
 							pm->ps->eFlags &= ~EF2_JANGO_DUALS;
 						}
 
-						if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Mandalorian_Dual_Pistols(pm->gent)))
+						if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Bokatan_Dual_Clone_Pistol(pm->gent)))
 						{
 							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_CLONEPISTOL].altweaponMdl, pm->gent->handLBolt, 1);
 							pm->ps->eFlags |= EF2_DUAL_CLONE_PISTOLS;
@@ -12158,7 +12158,7 @@ static void PM_FinishWeaponChange()
 							pm->ps->eFlags &= ~EF2_JANGO_DUALS;
 						}
 
-						if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Mandalorian_Dual_Pistols(pm->gent)))
+						if (weapon == WP_DUAL_CLONEPISTOL && (pm->gent && pm->gent->client && Bokatan_Dual_Clone_Pistol(pm->gent)))
 						{
 							G_CreateG2AttachedWeaponModel(pm->gent, weaponData[WP_DUAL_CLONEPISTOL].weaponMdl, pm->gent->handLBolt, 1);
 							pm->ps->eFlags |= EF2_DUAL_CLONE_PISTOLS;

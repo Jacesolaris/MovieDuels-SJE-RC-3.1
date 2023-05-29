@@ -40,7 +40,9 @@ extern cvar_t* com_kotor;
 
 extern void G_MatchPlayerWeapon(gentity_t* ent);
 extern void Q3_SetParm(int entID, int parmNum, const char* parmValue);
-extern qboolean Mandalorian_Dual_Pistols(const gentity_t* self);
+extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
+extern qboolean Mandalorian_Repeater(const gentity_t* self);
+extern qboolean Armoroer_clone_pistol(const gentity_t* self);
 
 extern void PM_SetTorsoAnimTimer(gentity_t* ent, int* torso_anim_timer, int time);
 extern void PM_SetLegsAnimTimer(gentity_t* ent, int* legs_anim_timer, int time);
@@ -378,7 +380,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 			|| Q_stricmp("bokatan_jet", ent->NPC_type) == 0
 			|| Q_stricmp("bokatan_helm", ent->NPC_type) == 0
 			|| Q_stricmp("armorer", ent->NPC_type) == 0
-			|| Q_stricmp("armorer_jet", ent->NPC_type) == 0)
+			|| Armoroer_clone_pistol(ent))
 		{
 			ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 		}
@@ -460,7 +462,8 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 	}
 
 	if (Q_stricmp("md_dindjarin", ent->NPC_type) == 0
-		|| Q_stricmp("bokatan", ent->NPC_type) == 0)
+		|| Bokatan_Dual_Clone_Pistol(ent)
+		|| Mandalorian_Repeater(ent))
 	{
 		ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 		ent->flags |= FL_SABERDAMAGE_RESIST; //Partially resistant to sabers
@@ -768,7 +771,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				break;
 
 			case WP_DUAL_CLONEPISTOL:
-				if (Mandalorian_Dual_Pistols(ent)
+				if (Bokatan_Dual_Clone_Pistol(ent)
 					&& (!(ent->NPC->aiFlags & NPCAI_MATCHPLAYERWEAPON) || !ent->weaponModel[0]))
 					//they do this themselves
 				{
@@ -1034,7 +1037,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 				}
 				break;
 			case WP_DUAL_CLONEPISTOL:
-				if (Mandalorian_Dual_Pistols(ent)
+				if (Bokatan_Dual_Clone_Pistol(ent)
 					&& (!(ent->NPC->aiFlags & NPCAI_MATCHPLAYERWEAPON) || !ent->weaponModel[0]))
 					//they do this themselves
 				{

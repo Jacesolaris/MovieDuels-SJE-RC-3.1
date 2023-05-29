@@ -69,7 +69,9 @@ extern void RemoveBarrier(gentity_t* ent);
 extern void ItemUse_Barrier(gentity_t* ent);
 extern void ItemUse_Grapple(gentity_t* ent);
 extern Vehicle_t* G_IsRidingVehicle(const gentity_t* p_ent);
-
+extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
+extern qboolean Mandalorian_Repeater(const gentity_t* self);
+extern qboolean Armoroer_clone_pistol(const gentity_t* self);
 extern void ForceJediRepulse(gentity_t* self);
 extern void ForceGrasp(gentity_t* self);
 extern void ForceFear(gentity_t* self);
@@ -298,28 +300,26 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 				}
 				else
 				{
-					if (ent->client && ent->client->NPC_class == CLASS_BOBAFETT
+					if (ent->client->NPC_class == CLASS_BOBAFETT
 						|| ent->client->NPC_class == CLASS_JANGO
 						|| ent->client->NPC_class == CLASS_JANGODUAL
 						|| ent->client->NPC_class == CLASS_MANDALORIAN
 						|| !Q_stricmp("md_dindjarin", ent->NPC_type)
-						|| !Q_stricmp("bokatan", ent->NPC_type))
+						|| Bokatan_Dual_Clone_Pistol(ent)
+						|| Mandalorian_Repeater(ent))
 					{
 						ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
-						
+
 						if (!Q_stricmp("md_dindjarin", ent->NPC_type)
 							|| ent->client->NPC_class == CLASS_JANGO
 							|| ent->client->NPC_class == CLASS_JANGODUAL
 							|| ent->client->NPC_class == CLASS_MANDALORIAN
 							|| !Q_stricmp("boba_fett_esb", ent->NPC_type)
 							|| !Q_stricmp("md_boba_fett", ent->NPC_type)
-							|| !Q_stricmp("pazvizsla", ent->NPC_type)
-							|| !Q_stricmp("pazvizsla_nohelm", ent->NPC_type)
-							|| !Q_stricmp("bokatan", ent->NPC_type)
-							|| !Q_stricmp("bokatan_jet", ent->NPC_type)
-							|| !Q_stricmp("bokatan_helm", ent->NPC_type)
+							|| Bokatan_Dual_Clone_Pistol(ent)
+							|| Mandalorian_Repeater(ent)
 							|| !Q_stricmp("armorer", ent->NPC_type)
-							|| !Q_stricmp("armorer_jet", ent->NPC_type))
+							|| Armoroer_clone_pistol(ent))
 						{
 							ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 						}
