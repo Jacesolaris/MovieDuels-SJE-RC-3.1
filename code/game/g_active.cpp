@@ -2246,7 +2246,7 @@ void ClientEvents(gentity_t* ent, const int old_event_sequence)
 			else
 			{
 				FireWeapon(ent, qfalse);
-		}
+			}
 			break;
 
 		case EV_ALT_FIRE:
@@ -2264,12 +2264,12 @@ void ClientEvents(gentity_t* ent, const int old_event_sequence)
 			else
 			{
 				FireWeapon(ent, qtrue);
-	}
+			}
 			break;
 
 		default:
 			break;
-}
+		}
 	}
 	//by the way, if you have your saber in hand and it's on, do the damage trace
 	if (client->ps.weapon == WP_SABER)

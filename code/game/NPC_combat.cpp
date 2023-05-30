@@ -1666,7 +1666,7 @@ void NPC_ApplyWeaponFireDelay()
 			client->fireDelay = 300;
 		}
 		break;
-	
+
 	case WP_DROIDEKA:
 		if (NPCInfo->scriptFlags & SCF_ALT_FIRE)
 		{

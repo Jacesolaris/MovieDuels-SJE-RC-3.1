@@ -15900,13 +15900,13 @@ void CG_Player(centity_t* cent)
 				if (effect)
 				{
 					if ((cent->gent->s.weapon == WP_BLASTER_PISTOL ||
-							cent->gent->s.weapon == WP_REBELBLASTER ||
-							cent->gent->s.weapon == WP_REY ||
-							cent->gent->s.weapon == WP_JANGO ||
-							cent->gent->s.weapon == WP_CLONEPISTOL ||
-							cent->gent->s.weapon == WP_DUAL_CLONEPISTOL ||
-							cent->gent->s.weapon == WP_DUAL_PISTOL
-							&& (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cent->currentState.eFlags & EF2_DUAL_PISTOLS))
+						cent->gent->s.weapon == WP_REBELBLASTER ||
+						cent->gent->s.weapon == WP_REY ||
+						cent->gent->s.weapon == WP_JANGO ||
+						cent->gent->s.weapon == WP_CLONEPISTOL ||
+						cent->gent->s.weapon == WP_DUAL_CLONEPISTOL ||
+						cent->gent->s.weapon == WP_DUAL_PISTOL
+						&& (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cent->currentState.eFlags & EF2_DUAL_PISTOLS))
 						&& !G_IsRidingVehicle(cent->gent)) //PM_WeaponOkOnVehicle)
 					{
 						if (!VectorCompare(old_mp, vec3_origin) && !VectorCompare(old_md, vec3_origin))
@@ -15956,13 +15956,13 @@ void CG_Player(centity_t* cent)
 					if (effect)
 					{
 						if ((cent->gent->s.weapon == WP_BLASTER_PISTOL ||
-								cent->gent->s.weapon == WP_REBELBLASTER ||
-								cent->gent->s.weapon == WP_REY ||
-								cent->gent->s.weapon == WP_JANGO ||
-								cent->gent->s.weapon == WP_CLONEPISTOL ||
-								cent->gent->s.weapon == WP_DUAL_CLONEPISTOL ||
-								cent->gent->s.weapon == WP_DUAL_PISTOL
-								&& (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cent->currentState.eFlags & EF2_DUAL_PISTOLS))
+							cent->gent->s.weapon == WP_REBELBLASTER ||
+							cent->gent->s.weapon == WP_REY ||
+							cent->gent->s.weapon == WP_JANGO ||
+							cent->gent->s.weapon == WP_CLONEPISTOL ||
+							cent->gent->s.weapon == WP_DUAL_CLONEPISTOL ||
+							cent->gent->s.weapon == WP_DUAL_PISTOL
+							&& (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cent->currentState.eFlags & EF2_DUAL_PISTOLS))
 							&& !G_IsRidingVehicle(cent->gent)) //PM_WeaponOkOnVehicle)
 						{
 							if (!VectorCompare(old_mp, vec3_origin) && !VectorCompare(old_md, vec3_origin))
@@ -16009,13 +16009,13 @@ void CG_Player(centity_t* cent)
 					if (effect)
 					{
 						if ((cent->gent->s.weapon == WP_BLASTER_PISTOL ||
-								cent->gent->s.weapon == WP_REBELBLASTER ||
-								cent->gent->s.weapon == WP_REY ||
-								cent->gent->s.weapon == WP_JANGO ||
-								cent->gent->s.weapon == WP_CLONEPISTOL ||
-								cent->gent->s.weapon == WP_DUAL_CLONEPISTOL ||
-								cent->gent->s.weapon == WP_DUAL_PISTOL
-								&& (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cent->currentState.eFlags & EF2_DUAL_PISTOLS))
+							cent->gent->s.weapon == WP_REBELBLASTER ||
+							cent->gent->s.weapon == WP_REY ||
+							cent->gent->s.weapon == WP_JANGO ||
+							cent->gent->s.weapon == WP_CLONEPISTOL ||
+							cent->gent->s.weapon == WP_DUAL_CLONEPISTOL ||
+							cent->gent->s.weapon == WP_DUAL_PISTOL
+							&& (cent->currentState.eFlags & EF2_JANGO_DUALS || cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS || cent->currentState.eFlags & EF2_DUAL_PISTOLS))
 							&& !G_IsRidingVehicle(cent->gent)) //PM_WeaponOkOnVehicle)
 						{
 							if (!VectorCompare(old_mp, vec3_origin) && !VectorCompare(old_md, vec3_origin))

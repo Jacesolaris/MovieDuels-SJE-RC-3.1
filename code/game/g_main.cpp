@@ -2021,16 +2021,16 @@ qboolean G_RagDoll(gentity_t* ent, vec3_t forcedAngles)
 					if (deathDone || (vSub[PITCH] < 50 && vSub[PITCH] > -50))
 					{
 						inSomething = qtrue;
-				}
+					}
 #else
 					inSomething = qtrue;
 #endif
 					break;
-			}
+				}
 
 				i++;
+			}
 		}
-	}
 
 		if (inSomething)
 		{
@@ -2043,7 +2043,7 @@ qboolean G_RagDoll(gentity_t* ent, vec3_t forcedAngles)
 			*/
 			ent->client->isRagging = qtrue;
 		}
-}
+	}
 
 	if (ent->client->isRagging)
 	{
@@ -2680,7 +2680,7 @@ void G_RunFrame(const int level_time)
 	else if (navTime > 2)
 	{
 		gi.Printf(S_COLOR_GREEN"total nav time: %d\n", navTime);
-}
+	}
 #endif//	AI_TIMERS
 
 	extern int delayedShutDown;

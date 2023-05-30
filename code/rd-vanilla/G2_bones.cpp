@@ -3263,7 +3263,7 @@ void G2_RagGetBoneBasePoseMatrixLow(const CGhoul2Info& ghoul2, int bone_num, con
 	mdxaBone_t& ret_matrix, vec3_t scale);
 void G2_RagGetAnimMatrix(CGhoul2Info& ghoul2, int bone_num, mdxaBone_t& matrix, int frame);
 
-static void G2_RagGetWorldAnimMatrix(CGhoul2Info& ghoul2, const boneInfo_t& bone, CRagDollUpdateParams* params,	mdxaBone_t& ret_matrix)
+static void G2_RagGetWorldAnimMatrix(CGhoul2Info& ghoul2, const boneInfo_t& bone, CRagDollUpdateParams* params, mdxaBone_t& ret_matrix)
 {
 	static mdxaBone_t true_base_matrix, base_bone_matrix;
 

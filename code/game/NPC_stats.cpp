@@ -4363,12 +4363,12 @@ qboolean NPC_ParseParms(const char* npc_name, gentity_t* npc)
 				gi.Printf("WARNING: unknown keyword '%s' while parsing '%s'\n", token, npc_name);
 			}
 			SkipRestOfLine(&p);
-			}
+		}
 #ifdef _WIN32
 #pragma endregion
 #endif
 		COM_EndParseSession();
-		}
+	}
 
 	ci->infoValid = qfalse;
 
@@ -4452,7 +4452,7 @@ qboolean NPC_ParseParms(const char* npc_name, gentity_t* npc)
 	}
 
 	return qtrue;
-	}
+}
 
 void NPC_LoadParms()
 {

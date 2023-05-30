@@ -2012,9 +2012,9 @@ void CG_AddViewWeapon(playerState_t* ps)
 	}
 
 	if (ps->eFlags & EF2_JANGO_DUALS ||
-		ps->eFlags & EF2_DUAL_PISTOLS || 
-		ps->eFlags & EF2_DUAL_CLONE_PISTOLS || 
-		ps->weapon == WP_DUAL_PISTOL || 
+		ps->eFlags & EF2_DUAL_PISTOLS ||
+		ps->eFlags & EF2_DUAL_CLONE_PISTOLS ||
+		ps->weapon == WP_DUAL_PISTOL ||
 		ps->weapon == WP_DUAL_CLONEPISTOL ||
 		ps->weapon == WP_DROIDEKA)
 	{
@@ -5332,7 +5332,7 @@ void CG_FireWeapon(centity_t* cent, const qboolean alt_fire)
 	if (cent->currentState.eFlags & EF2_JANGO_DUALS ||
 		cent->currentState.eFlags & EF2_DUAL_PISTOLS ||
 		cent->currentState.eFlags & EF2_DUAL_CLONE_PISTOLS ||
-		ent->weapon == WP_DROIDEKA || 
+		ent->weapon == WP_DROIDEKA ||
 		ent->weapon == WP_DUAL_PISTOL ||
 		ent->weapon == WP_DUAL_CLONEPISTOL)
 	{

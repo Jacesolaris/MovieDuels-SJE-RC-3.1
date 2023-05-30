@@ -436,10 +436,9 @@ static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons,
 		{
 			continue;
 		}
-		
+
 		if (cg_com_kotor.integer == 1) //playing kotor
 		{
-
 			if (weaponData[i].alt_weapon_Icon_file[0])
 			{
 				CG_RegisterWeapon(i);
@@ -462,7 +461,6 @@ static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons,
 		{
 			if (cent->friendlyfaction == FACTION_KOTOR)
 			{
-
 				if (weaponData[i].alt_weapon_Icon_file[0])
 				{
 					CG_RegisterWeapon(i);
@@ -483,7 +481,6 @@ static int CG_DrawLoadWeaponsPrintRow(const char* itemName, const char* weapons,
 			}
 			else
 			{
-
 				if (weaponData[i].weapon_Icon_file[0])
 				{
 					CG_RegisterWeapon(i);

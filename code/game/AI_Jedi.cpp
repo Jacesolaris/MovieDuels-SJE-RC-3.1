@@ -6096,7 +6096,6 @@ static qboolean jedi_saber_block()
 			|| NPC->client->NPC_class == CLASS_JANGO
 			|| NPC->client->NPC_class == CLASS_JANGODUAL)
 		{
-
 			jedi_dodge_evasion(NPC, nullptr, &tr, HL_NONE);
 		}
 		else
@@ -8501,8 +8500,8 @@ static void jedi_combat()
 		else
 		{
 		}
-		if (NPC->client->NPC_class == CLASS_BOBAFETT || 
-			NPC->client->NPC_class == CLASS_MANDALORIAN	||
+		if (NPC->client->NPC_class == CLASS_BOBAFETT ||
+			NPC->client->NPC_class == CLASS_MANDALORIAN ||
 			NPC->client->NPC_class == CLASS_JANGO ||
 			NPC->client->NPC_class == CLASS_JANGODUAL)
 		{

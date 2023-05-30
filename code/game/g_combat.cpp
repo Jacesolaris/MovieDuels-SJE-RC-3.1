@@ -7652,7 +7652,7 @@ void G_Damage(gentity_t* targ, gentity_t* inflictor, gentity_t* attacker, const 
 		targ = targ->owner;
 	}
 
-	if (targ->flags & FL_DINDJARIN 
+	if (targ->flags & FL_DINDJARIN
 		&& mod != MOD_SABER
 		&& mod != MOD_REPEATER_ALT
 		&& mod != MOD_FLECHETTE_ALT
@@ -7674,7 +7674,6 @@ void G_Damage(gentity_t* targ, gentity_t* inflictor, gentity_t* attacker, const 
 		&& mod != MOD_SEEKER
 		&& mod != MOD_CONC)
 	{
-		 
 		if (damage < 10)
 		{//ignore piddly little damage
 			damage = 5;

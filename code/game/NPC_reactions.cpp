@@ -308,7 +308,7 @@ void NPC_ChoosePainAnimation(gentity_t* self, const gentity_t* other, const vec3
 			pain_chance = NPC_GetPainChance(self, damage);
 		}
 		if (self->client->NPC_class == CLASS_DESANN ||
-			self->client->NPC_class == CLASS_SITHLORD || 
+			self->client->NPC_class == CLASS_SITHLORD ||
 			self->client->NPC_class == CLASS_VADER)
 		{
 			pain_chance *= 0.5f;

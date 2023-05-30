@@ -636,7 +636,6 @@ void Cmd_Fx(const gentity_t* ent)
 	gi.Printf(S_COLOR_CYAN"fx dir <#><#><#>       fx dir 0 0 -1\n\n");
 }
 
-
 void Cmd_Fx2(const gentity_t* ent)
 {
 	gentity_t* fx_ent = nullptr;
@@ -894,7 +893,6 @@ void Cmd_Fx3(const gentity_t* ent)
 	gi.Printf(S_COLOR_CYAN"fx3 origin <#><#><#>    fx3 origin 10 20 30\n");
 	gi.Printf(S_COLOR_CYAN"fx3 dir <#><#><#>       fx3 dir 0 0 -1\n\n");
 }
-
 
 /*
 ==================

@@ -1366,58 +1366,58 @@ void WP_FireJawaPistol(gentity_t* ent, const qboolean alt_fire)
 		AngleVectors(angs, forward_vec, nullptr, nullptr);
 	}
 
-		WP_MissileTargetHint(ent, start, forward_vec);
+	WP_MissileTargetHint(ent, start, forward_vec);
 
-		gentity_t* missile = create_missile(start, forward_vec, BRYAR_PISTOL_VEL, 10000, ent, alt_fire);
+	gentity_t* missile = create_missile(start, forward_vec, BRYAR_PISTOL_VEL, 10000, ent, alt_fire);
 
-		missile->classname = "bryar_proj";
-		if (ent->s.weapon == WP_BLASTER_PISTOL)
+	missile->classname = "bryar_proj";
+	if (ent->s.weapon == WP_BLASTER_PISTOL)
+	{
+		//*SIGH*... I hate our weapon system...
+		missile->s.weapon = ent->s.weapon;
+	}
+	else
+	{
+		missile->s.weapon = WP_JAWA;
+	}
+
+	if (alt_fire)
+	{
+		int count = (level.time - ent->client->ps.weaponChargeTime) / BRYAR_CHARGE_UNIT;
+
+		if (count < 1)
 		{
-			//*SIGH*... I hate our weapon system...
-			missile->s.weapon = ent->s.weapon;
+			count = 1;
 		}
-		else
+		else if (count > 5)
 		{
-			missile->s.weapon = WP_JAWA;
-		}
-
-		if (alt_fire)
-		{
-			int count = (level.time - ent->client->ps.weaponChargeTime) / BRYAR_CHARGE_UNIT;
-
-			if (count < 1)
-			{
-				count = 1;
-			}
-			else if (count > 5)
-			{
-				count = 5;
-			}
-
-			damage *= count;
-			missile->count = count; // this will get used in the projectile rendering code to make a beefier effect
+			count = 5;
 		}
 
-		missile->damage = damage;
-		missile->dflags = DAMAGE_DEATH_KNOCKBACK;
+		damage *= count;
+		missile->count = count; // this will get used in the projectile rendering code to make a beefier effect
+	}
 
-		if (alt_fire)
-		{
-			missile->methodOfDeath = MOD_BRYAR_ALT;
-		}
-		else
-		{
-			missile->methodOfDeath = MOD_BRYAR;
-		}
+	missile->damage = damage;
+	missile->dflags = DAMAGE_DEATH_KNOCKBACK;
 
-		missile->clipmask = MASK_SHOT | CONTENTS_LIGHTSABER;
+	if (alt_fire)
+	{
+		missile->methodOfDeath = MOD_BRYAR_ALT;
+	}
+	else
+	{
+		missile->methodOfDeath = MOD_BRYAR;
+	}
 
-		// we don't want it to bounce forever
-		missile->bounceCount = 8;
+	missile->clipmask = MASK_SHOT | CONTENTS_LIGHTSABER;
 
-		if (ent->weaponModel[1] > 0)
-		{
-			//dual pistols, toggle the muzzle point back and forth between the two pistols each time he fires
-			ent->count = ent->count ? 0 : 1;
-		}
+	// we don't want it to bounce forever
+	missile->bounceCount = 8;
+
+	if (ent->weaponModel[1] > 0)
+	{
+		//dual pistols, toggle the muzzle point back and forth between the two pistols each time he fires
+		ent->count = ent->count ? 0 : 1;
+	}
 }
