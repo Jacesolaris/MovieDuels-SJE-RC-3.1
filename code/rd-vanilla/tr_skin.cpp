@@ -339,37 +339,36 @@ RE_RegisterSkin
 
 ===============
 */
-qhandle_t RE_RegisterSkin(const char* name) {
+qhandle_t RE_RegisterSkin(const char* name)
+{
 	qhandle_t	h_skin;
 	skin_t* skin;
-
-	//	if (!cls.cgameStarted && !cls.uiStarted)
-	//	{
-			//rww - added uiStarted exception because we want ghoul2 models in the menus.
-			// gwg well we need our skins to set surfaces on and off, so we gotta get em
-			//return 1;	// cope with Ghoul2's calling-the-renderer-before-its-even-started hackery, must be any NZ amount here to trigger configstring setting
-	//	}
 
 	if (!tr.numSkins)
 	{
 		R_InitSkins(); //make sure we have numSkins set to at least one.
 	}
 
-	if (!name || !name[0]) {
+	if (!name || !name[0])
+	{
 		Com_Printf("Empty name passed to RE_RegisterSkin\n");
 		return 0;
 	}
 
-	if (strlen(name) >= MAX_QPATH) {
+	if (strlen(name) >= MAX_QPATH) 
+	{
 		Com_Printf("Skin name exceeds MAX_QPATH\n");
 		return 0;
 	}
 
 	// see if the skin is already loaded
-	for (h_skin = 1; h_skin < tr.numSkins; h_skin++) {
+	for (h_skin = 1; h_skin < tr.numSkins; h_skin++) 
+	{
 		skin = tr.skins[h_skin];
-		if (!Q_stricmp(skin->name, name)) {
-			if (skin->numSurfaces == 0) {
+		if (!Q_stricmp(skin->name, name)) 
+		{
+			if (skin->numSurfaces == 0)
+			{
 				return 0;		// default skin
 			}
 			return h_skin;
@@ -402,6 +401,7 @@ qhandle_t RE_RegisterSkin(const char* name) {
 	if (RE_SplitSkins(name, reinterpret_cast<char*>(&skinhead), reinterpret_cast<char*>(&skintorso), reinterpret_cast<char*>(&skinlower)))
 	{//three part
 		h_skin = RE_RegisterIndividualSkin(skinhead, h_skin);
+
 		if (h_skin && strcmp(skinhead, skintorso) != 0)
 		{
 			h_skin = RE_RegisterIndividualSkin(skintorso, h_skin);
@@ -409,7 +409,22 @@ qhandle_t RE_RegisterSkin(const char* name) {
 
 		if (h_skin && strcmp(skinhead, skinlower) != 0 && strcmp(skintorso, skinlower) != 0)
 		{
-			h_skin = RE_RegisterIndividualSkin(skinlower, h_skin);
+			// Very ugly way of doing this, need to stop the game from registering the last listed "model_" skin in the menu as the lower skin can get cut off.
+			// If using a model_ skin, we'll register the head (which shouldn't be cut off). Otherwise, keep the original behavior for the custom skins.
+			char* skin;
+			skin = strrchr(skinhead, '/');
+			if (!strncmp(skin, "/model_", 7))
+			{
+				h_skin = RE_RegisterIndividualSkin(skinhead, h_skin);
+			}
+			else
+			{
+				h_skin = RE_RegisterIndividualSkin(skinlower, h_skin);
+			}
+			/*if (h_skin && strcmp(skinhead, skinlower) != 0 && strcmp(skintorso, skinlower) != 0)
+			{
+				h_skin = RE_RegisterIndividualSkin(skinlower, h_skin);
+			}*/
 		}
 	}
 	else

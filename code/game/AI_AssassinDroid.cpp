@@ -319,17 +319,17 @@ void deka_bubble_shield_update()
 
 			// If Touched By An Enemy, ALWAYS Shove Them
 			//-------------------------------------------
-			if (NPC->enemy && NPCInfo->touchedByPlayer == NPC->enemy)
-			{
-				vec3_t dir;
-				VectorSubtract(NPC->enemy->currentOrigin, NPC->currentOrigin, dir);
-				VectorNormalize(dir);
-				deka_bubble_shield_push_ent(NPC->enemy, dir);
-			}
+			//if (NPC->enemy && NPCInfo->touchedByPlayer == NPC->enemy)
+			//{
+			//	vec3_t dir;
+			//	VectorSubtract(NPC->enemy->currentOrigin, NPC->currentOrigin, dir);
+			//	VectorNormalize(dir);
+			//	deka_bubble_shield_push_ent(NPC->enemy, dir);
+			//}
 
-			// Push Anybody Else Near
-			//------------------------
-			deka_bubble_shield_push_radius_ents();
+			//// Push Anybody Else Near
+			////------------------------
+			//deka_bubble_shield_push_radius_ents();
 		}
 	}
 

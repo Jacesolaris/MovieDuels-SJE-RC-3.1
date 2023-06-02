@@ -175,7 +175,7 @@ qhandle_t RE_RegisterIndividualSkin(const char* name, qhandle_t h_skin)
 }
 
 qhandle_t RE_RegisterSkin(const char* name) {
-	qhandle_t	hSkin;
+	qhandle_t	h_skin;
 	skin_t* skin;
 
 	if (!name || !name[0]) {
@@ -189,13 +189,13 @@ qhandle_t RE_RegisterSkin(const char* name) {
 	}
 
 	// see if the skin is already loaded
-	for (hSkin = 1; hSkin < tr.numSkins; hSkin++) {
-		skin = tr.skins[hSkin];
+	for (h_skin = 1; h_skin < tr.numSkins; h_skin++) {
+		skin = tr.skins[h_skin];
 		if (!Q_stricmp(skin->name, name)) {
 			if (skin->numSurfaces == 0) {
 				return 0;		// default skin
 			}
-			return hSkin;
+			return h_skin;
 		}
 	}
 
@@ -206,7 +206,7 @@ qhandle_t RE_RegisterSkin(const char* name) {
 	}
 	tr.numSkins++;
 	skin = static_cast<skin_s*>(Hunk_Alloc(sizeof(skin_t), h_low));
-	tr.skins[hSkin] = skin;
+	tr.skins[h_skin] = skin;
 	Q_strncpyz(skin->name, name, sizeof(skin->name));
 	skin->numSurfaces = 0;
 
@@ -218,7 +218,7 @@ qhandle_t RE_RegisterSkin(const char* name) {
 		/*		skin->numSurfaces = 1;
 				skin->surfaces[0] = (skinSurface_t *)Hunk_Alloc( sizeof(skin->surfaces[0]), h_low );
 				skin->surfaces[0]->shader = R_FindShader( name, lightmapsNone, stylesDefault, qtrue );
-				return hSkin;
+				return h_skin;
 		*/
 	}
 
@@ -227,22 +227,22 @@ qhandle_t RE_RegisterSkin(const char* name) {
 	char skinlower[MAX_QPATH] = { 0 };
 	if (RE_SplitSkins(name, (char*)&skinhead, (char*)&skintorso, (char*)&skinlower))
 	{//three part
-		hSkin = RE_RegisterIndividualSkin(skinhead, hSkin);
-		if (hSkin && strcmp(skinhead, skintorso))
+		h_skin = RE_RegisterIndividualSkin(skinhead, h_skin);
+		if (h_skin && strcmp(skinhead, skintorso))
 		{
-			hSkin = RE_RegisterIndividualSkin(skintorso, hSkin);
+			h_skin = RE_RegisterIndividualSkin(skintorso, h_skin);
 		}
 
-		if (hSkin && strcmp(skinhead, skinlower) && strcmp(skintorso, skinlower))
+		if (h_skin && strcmp(skinhead, skinlower) && strcmp(skintorso, skinlower))
 		{
-			hSkin = RE_RegisterIndividualSkin(skinlower, hSkin);
+			h_skin = RE_RegisterIndividualSkin(skinlower, h_skin);
 		}
 	}
 	else
 	{//single skin
-		hSkin = RE_RegisterIndividualSkin(name, hSkin);
+		h_skin = RE_RegisterIndividualSkin(name, h_skin);
 	}
-	return(hSkin);
+	return(h_skin);
 }
 
 /*
