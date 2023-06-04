@@ -8388,8 +8388,8 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 					//my saber is in hand
 					if (ent->client->ps.saberBlocked != BLOCKED_PARRY_BROKEN)
 					{
-						if (PM_SaberInAttack(ent->client->ps.saber_move) || pm_saber_in_special_attack(
-							ent->client->ps.torsoAnim) ||
+						if (PM_SaberInAttack(ent->client->ps.saber_move) ||
+							pm_saber_in_special_attack(ent->client->ps.torsoAnim) ||
 							ent_power_level > FORCE_LEVEL_2 && !PM_SaberInIdle(ent->client->ps.saber_move) && !
 							PM_SaberInParry(ent->client->ps.saber_move) && !PM_SaberInReflect(ent->client->ps.saber_move))
 						{
@@ -8839,7 +8839,14 @@ void G_Stumble(gentity_t* hit_ent)
 		break;
 	}
 
-	NPC_SetAnim(hit_ent, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	if (PM_SaberInKata(static_cast<saberMoveName_t>(hit_ent->client->ps.saber_move)))
+	{
+		NPC_SetAnim(hit_ent, SETANIM_BOTH, use_anim, SETANIM_AFLAG_PACE);
+	}
+	else
+	{
+		NPC_SetAnim(hit_ent, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	}
 
 	if (PM_SaberInBashedAnim(hit_ent->client->ps.torsoAnim))
 	{
@@ -8887,7 +8894,14 @@ void G_Stagger(gentity_t* hit_ent)
 		break;
 	}
 
-	NPC_SetAnim(hit_ent, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	if (PM_SaberInKata(static_cast<saberMoveName_t>(hit_ent->client->ps.saber_move)))
+	{
+		NPC_SetAnim(hit_ent, SETANIM_BOTH, use_anim, SETANIM_AFLAG_PACE);
+	}
+	else
+	{
+		NPC_SetAnim(hit_ent, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	}
 
 	if (PM_SaberInMassiveBounce(hit_ent->client->ps.torsoAnim))
 	{
@@ -8949,7 +8963,14 @@ void G_StaggerAttacker(gentity_t* atk)
 		break;
 	}
 
-	NPC_SetAnim(atk, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	if (PM_SaberInKata(static_cast<saberMoveName_t>(atk->client->ps.saber_move)))
+	{
+		NPC_SetAnim(atk, SETANIM_BOTH, use_anim, SETANIM_AFLAG_PACE);
+	}
+	else
+	{
+		NPC_SetAnim(atk, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	}
 
 	if (PM_SaberInMassiveBounce(atk->client->ps.torsoAnim))
 	{
@@ -9001,7 +9022,14 @@ void G_MawStagger(gentity_t* hit_ent)
 		break;
 	}
 
-	NPC_SetAnim(hit_ent, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	if (PM_SaberInKata(static_cast<saberMoveName_t>(hit_ent->client->ps.saber_move)))
+	{
+		NPC_SetAnim(hit_ent, SETANIM_BOTH, use_anim, SETANIM_AFLAG_PACE);
+	}
+	else
+	{
+		NPC_SetAnim(hit_ent, SETANIM_TORSO, use_anim, SETANIM_AFLAG_PACE);
+	}
 
 	if (PM_SaberInMassiveBounce(hit_ent->client->ps.torsoAnim))
 	{
@@ -10027,8 +10055,8 @@ void wp_saber_damage_trace_amd(gentity_t* ent, int saber_num, int blade_num)
 					//my saber is in hand
 					if (ent->client->ps.saberBlocked != BLOCKED_PARRY_BROKEN)
 					{
-						if (PM_SaberInAttack(ent->client->ps.saber_move) || pm_saber_in_special_attack(
-							ent->client->ps.torsoAnim)
+						if (PM_SaberInAttack(ent->client->ps.saber_move)
+							|| pm_saber_in_special_attack(ent->client->ps.torsoAnim)
 							&& !PM_SaberInIdle(ent->client->ps.saber_move)
 							&& !PM_SaberInParry(ent->client->ps.saber_move)
 							&& !PM_SaberInReflect(ent->client->ps.saber_move)
@@ -11419,8 +11447,8 @@ void WP_SaberDamageTrace_MD(gentity_t* ent, int saber_num, int blade_num)
 					//my saber is in hand
 					if (ent->client->ps.saberBlocked != BLOCKED_PARRY_BROKEN)
 					{
-						if (PM_SaberInAttack(ent->client->ps.saber_move) || pm_saber_in_special_attack(
-							ent->client->ps.torsoAnim)
+						if (PM_SaberInAttack(ent->client->ps.saber_move)
+							|| pm_saber_in_special_attack(ent->client->ps.torsoAnim)
 							&& !PM_SaberInIdle(ent->client->ps.saber_move)
 							&& !PM_SaberInParry(ent->client->ps.saber_move)
 							&& !PM_SaberInReflect(ent->client->ps.saber_move)
@@ -39204,7 +39232,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 				//invalid or freed ent
 				WP_ForcePowerStop(self, FP_GRIP);
 				return;
-		}
+			}
 #ifndef JK2_RAGDOLL_GRIPNOHEALTH
 			if (grip_ent->health <= 0 && grip_ent->takedamage)
 			{//either invalid ent, or dead ent
@@ -39670,7 +39698,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 					}
 				}
 			}
-	}
+		}
 	}
 
 	if (self->client->ps.forcePowersActive & 1 << FP_GRIP)
@@ -40057,7 +40085,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 				//invalid or freed ent
 				WP_ForcePowerStop(self, FP_GRASP);
 				return;
-		}
+			}
 #ifndef JK2_RAGDOLL_GRIPNOHEALTH
 			if (grip_ent->health <= 0 && grip_ent->takedamage)
 			{//either invalid ent, or dead ent
@@ -40439,8 +40467,8 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 				}
 				grip_ent->painDebounceTime = level.time + 2000;
 			}
+		}
 	}
-}
 	break;
 	case FP_REPULSE:
 	{
@@ -40642,7 +40670,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 	default:
 		break;
 	}
-	}
+}
 
 void WP_CheckForcedPowers(gentity_t* self, usercmd_t* ucmd)
 {
