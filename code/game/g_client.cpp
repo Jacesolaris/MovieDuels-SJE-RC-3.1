@@ -2251,7 +2251,7 @@ void g_set_g2_player_model(gentity_t* ent, const char* model_name, const char* c
 		{
 			//three part skin
 			Com_sprintf(skin_name, sizeof skin_name, "models/players/%s/|%s", model_name, custom_skin);
-			
+
 			//if (ent == player)
 			//{
 			//	char name[MAX_QPATH];
@@ -2277,7 +2277,7 @@ void g_set_g2_player_model(gentity_t* ent, const char* model_name, const char* c
 		else
 		{
 			Com_sprintf(skin_name, sizeof skin_name, "models/players/%s/model_%s.skin", model_name, custom_skin);
-			
+
 			/*if (ent == player)
 			{
 				gi.cvar_set("g_char_skin_head", va("model_%s", custom_skin));
@@ -2847,6 +2847,7 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 								|| ent->client->NPC_class == CLASS_JANGODUAL
 								|| ent->client->NPC_class == CLASS_MANDALORIAN
 								|| !Q_stricmp("md_dindjarin", ent->NPC_type)
+								|| !Q_stricmp("md_dindjarin_s3", ent->NPC_type)
 								|| Bokatan_Dual_Clone_Pistol(ent)
 								|| Mandalorian_Repeater(ent)
 								|| Armoroer_clone_pistol(ent)
@@ -2855,6 +2856,7 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 								ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 
 								if (!Q_stricmp("md_dindjarin", ent->NPC_type)
+									|| !Q_stricmp("md_dindjarin_s3", ent->NPC_type)
 									|| ent->client->NPC_class == CLASS_JANGO
 									|| ent->client->NPC_class == CLASS_JANGODUAL
 									|| ent->client->NPC_class == CLASS_MANDALORIAN
@@ -3028,12 +3030,14 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 								|| ent->client->NPC_class == CLASS_JANGODUAL
 								|| ent->client->NPC_class == CLASS_MANDALORIAN
 								|| !Q_stricmp("md_dindjarin", ent->NPC_type)
+								|| !Q_stricmp("md_dindjarin_s3", ent->NPC_type)
 								|| Bokatan_Dual_Clone_Pistol(ent)
 								|| Mandalorian_Repeater(ent))
 							{
 								ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 
 								if (!Q_stricmp("md_dindjarin", ent->NPC_type)
+									|| !Q_stricmp("md_dindjarin_s3", ent->NPC_type)
 									|| ent->client->NPC_class == CLASS_JANGO
 									|| ent->client->NPC_class == CLASS_JANGODUAL
 									|| ent->client->NPC_class == CLASS_MANDALORIAN

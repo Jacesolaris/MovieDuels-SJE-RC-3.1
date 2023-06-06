@@ -305,12 +305,14 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 						|| ent->client->NPC_class == CLASS_JANGODUAL
 						|| ent->client->NPC_class == CLASS_MANDALORIAN
 						|| !Q_stricmp("md_dindjarin", ent->NPC_type)
+						|| !Q_stricmp("md_dindjarin_s3", ent->NPC_type)
 						|| Bokatan_Dual_Clone_Pistol(ent)
 						|| Mandalorian_Repeater(ent))
 					{
 						ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 
 						if (!Q_stricmp("md_dindjarin", ent->NPC_type)
+							|| !Q_stricmp("md_dindjarin_s3", ent->NPC_type)
 							|| ent->client->NPC_class == CLASS_JANGO
 							|| ent->client->NPC_class == CLASS_JANGODUAL
 							|| ent->client->NPC_class == CLASS_MANDALORIAN

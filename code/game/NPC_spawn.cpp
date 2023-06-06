@@ -462,6 +462,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 	}
 
 	if (Q_stricmp("md_dindjarin", ent->NPC_type) == 0
+		|| Q_stricmp("md_dindjarin_s3", ent->NPC_type) == 0
 		|| Bokatan_Dual_Clone_Pistol(ent)
 		|| Mandalorian_Repeater(ent))
 	{
