@@ -71,7 +71,7 @@ extern void ItemUse_Grapple(gentity_t* ent);
 extern Vehicle_t* G_IsRidingVehicle(const gentity_t* p_ent);
 extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
 extern qboolean Mandalorian_Repeater(const gentity_t* self);
-extern qboolean Armoroer_clone_pistol(const gentity_t* self);
+extern qboolean Armorer_clone_pistol(const gentity_t* self);
 extern void ForceJediRepulse(gentity_t* self);
 extern void ForceGrasp(gentity_t* self);
 extern void ForceFear(gentity_t* self);
@@ -321,7 +321,7 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 							|| Bokatan_Dual_Clone_Pistol(ent)
 							|| Mandalorian_Repeater(ent)
 							|| !Q_stricmp("armorer", ent->NPC_type)
-							|| Armoroer_clone_pistol(ent))
+							|| Armorer_clone_pistol(ent))
 						{
 							ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 						}

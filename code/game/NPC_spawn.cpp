@@ -42,7 +42,7 @@ extern void G_MatchPlayerWeapon(gentity_t* ent);
 extern void Q3_SetParm(int entID, int parmNum, const char* parmValue);
 extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
 extern qboolean Mandalorian_Repeater(const gentity_t* self);
-extern qboolean Armoroer_clone_pistol(const gentity_t* self);
+extern qboolean Armorer_clone_pistol(const gentity_t* self);
 
 extern void PM_SetTorsoAnimTimer(gentity_t* ent, int* torso_anim_timer, int time);
 extern void PM_SetLegsAnimTimer(gentity_t* ent, int* legs_anim_timer, int time);
@@ -348,7 +348,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 		ent->NPC->scriptFlags |= SCF_NAV_CAN_FLY | SCF_FLY_WITH_JET | SCF_NAV_CAN_JUMP;
 		NPC->flags |= FL_UNDYING; // Can't Kill Boba, he's got plot armor!
 
-		if (Q_stricmp("boba_fett", ent->NPC_type) == 0 || Q_stricmp("boba_fett_esb", ent->NPC_type) == 0)
+		if (Q_stricmp("boba_fett", ent->NPC_type) == 0 )
 		{
 			ent->flags |= FL_BOBAFETT; //low-level shots bounce off, no knockback
 		}
@@ -379,8 +379,9 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 			|| Q_stricmp("pazvizsla_nohelm", ent->NPC_type) == 0
 			|| Q_stricmp("bokatan_jet", ent->NPC_type) == 0
 			|| Q_stricmp("bokatan_helm", ent->NPC_type) == 0
-			|| Q_stricmp("armorer", ent->NPC_type) == 0
-			|| Armoroer_clone_pistol(ent))
+			|| Q_stricmp("armorer", ent->NPC_type) == 0 
+			|| Q_stricmp("boba_fett_esb", ent->NPC_type) == 0
+			|| Armorer_clone_pistol(ent))
 		{
 			ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback
 		}
