@@ -348,7 +348,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 		ent->NPC->scriptFlags |= SCF_NAV_CAN_FLY | SCF_FLY_WITH_JET | SCF_NAV_CAN_JUMP;
 		NPC->flags |= FL_UNDYING; // Can't Kill Boba, he's got plot armor!
 
-		if (Q_stricmp("boba_fett", ent->NPC_type) == 0 )
+		if (Q_stricmp("boba_fett", ent->NPC_type) == 0)
 		{
 			ent->flags |= FL_BOBAFETT; //low-level shots bounce off, no knockback
 		}
@@ -379,8 +379,11 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 			|| Q_stricmp("pazvizsla_nohelm", ent->NPC_type) == 0
 			|| Q_stricmp("bokatan_jet", ent->NPC_type) == 0
 			|| Q_stricmp("bokatan_helm", ent->NPC_type) == 0
-			|| Q_stricmp("armorer", ent->NPC_type) == 0 
+			|| Q_stricmp("armorer", ent->NPC_type) == 0
 			|| Q_stricmp("boba_fett_esb", ent->NPC_type) == 0
+			|| ent->client->NPC_class == CLASS_MANDALORIAN
+			|| ent->client->NPC_class == CLASS_JANGO
+			|| ent->client->NPC_class == CLASS_JANGODUAL
 			|| Armorer_clone_pistol(ent))
 		{
 			ent->flags |= FL_DINDJARIN; //low-level shots bounce off, no knockback

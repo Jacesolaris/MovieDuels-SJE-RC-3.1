@@ -40926,8 +40926,10 @@ void WP_ForcePowersUpdate(gentity_t* self, usercmd_t* ucmd)
 	}
 
 	if (!self->s.number
-		&& (self->client->NPC_class == CLASS_BOBAFETT || self->client->NPC_class == CLASS_JANGO || self->client->
-			NPC_class == CLASS_JANGODUAL))
+		&& (self->client->NPC_class == CLASS_BOBAFETT ||
+			self->client->NPC_class == CLASS_MANDALORIAN ||
+			self->client->NPC_class == CLASS_JANGO ||
+			self->client->NPC_class == CLASS_JANGODUAL))
 	{
 		//Boba Fett
 		if (self->client->ps.weapon == WP_MELEE && ucmd->buttons & BUTTON_WALKING && ucmd->buttons & BUTTON_BLOCK)
