@@ -793,7 +793,7 @@ void Workshop_Set_Weapon_f(gentity_t* ent)
 		}
 		else
 		{
-			if (ent->client->friendlyfaction == FACTION_KOTOR)
+			if (selected->client->friendlyfaction == FACTION_KOTOR)
 			{
 				G_CreateG2AttachedWeaponModel(selected, weaponData[weaponNum].altweaponMdl, selected->handRBolt, 0);
 			}

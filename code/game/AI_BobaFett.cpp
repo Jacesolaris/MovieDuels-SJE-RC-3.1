@@ -1355,6 +1355,7 @@ qboolean Mandalorian_boba_pistol(const gentity_t* self)
 {
 	if (self->client->NPC_class == CLASS_MANDALORIAN
 		&& (Q_stricmp("boba_fett_esb", self->NPC_type) == 0 ||
+			Q_stricmp("boba_fett_rotj", self->NPC_type) == 0 ||
 			Q_stricmp("boba_fett_mand1", self->NPC_type) == 0 ||
 			Q_stricmp("boba_fett_mand2", self->NPC_type) == 0 ||
 			Q_stricmp("boba_fett_nohelmet", self->NPC_type) == 0 ||

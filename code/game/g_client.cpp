@@ -2861,6 +2861,7 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 									|| ent->client->NPC_class == CLASS_JANGODUAL
 									|| ent->client->NPC_class == CLASS_MANDALORIAN
 									|| !Q_stricmp("boba_fett_esb", ent->NPC_type)
+									|| !Q_stricmp("boba_fett_rotj", ent->NPC_type)
 									|| !Q_stricmp("md_boba_fett", ent->NPC_type)
 									|| Bokatan_Dual_Clone_Pistol(ent)
 									|| Mandalorian_Repeater(ent)
@@ -3042,6 +3043,7 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 									|| ent->client->NPC_class == CLASS_JANGODUAL
 									|| ent->client->NPC_class == CLASS_MANDALORIAN
 									|| !Q_stricmp("boba_fett_esb", ent->NPC_type)
+									|| !Q_stricmp("boba_fett_rotj", ent->NPC_type)
 									|| !Q_stricmp("md_boba_fett", ent->NPC_type)
 									|| Bokatan_Dual_Clone_Pistol(ent)
 									|| Mandalorian_Repeater(ent)

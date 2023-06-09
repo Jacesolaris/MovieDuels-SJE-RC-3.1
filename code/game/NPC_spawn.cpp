@@ -381,6 +381,7 @@ void NPC_SetMiscDefaultData(gentity_t* ent)
 			|| Q_stricmp("bokatan_helm", ent->NPC_type) == 0
 			|| Q_stricmp("armorer", ent->NPC_type) == 0
 			|| Q_stricmp("boba_fett_esb", ent->NPC_type) == 0
+			|| Q_stricmp("boba_fett_rotj", ent->NPC_type) == 0
 			|| ent->client->NPC_class == CLASS_MANDALORIAN
 			|| ent->client->NPC_class == CLASS_JANGO
 			|| ent->client->NPC_class == CLASS_JANGODUAL
