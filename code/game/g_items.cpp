@@ -41,7 +41,7 @@ extern saber_colors_t TranslateSaberColor(const char* name);
 extern qboolean G_ControlledByPlayer(const gentity_t* self);
 extern cvar_t* g_SerenityJediEngineMode;
 extern void WP_ForcePowerDrain(const gentity_t* self, forcePowers_t force_power, int override_amt);
-
+extern qboolean droideka_npc(const gentity_t* ent);
 extern void Weapon_MandolingHook_Fire(gentity_t* ent);
 extern qboolean PM_RunningAnim(int anim);
 extern qboolean PM_WalkingAnim(int anim);
@@ -2011,51 +2011,6 @@ qboolean HeHasGun(const gentity_t* ent)
 	case WP_DROIDEKA:
 		return qtrue;
 	default:;
-	}
-	return qfalse;
-}
-
-qboolean HeIsJedi(const gentity_t* ent)
-{
-	switch (ent->client->NPC_class)
-	{
-	case CLASS_SITHLORD:
-	case CLASS_DESANN:
-	case CLASS_VADER:
-	case CLASS_JEDI:
-	case CLASS_KYLE:
-	case CLASS_LUKE:
-	case CLASS_MORGANKATARN:
-	case CLASS_REBORN:
-	case CLASS_BOC:
-	case CLASS_SHADOWTROOPER:
-	case CLASS_TAVION:
-	case CLASS_ALORA:
-	case CLASS_GALEN:
-	case CLASS_YODA:
-	case CLASS_AHSOKA:
-	case CLASS_PROJECTION:
-	case CLASS_JEDIMASTER:
-	case CLASS_GROGU:
-		// Is Jedi...
-		return qtrue;
-	default:
-		// NOT Jedi...
-		break;
-	}
-
-	return qfalse;
-}
-
-qboolean droideka_npc(const gentity_t* ent)
-{
-	if (ent->NPC
-		&& ent->client->NPC_class == CLASS_DROIDEKA
-		&& ent->s.weapon == WP_DROIDEKA
-		&& ent->s.client_num >= MAX_CLIENTS
-		&& !G_ControlledByPlayer(ent))
-	{
-		return qtrue;
 	}
 	return qfalse;
 }

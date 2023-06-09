@@ -40,6 +40,7 @@ extern qboolean HeIsJedi(const gentity_t* ent);
 extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
 extern qboolean Mandalorian_Repeater(const gentity_t* self);
 extern qboolean Armorer_clone_pistol(const gentity_t* self);
+extern qboolean Grievious_Classes(const gentity_t* self);
 
 extern qboolean JET_Flying(const gentity_t* self);
 extern cvar_t* com_kotor;
@@ -2811,11 +2812,7 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 						ent->client->ps.inventory[INV_SENTRY] = 0;
 					}
 
-					if (!Q_stricmp("Arena_Grievous", ent->NPC_type)
-						|| !Q_stricmp("Arena_Grievous2", ent->NPC_type)
-						|| !Q_stricmp("md_grievous", ent->NPC_type)
-						|| !Q_stricmp("md_grievous4", ent->NPC_type)
-						|| !Q_stricmp("md_grievous_robed", ent->NPC_type))
+					if (Grievious_Classes(ent))
 					{
 						ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 					}
@@ -2995,11 +2992,7 @@ void G_ChangePlayerModel(gentity_t* ent, const char* new_model)
 						ent->client->ps.inventory[INV_SENTRY] = 0;
 					}
 
-					if (!Q_stricmp("Arena_Grievous", ent->NPC_type)
-						|| !Q_stricmp("Arena_Grievous2", ent->NPC_type)
-						|| !Q_stricmp("md_grievous", ent->NPC_type)
-						|| !Q_stricmp("md_grievous4", ent->NPC_type)
-						|| !Q_stricmp("md_grievous_robed", ent->NPC_type))
+					if (Grievious_Classes(ent))
 					{
 						ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 					}

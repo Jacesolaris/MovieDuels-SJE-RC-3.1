@@ -43,6 +43,11 @@ extern void player_Burn(const gentity_t* self);
 extern qboolean PM_InKnockDown(const playerState_t* ps);
 extern qboolean PM_InRoll(const playerState_t* ps);
 extern qboolean rocket_trooper_player(const gentity_t* self);
+extern qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self);
+extern qboolean Mandalorian_Repeater(const gentity_t* self);
+extern qboolean Armorer_clone_pistol(const gentity_t* self);
+extern qboolean Lando_Class_boba_pistol(const gentity_t* self);
+extern qboolean Mandalorian_boba_pistol(const gentity_t* self);
 ////////////////////////////////////////////////////////////////////////////////////////
 // Forward References Of Functions
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1328,65 +1333,6 @@ void Boba_Fire()
 		default:;
 		}
 	}
-}
-
-qboolean Mandalorian_Repeater(const gentity_t* self)
-{
-	if (self->client->NPC_class == CLASS_MANDALORIAN
-		&& (Q_stricmp("pazvizsla", self->NPC_type) == 0 ||
-			Q_stricmp("pazvizsla_nohelm", self->NPC_type) == 0))
-	{
-		return qtrue;
-	}
-	return qfalse;
-}
-
-qboolean Armorer_clone_pistol(const gentity_t* self)
-{
-	if (self->client->NPC_class == CLASS_MANDALORIAN
-		&& (Q_stricmp("armorer_jet", self->NPC_type) == 0))
-	{
-		return qtrue;
-	}
-	return qfalse;
-}
-
-qboolean Mandalorian_boba_pistol(const gentity_t* self)
-{
-	if (self->client->NPC_class == CLASS_MANDALORIAN
-		&& (Q_stricmp("boba_fett_esb", self->NPC_type) == 0 ||
-			Q_stricmp("boba_fett_rotj", self->NPC_type) == 0 ||
-			Q_stricmp("boba_fett_mand1", self->NPC_type) == 0 ||
-			Q_stricmp("boba_fett_mand2", self->NPC_type) == 0 ||
-			Q_stricmp("boba_fett_nohelmet", self->NPC_type) == 0 ||
-			Q_stricmp("boba_fett_nohelmet2", self->NPC_type) == 0))
-	{
-		return qtrue;
-	}
-	return qfalse;
-}
-
-qboolean Lando_Class_boba_pistol(const gentity_t* self)
-{
-	if (self->client->NPC_class == CLASS_LANDO
-		&& (Q_stricmp("boba_fett_tgpoc", self->NPC_type) == 0))
-	{
-		return qtrue;
-	}
-	return qfalse;
-}
-
-qboolean Bokatan_Dual_Clone_Pistol(const gentity_t* self)
-{
-	if (self->client->NPC_class == CLASS_MANDALORIAN
-		&& (Q_stricmp("bokatan", self->NPC_type) == 0 ||
-			Q_stricmp("bokatan_jp2", self->NPC_type) == 0 ||
-			Q_stricmp("bokatan_nohelm", self->NPC_type) == 0 ||
-			Q_stricmp("bokatan_nohelm_jp2", self->NPC_type) == 0))
-	{
-		return qtrue;
-	}
-	return qfalse;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

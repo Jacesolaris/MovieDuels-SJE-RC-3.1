@@ -34,9 +34,8 @@ extern stringID_table_t SaberStyleTable[];
 extern cvar_t* com_outcast;
 
 extern void SP_fx_runner(gentity_t* ent);
-
+extern qboolean Grievious_Classes(const gentity_t* self);
 extern void SP_NPC_Droid_Seeker(gentity_t* ent);
-
 extern void ForceHeal(gentity_t* self);
 extern void ForceGrip(gentity_t* self);
 extern void ForceTelepathy(gentity_t* self);
@@ -269,11 +268,7 @@ void G_Give(gentity_t* ent, const char* name, const char* args, const int argc)
 				ent->client->ps.inventory[INV_SENTRY] = 0;
 			}
 
-			if (!Q_stricmp("Arena_Grievous", ent->NPC_type)
-				|| !Q_stricmp("Arena_Grievous2", ent->NPC_type)
-				|| !Q_stricmp("md_grievous", ent->NPC_type)
-				|| !Q_stricmp("md_grievous4", ent->NPC_type)
-				|| !Q_stricmp("md_grievous_robed", ent->NPC_type))
+			if (Grievious_Classes(ent))
 			{
 				ent->client->ps.inventory[INV_GRAPPLEHOOK] = 1;
 			}
