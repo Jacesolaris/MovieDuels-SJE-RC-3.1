@@ -9618,17 +9618,20 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 					}
 					else
 					{
-						Weapon_GrapplingHook_Fire(ent);
-						ent->client->hookhasbeenfired = qtrue;
-
-						if (ent->client->usercmd.buttons & BUTTON_BLOCK && ent->s.groundEntityNum != ENTITYNUM_NONE)
+						if (!(ent->client->ps.communicatingflags & 1 << DASHING))
 						{
-							//holding attack
-							NPC_SetAnim(ent, SETANIM_BOTH, BOTH_GRAPPLE_FIRE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
-						}
+							Weapon_GrapplingHook_Fire(ent);
+							ent->client->hookhasbeenfired = qtrue;
 
-						G_SoundOnEnt(ent, CHAN_ITEM, "sound/weapons/grapple/hookfire.wav");
-						ent->client->hookDebounceTime = level.time + 0;
+							if (ent->client->usercmd.buttons & BUTTON_BLOCK && ent->s.groundEntityNum != ENTITYNUM_NONE)
+							{
+								//holding attack
+								NPC_SetAnim(ent, SETANIM_BOTH, BOTH_GRAPPLE_FIRE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
+							}
+
+							G_SoundOnEnt(ent, CHAN_ITEM, "sound/weapons/grapple/hookfire.wav");
+							ent->client->hookDebounceTime = level.time + 0;
+						}
 					}
 				}
 			}
@@ -9681,18 +9684,21 @@ void ClientThink_real(gentity_t* ent, usercmd_t* ucmd)
 						}
 						else
 						{
-							Weapon_GrapplingHook_Fire(ent);
-							ent->client->hookhasbeenfired = qtrue;
-
-							if (ent->client->usercmd.buttons & BUTTON_BLOCK && ent->s.groundEntityNum != ENTITYNUM_NONE)
+							if (!(ent->client->ps.communicatingflags & 1 << DASHING))
 							{
-								//holding attack
-								NPC_SetAnim(ent, SETANIM_BOTH, BOTH_GRAPPLE_FIRE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
-								//gi.Printf(S_COLOR_YELLOW"g_active grapple attack\n");
-							}
+								Weapon_GrapplingHook_Fire(ent);
+								ent->client->hookhasbeenfired = qtrue;
 
-							G_SoundOnEnt(ent, CHAN_ITEM, "sound/weapons/grapple/hookfire.wav");
-							ent->client->hookDebounceTime = level.time + 0;
+								if (ent->client->usercmd.buttons & BUTTON_BLOCK && ent->s.groundEntityNum != ENTITYNUM_NONE)
+								{
+									//holding attack
+									NPC_SetAnim(ent, SETANIM_BOTH, BOTH_GRAPPLE_FIRE, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
+									//gi.Printf(S_COLOR_YELLOW"g_active grapple attack\n");
+								}
+
+								G_SoundOnEnt(ent, CHAN_ITEM, "sound/weapons/grapple/hookfire.wav");
+								ent->client->hookDebounceTime = level.time + 0;
+							}
 						}
 					}
 				}

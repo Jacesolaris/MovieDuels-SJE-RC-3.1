@@ -69,6 +69,18 @@ qboolean droideka_npc(const gentity_t* ent)
 	return qfalse;
 }
 
+qboolean Mandalorian_Character(const gentity_t* self)
+{
+	if (self->client->NPC_class == CLASS_BOBAFETT
+		|| self->client->NPC_class == CLASS_MANDALORIAN
+		|| self->client->NPC_class == CLASS_JANGO
+		|| self->client->NPC_class == CLASS_JANGODUAL)
+	{
+		return qtrue;
+	}
+	return qfalse;
+}
+
 qboolean Mandalorian_Repeater(const gentity_t* self)
 {
 	if (self->client->NPC_class == CLASS_MANDALORIAN

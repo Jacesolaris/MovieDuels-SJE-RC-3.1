@@ -2306,7 +2306,7 @@ void Weapon_GrapplingHook_Fire(gentity_t* ent)
 	ent->client->fireHeld = qtrue;
 }
 
-void Weapon_MandolingHook_Fire(gentity_t* ent)
+void Weapon_MandoGrappleHook_Fire(gentity_t* ent)
 {
 	vec3_t forward, right, vup;
 

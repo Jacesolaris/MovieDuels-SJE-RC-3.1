@@ -260,6 +260,7 @@ extern qboolean sab_beh_block_vs_attack(gentity_t* blocker, gentity_t* attacker,
 	vec3_t hit_loc);
 extern void g_fatigue_bp_knockaway(gentity_t* blocker);
 void G_Beskar_Attack_Bounce(const gentity_t* self, gentity_t* other);
+extern qboolean Mandalorian_Character(const gentity_t* self);
 
 extern cvar_t* g_saberAutoBlocking;
 extern cvar_t* g_saberRealisticCombat;
@@ -29036,6 +29037,8 @@ int IsPressingDashButton(const gentity_t* self)
 	{
 		if (PM_RunningAnim(self->client->ps.legsAnim)
 			&& !(self->client->buttons & BUTTON_KICK)
+			//&& !Mandalorian_Character(self)
+			&& !self->client->hookhasbeenfired
 			&& self->client->buttons & BUTTON_USE
 			&& self->client->ps.pm_flags & PMF_USE_HELD)
 		{
@@ -30232,7 +30235,7 @@ void ForceGrip(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-}
+	}
 
 qboolean ForceLightningCheck2Handed(const gentity_t* self)
 {
@@ -37497,7 +37500,7 @@ void ForceGrasp(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-}
+	}
 
 extern void WP_FireBlast(gentity_t* ent, int force_level);
 
@@ -39698,8 +39701,8 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 					}
 				}
 			}
+			}
 		}
-	}
 
 	if (self->client->ps.forcePowersActive & 1 << FP_GRIP)
 	{
@@ -40467,8 +40470,8 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 				}
 				grip_ent->painDebounceTime = level.time + 2000;
 			}
+			}
 		}
-	}
 	break;
 	case FP_REPULSE:
 	{
@@ -40670,7 +40673,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 	default:
 		break;
 	}
-}
+	}
 
 void WP_CheckForcedPowers(gentity_t* self, usercmd_t* ucmd)
 {

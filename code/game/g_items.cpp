@@ -42,11 +42,12 @@ extern qboolean G_ControlledByPlayer(const gentity_t* self);
 extern cvar_t* g_SerenityJediEngineMode;
 extern void WP_ForcePowerDrain(const gentity_t* self, forcePowers_t force_power, int override_amt);
 extern qboolean droideka_npc(const gentity_t* ent);
-extern void Weapon_MandolingHook_Fire(gentity_t* ent);
+extern void Weapon_MandoGrappleHook_Fire(gentity_t* ent);
 extern qboolean PM_RunningAnim(int anim);
 extern qboolean PM_WalkingAnim(int anim);
 extern qboolean PM_CrouchAnim(int anim);
 extern qboolean JET_Flying(const gentity_t* self);
+extern int IsPressingDashButton(const gentity_t* self);
 
 extern cvar_t* g_spskill;
 extern cvar_t* g_sex;
@@ -2300,18 +2301,21 @@ void ItemUse_Grapple(gentity_t* ent)
 				}
 				else
 				{
-					Weapon_MandolingHook_Fire(ent);
-					ent->client->hookhasbeenfired = qtrue;
-
-					if (ent->s.groundEntityNum != ENTITYNUM_NONE)
+					if (!(ent->client->ps.communicatingflags & 1 << DASHING))
 					{
-						//holding attack
-						NPC_SetAnim(ent, SETANIM_BOTH, anim, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
-						//gi.Printf(S_COLOR_YELLOW"item use grapple attack\n");
-					}
+						Weapon_MandoGrappleHook_Fire(ent);
+						ent->client->hookhasbeenfired = qtrue;
 
-					G_SoundOnEnt(ent, CHAN_ITEM, "sound/weapons/grapple/hookfire.wav");
-					ent->client->hookDebounceTime = level.time + 0;
+						if (ent->s.groundEntityNum != ENTITYNUM_NONE)
+						{
+							//holding attack
+							NPC_SetAnim(ent, SETANIM_BOTH, anim, SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD, 0);
+							//gi.Printf(S_COLOR_YELLOW"item use grapple attack\n");
+						}
+
+						G_SoundOnEnt(ent, CHAN_ITEM, "sound/weapons/grapple/hookfire.wav");
+						ent->client->hookDebounceTime = level.time + 0;
+					}
 				}
 			}
 		}
