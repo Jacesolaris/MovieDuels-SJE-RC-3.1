@@ -67,6 +67,7 @@ cvar_t* g_totgfirststartup;
 cvar_t* g_Weather;
 cvar_t* com_kotor;
 cvar_t* g_trueguns;
+cvar_t* g_spskill;
 
 #ifndef _WIN32
 cvar_t* com_ansiColor = nullptr;
@@ -1173,6 +1174,7 @@ void Com_Init(char* commandLine)
 		com_developer = Cvar_Get("developer", "0", CVAR_TEMP);
 		com_outcast = Cvar_Get("com_outcast", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 		com_kotor = Cvar_Get("com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
+		g_spskill = Cvar_Get("g_spskill", "2", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
 
 		g_trueguns = Cvar_Get("cg_trueguns", "0", 0);
 

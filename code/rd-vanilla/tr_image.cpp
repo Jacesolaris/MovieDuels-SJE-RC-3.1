@@ -478,7 +478,7 @@ Apply a color blend over a set of pixels
 ==================
 */
 static void R_BlendOverTexture(byte* data, const int pixelCount, byte blend[4]) {
-	int		premult[3];
+	int		premult[3]{};
 
 	const int inverseAlpha = 255 - blend[3];
 	premult[0] = blend[0] * blend[3];
@@ -1103,7 +1103,7 @@ static void R_CreateDlightImage()
 	}
 	else
 	{	// if we dont get a successful load
-		byte	data[DLIGHT_SIZE][DLIGHT_SIZE][4];
+		byte	data[DLIGHT_SIZE][DLIGHT_SIZE][4]{};
 
 		// make a centered inverse-square falloff blob for dynamic lighting
 		for (int x = 0; x < DLIGHT_SIZE; x++) {
@@ -1183,7 +1183,7 @@ R_CreateFogImage
 #define	FOG_S	256
 #define	FOG_T	32
 static void R_CreateFogImage() {
-	float	borderColor[4];
+	float	borderColor[4]{};
 
 	byte* data = static_cast<byte*>(R_Malloc(FOG_S * FOG_T * 4, TAG_TEMP_WORKSPACE, qfalse));
 

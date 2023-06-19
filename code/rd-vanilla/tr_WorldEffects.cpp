@@ -1163,7 +1163,7 @@ public:
 
 		// Compute Global Force
 		//----------------------
-		CVec3		force;
+		CVec3		force{};
 		{
 			force.Clear();
 

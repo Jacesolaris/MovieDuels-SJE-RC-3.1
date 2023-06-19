@@ -130,10 +130,10 @@ R_SetupEntityLightingGrid
 */
 static void R_SetupEntityLightingGrid(trRefEntity_t* ent) {
 	vec3_t			lightOrigin;
-	int				pos[3];
+	int				pos[3]{};
 	int				i, j;
-	float			frac[3];
-	int				gridStep[3];
+	float			frac[3]{};
+	int				gridStep[3]{};
 	vec3_t			direction;
 	float			totalFactor;
 	unsigned short* startGridPos;
@@ -277,7 +277,7 @@ static void R_SetupEntityLightingGrid(trRefEntity_t* ent) {
 		if (r_debugLight->integer && ent->e.hModel == -1)
 		{
 			//draw
-			refEntity_t ref_ent;
+			refEntity_t ref_ent{};
 			ref_ent.hModel = 0;
 			ref_ent.ghoul2 = nullptr;
 			ref_ent.renderfx = 0;

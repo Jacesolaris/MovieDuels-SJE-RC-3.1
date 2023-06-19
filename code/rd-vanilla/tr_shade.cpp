@@ -72,7 +72,7 @@ static int		c_vertexes;		// for seeing how long our average strips are
 static int		c_begins;
 static void R_DrawStripElements(const int num_indexes, const glIndex_t* indexes, void (APIENTRY* element)(GLint))
 {
-	glIndex_t last[3];
+	glIndex_t last[3]{};
 
 	qglBegin(GL_TRIANGLE_STRIP);
 	c_begins++;
@@ -650,19 +650,19 @@ Perform dynamic lighting with another rendering pass
 static void ProjectDlightTexture2()
 {
 	int		i;
-	byte	clip_bits[SHADER_MAX_VERTEXES];
-	float	tex_coords_array[SHADER_MAX_VERTEXES][2];
-	float	old_tex_coords_array[SHADER_MAX_VERTEXES][2];
+	byte	clip_bits[SHADER_MAX_VERTEXES]{};
+	float	tex_coords_array[SHADER_MAX_VERTEXES][2]{};
+	float	old_tex_coords_array[SHADER_MAX_VERTEXES][2]{};
 	unsigned int		color_array[SHADER_MAX_VERTEXES];
-	glIndex_t	hit_indexes[SHADER_MAX_INDEXES];
+	glIndex_t	hit_indexes[SHADER_MAX_INDEXES]{};
 	int		num_indexes;
 	float	radius;
 #ifndef JK2_MODE
 	int		fogging;
 #endif
 	shaderStage_t* d_stage;
-	vec3_t	float_color;
-	byte color_temp[4];
+	vec3_t	float_color{};
+	byte color_temp[4]{};
 
 	int		need_reset_verts = 0;
 
@@ -674,7 +674,7 @@ static void ProjectDlightTexture2()
 	for (int l = 0; l < backEnd.refdef.num_dlights; l++)
 	{
 		vec3_t dist;
-		float vert_coords_array[SHADER_MAX_VERTEXES][4];
+		float vert_coords_array[SHADER_MAX_VERTEXES][4]{};
 		vec3_t origin;
 		if (!(tess.dlightBits & 1 << l)) {
 			continue;	// this surface definately doesn't have any of this light
@@ -964,15 +964,15 @@ static void ProjectDlightTexture()
 	int		i;
 	float* tex_coords;
 	byte* colors;
-	byte	clip_bits[SHADER_MAX_VERTEXES];
-	glIndex_t	hit_indexes[SHADER_MAX_INDEXES];
+	byte	clip_bits[SHADER_MAX_VERTEXES]{};
+	glIndex_t	hit_indexes[SHADER_MAX_INDEXES]{};
 	int		num_indexes;
 	float	scale;
 	float	radius;
 #ifndef JK2_MODE
 	int		fogging;
 #endif
-	vec3_t	float_color;
+	vec3_t	float_color{};
 	shaderStage_t* d_stage;
 
 	if (!backEnd.refdef.num_dlights) {

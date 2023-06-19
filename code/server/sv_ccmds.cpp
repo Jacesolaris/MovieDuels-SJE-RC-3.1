@@ -150,6 +150,11 @@ static bool SV_Map_(const ForceReload_e e_force_reload)
 		return false;
 	}
 
+	if (g_spskill->integer > 2)
+	{
+		Cvar_Set("g_spskill", "2");
+	}
+
 	if (com_outcast->integer != 0)
 	{
 		for (auto& jka_map : jka_maps)

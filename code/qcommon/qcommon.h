@@ -630,6 +630,7 @@ extern cvar_t* g_update6firststartup;
 extern cvar_t* g_totgfirststartup;
 extern cvar_t* com_kotor;
 extern cvar_t* g_trueguns;
+extern cvar_t* g_spskill;
 #ifndef _WIN32
 extern	cvar_t* com_ansiColor;
 #endif

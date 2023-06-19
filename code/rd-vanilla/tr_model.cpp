@@ -560,7 +560,7 @@ asked for again.
 static qhandle_t RE_RegisterModel_Actual(const char* name)
 {
 	model_t* mod;
-	unsigned* buf;
+	unsigned* buf = nullptr;
 	int			lod;
 	qboolean	loaded;
 	modelHash_t* mh;
@@ -970,9 +970,6 @@ static qboolean R_LoadMD3(model_t* mod, int lod, void* buffer, const char* mod_n
 }
 
 //=============================================================================
-
-void CM_LoadShaderText(bool forceReload);
-void CM_SetupShaderProperties();
 
 /*
 ** RE_BeginRegistration

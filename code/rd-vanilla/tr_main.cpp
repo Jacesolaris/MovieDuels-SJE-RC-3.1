@@ -409,7 +409,7 @@ Sets up the modelview matrix for a given viewParm
 */
 void R_RotateForViewer()
 {
-	float	viewer_matrix[16];
+	float	viewer_matrix[16]{};
 	vec3_t	origin;
 
 	memset(&tr.ori, 0, sizeof tr.ori);
@@ -467,7 +467,7 @@ static void SetFarClip()
 	//
 	for (int i = 0; i < 8; i++)
 	{
-		vec3_t v;
+		vec3_t v{};
 
 		if (i & 1)
 		{
@@ -690,7 +690,7 @@ Returns qtrue if it should be mirrored
 qboolean R_GetPortalOrientations(const drawSurf_t* draw_surf, const int entity_num,
 	orientation_t* surface, orientation_t* camera,
 	vec3_t pvs_origin, qboolean* mirror) {
-	cplane_t	original_plane, plane;
+	cplane_t	original_plane, plane{};
 
 	// create plane axis for the portal we are seeing
 	R_PlaneForSurface(draw_surf->surface, &original_plane);
@@ -1074,7 +1074,7 @@ R_Radix
 static QINLINE void R_Radix(const int byte, const int size, drawSurf_t* source, drawSurf_t* dest)
 {
 	int           count[256] = { 0 };
-	int           index[256];
+	int           index[256]{};
 	int           i;
 
 	unsigned char* sort_key = reinterpret_cast<unsigned char*>(&source[0].sort) + byte;

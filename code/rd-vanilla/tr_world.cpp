@@ -462,7 +462,7 @@ R_RecursiveWorldNode
 */
 static void R_RecursiveWorldNode(mnode_t* node, int planeBits, int dlightBits) {
 	do {
-		int			newDlights[2];
+		int			newDlights[2]{};
 
 		// if the node wasn't marked as potentially visible, exit
 		if (node->visframe != tr.visCount) {
