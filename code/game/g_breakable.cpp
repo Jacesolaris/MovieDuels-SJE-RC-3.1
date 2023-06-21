@@ -1319,7 +1319,7 @@ void SP_misc_model_breakable(gentity_t* ent)
 			ent->s.loopSound = G_SoundIndex("sound/vehicles/tie-bomber/loop.wav");
 			ent->e_UseFunc = useF_TieFighterUse;
 
-			vec3_t color;
+			vec3_t color{};
 
 			// if the "color" or "light" keys are set, setup constantLight
 			constexpr qboolean light_set = qtrue; //G_SpawnFloat( "light", "100", &light );

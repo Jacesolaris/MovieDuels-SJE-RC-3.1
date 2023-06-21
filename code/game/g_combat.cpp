@@ -617,7 +617,7 @@ G_AlertTeam
 void G_AlertTeam(const gentity_t* victim, gentity_t* attacker, const float radius, const float sound_dist)
 {
 	gentity_t* radius_ents[128];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	int i;
 	const float snd_dist_sq = sound_dist * sound_dist;
 
@@ -1909,7 +1909,7 @@ void LimbThink(gentity_t* ent)
 			//lay flat
 			//pitch
 			VectorCopy(ent->currentAngles, ent->s.apos.trBase);
-			vec3_t flat_angles;
+			vec3_t flat_angles{};
 			if (ent->s.angles2[0] == -1)
 			{
 				//any pitch is okay
@@ -8383,7 +8383,7 @@ void G_Damage(gentity_t* targ, gentity_t* inflictor, gentity_t* attacker, const 
 				{
 					vec3_t test_end_pos;
 					vec3_t test_start_pos;
-					vec3_t test_direction;
+					vec3_t test_direction{};
 					test_direction[0] = Q_flrand(0.0f, 1.0f) * 0.5f - 0.25f;
 					test_direction[1] = Q_flrand(0.0f, 1.0f) * 0.5f - 0.25f;
 					test_direction[2] = 1.0f;

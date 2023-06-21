@@ -44,7 +44,7 @@ AI_GetGroupSize
 int AI_GetGroupSize(vec3_t origin, const int radius, const team_t player_team, const gentity_t* avoid)
 {
 	gentity_t* radius_ents[MAX_RADIUS_ENTS];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	int real_count = 0;
 
 	//Setup the bbox to search in
@@ -155,7 +155,7 @@ void AI_SortGroupByPathCostToEnemy(AIGroupInfo_t* group)
 	if (sort)
 	{
 		int j;
-		AIGroupMember_t best_members[MAX_GROUP_MEMBERS];
+		AIGroupMember_t best_members[MAX_GROUP_MEMBERS]{};
 		//initialize bestMembers data
 		for (j = 0; j < group->numGroup; j++)
 		{
@@ -1021,7 +1021,7 @@ gentity_t* AI_DistributeAttack(const gentity_t* attacker, gentity_t* enemy, cons
 		return enemy;
 
 	//Otherwise we need to take a new enemy if possible
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 
 	//Setup the bbox to search in
 	for (int i = 0; i < 3; i++)

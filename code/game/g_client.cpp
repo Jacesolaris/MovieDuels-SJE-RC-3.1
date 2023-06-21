@@ -363,7 +363,7 @@ go to a random point that doesn't telefrag
 */
 gentity_t* SelectRandomDeathmatchSpawnPoint()
 {
-	gentity_t* spots[MAX_SPAWN_POINTS];
+	gentity_t* spots[MAX_SPAWN_POINTS]{};
 
 	int count = 0;
 	gentity_t* spot = nullptr;
@@ -3234,7 +3234,7 @@ qboolean ClientSpawn(gentity_t* ent, SavedGameJustLoaded_e e_saved_game_just_loa
 	else
 	{
 		gentity_t* spawn_point;
-		int persistant[MAX_PERSISTANT];
+		int persistant[MAX_PERSISTANT]{};
 		clientSession_t savedSess;
 		clientPersistant_t saved;
 		vec3_t spawn_angles;

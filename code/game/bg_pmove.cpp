@@ -2705,7 +2705,7 @@ PM_CheckWaterJump
 static qboolean PM_CheckWaterJump()
 {
 	vec3_t spot;
-	vec3_t flatforward;
+	vec3_t flatforward{};
 
 	if (pm->ps->pm_time)
 	{
@@ -2791,7 +2791,7 @@ PM_WaterMove
 */
 static void PM_WaterMove()
 {
-	vec3_t wishvel;
+	vec3_t wishvel{};
 	float wishspeed;
 	vec3_t wishdir;
 	float scale;
@@ -5896,7 +5896,7 @@ PM_GroundTrace
 */
 static void PM_GroundTrace()
 {
-	vec3_t point;
+	vec3_t point{};
 	trace_t trace;
 
 	if (pm->ps->eFlags & EF_LOCKED_TO_WEAPON
@@ -6091,7 +6091,7 @@ void PM_HoverTrace()
 
 	Vehicle_t* p_veh = pm->gent->m_pVehicle;
 	const float hover_height = p_veh->m_pVehicleInfo->hoverHeight;
-	vec3_t v_ang, fx_axis[3];
+	vec3_t v_ang{}, fx_axis[3]{};
 	trace_t* trace = &pml.groundTrace;
 	int trace_contents = pm->tracemask;
 
@@ -6142,7 +6142,7 @@ void PM_HoverTrace()
 	}
 	else
 	{
-		vec3_t point;
+		vec3_t point{};
 		const float min_normal = p_veh->m_pVehicleInfo->maxSlope;
 
 		point[0] = pm->ps->origin[0];

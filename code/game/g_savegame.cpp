@@ -164,7 +164,7 @@ static char* GetStringPtr(const int iStrlen, char* psOriginal/*may be NULL*/)
 {
 	if (iStrlen != -1)
 	{
-		char sString[768]; // arb, inc if nec.
+		char sString[768]{}; // arb, inc if nec.
 
 		sString[0] = 0;
 

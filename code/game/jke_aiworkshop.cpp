@@ -1609,7 +1609,7 @@ void Workshop_Set_SaberColor_f(gentity_t* ent)
 {
 	//FIXME: just list the colors, each additional listing sets that blade
 	int saber_num = atoi(gi.argv(1));
-	const char* color[MAX_BLADES];
+	const char* color[MAX_BLADES]{};
 	int blade_num;
 
 	for (blade_num = 0; blade_num < MAX_BLADES; blade_num++)

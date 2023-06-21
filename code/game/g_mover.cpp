@@ -163,7 +163,7 @@ extern qboolean G_OkayToRemoveCorpse(gentity_t* self);
 qboolean G_TryPushingEntity(gentity_t* check, gentity_t* pusher, vec3_t move, vec3_t amove)
 {
 	vec3_t forward, right, up;
-	vec3_t org, org2, move2;
+	vec3_t org, org2{}, move2;
 
 	/*
 	// EF_MOVER_STOP will just stop when contacting another entity
@@ -1490,7 +1490,7 @@ INACTIVE	must be used by a target_activate before it can be used
 */
 void SP_func_door(gentity_t* ent)
 {
-	vec3_t abs_movedir;
+	vec3_t abs_movedir{};
 	vec3_t size;
 	float lip;
 
@@ -1641,7 +1641,7 @@ not just sit on top of it.
 */
 void SpawnPlatTrigger(gentity_t* ent)
 {
-	vec3_t tmin, tmax;
+	vec3_t tmin{}, tmax{};
 
 	// the middle trigger will be a thin trigger just
 	// above the starting position
@@ -1782,7 +1782,7 @@ When a button is touched, it moves some distance in the direction of it's angle,
 */
 void SP_func_button(gentity_t* ent)
 {
-	vec3_t abs_movedir;
+	vec3_t abs_movedir{};
 	vec3_t size;
 	float lip;
 
@@ -2032,7 +2032,7 @@ void Think_SetupTrainTargets(gentity_t* ent)
 	//         ^      |
 	//          \_____|
 	const gentity_t* start = nullptr;
-	gentity_t* next;
+	gentity_t* next = nullptr;
 	int iterations = 2000; //max attempts to find our path start
 	for (gentity_t* path = ent->nextTrain; path != start; path = next)
 	{

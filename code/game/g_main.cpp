@@ -338,7 +338,7 @@ static void G_DynamicMusicUpdate( usercmd_t *ucmd )
 static void G_DynamicMusicUpdate()
 {
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	vec3_t center;
 	int danger = 0;
 	int battle = 0;
@@ -1128,7 +1128,7 @@ extern int PM_ValidateAnimRange(int start_frame, int end_frame, float anim_speed
 
 extern "C" Q_EXPORT game_export_t * QDECL GetGameAPI(const game_import_t * import)
 {
-	gameinfo_import_t gameinfo_import;
+	gameinfo_import_t gameinfo_import{};
 
 	gi = *import;
 
@@ -1558,7 +1558,6 @@ class CGameRagDollUpdateParams : public CRagDollUpdateParams
 {
 	void EffectorCollision(const SRagDollEffectorCollision& data) override
 	{
-		//Com_Printf("Effector Collision at (%f %f %f)\n",data.effectorPosition[0],data.effectorPosition[1],data.effectorPosition[2]);
 		vec3_t effectorPosDif;
 
 		if (data.useTracePlane)
@@ -1941,8 +1940,8 @@ qboolean G_RagDoll(gentity_t* ent, vec3_t forcedAngles)
 		if (!inSomething)
 		{
 			int i = 0;
-			int boltChecks[5];
-			vec3_t boltPoints[5];
+			int boltChecks[5]{};
+			vec3_t boltPoints[5]{};
 			vec3_t tAng;
 			//qboolean deathDone = qfalse;
 			trace_t tr;
@@ -2048,7 +2047,7 @@ qboolean G_RagDoll(gentity_t* ent, vec3_t forcedAngles)
 	if (ent->client->isRagging)
 	{
 		//We're in a ragdoll state, so make the call to keep our positions updated and whatnot.
-		CRagDollParams tParms;
+		CRagDollParams tParms{};
 		CGameRagDollUpdateParams tuParms;
 
 		const int ragAnim = G_RagAnimForPositioning(ent);

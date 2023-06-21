@@ -625,7 +625,7 @@ qboolean jedi_stop_knockdown(gentity_t* self, const vec3_t push_dir)
 	const float r_dot = DotProduct(p_dir, right);
 
 	//flip or roll with it
-	usercmd_t temp_cmd;
+	usercmd_t temp_cmd{};
 	if (f_dot >= 0.4f)
 	{
 		temp_cmd.forwardmove = 127;
@@ -800,8 +800,8 @@ void tavion_scepter_slam()
 		constexpr float radius = 300.0f;
 		constexpr float half_rad = radius / 2;
 		int i;
-		vec3_t mins;
-		vec3_t maxs;
+		vec3_t mins{};
+		vec3_t maxs{};
 		vec3_t ent_dir;
 
 		gi.G2API_GetBoltMatrix(NPC->ghoul2, NPC->weaponModel[1],
@@ -1429,7 +1429,7 @@ static qboolean jedi_clear_path_to_spot(vec3_t dest, const int impact_ent_num)
 
 qboolean npc_move_dir_clear(const int forwardmove, const int rightmove, const qboolean reset)
 {
-	vec3_t forward, right, test_pos, angles, mins;
+	vec3_t forward, right, test_pos, angles{}, mins;
 	trace_t trace;
 	float bottom_max = -STEPSIZE * 4 - 1;
 
@@ -8010,7 +8010,7 @@ void jedi_check_jumps()
 	//Now predict where this is going
 	//in steps, keep evaluating the trajectory until the new z pos is <= than current z pos, trace down from there
 	trace_t trace;
-	trajectory_t tr;
+	trajectory_t tr{};
 	vec3_t last_pos, bottom;
 
 	VectorCopy(NPC->currentOrigin, tr.trBase);
@@ -8530,7 +8530,7 @@ void npc_jedi_pain(gentity_t* self, gentity_t* inflictor, gentity_t* attacker, c
 		// Figure out what quadrant the hit was in.
 		if (d_JediAI->integer || d_combatinfo->integer || g_DebugSaberCombat->integer)
 		{
-			vec3_t diff, fwdangles, right;
+			vec3_t diff, fwdangles{}, right;
 
 			VectorSubtract(point, self->client->renderInfo.eyePoint, diff);
 			diff[2] = 0;
@@ -10557,8 +10557,8 @@ void npc_check_evasion()
 				// Check for nearby missiles/grenades to evade...
 				gentity_t* entity_list[MAX_GENTITIES];
 
-				vec3_t mins;
-				vec3_t maxs;
+				vec3_t mins{};
+				vec3_t maxs{};
 
 				for (int e = 0; e < 3; e++)
 				{

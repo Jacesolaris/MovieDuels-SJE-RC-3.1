@@ -1569,7 +1569,7 @@ bool NAV::LoadFromEntitiesAndSaveToFile(const char* filename, int checksum)
 	TGraph::TNodes::iterator nodeIter;
 	TGraph::TEdges::iterator edgeIter;
 
-	ratl::ratl_compare closestNbrs[MIN_WAY_NEIGHBORS];
+	ratl::ratl_compare closestNbrs[MIN_WAY_NEIGHBORS]{};
 
 	// Drop To Floor And Mark Floating
 	//---------------------------------
@@ -2355,7 +2355,7 @@ NAV::TNodeHandle NAV::GetNearestNode(const vec3_t& position, const TNodeHandle p
 		}
 
 		CVec3 Pos(position);
-		SNodeSort NodeSort;
+		SNodeSort NodeSort{};
 
 		// PHASE I - TEST NAV POINTS
 		//===========================
@@ -2374,7 +2374,7 @@ NAV::TNodeHandle NAV::GetNearestNode(const vec3_t& position, const TNodeHandle p
 				if (!allowZOffset)
 				{
 					const float ZOff = fabsf(node.mPoint[2] - Pos[2]);
-					if (ZOff > VIEW_RANGE / 4)
+					if (ZOff > static_cast<float>(VIEW_RANGE) / 4)
 					{
 						continue;
 					}
@@ -2464,7 +2464,7 @@ NAV::TNodeHandle NAV::GetNearestNode(const vec3_t& position, const TNodeHandle p
 				if (!allowZOffset)
 				{
 					const float ZOff = fabsf(Point[2] - Pos[2]);
-					if (ZOff > VIEW_RANGE / 4)
+					if (ZOff > static_cast<float>(VIEW_RANGE) / 4)
 					{
 						continue;
 					}

@@ -869,7 +869,7 @@ qboolean NPC_CheckEnemiesInSpotlight()
 	gentity_t* entity_list[MAX_GENTITIES];
 	gentity_t* suspect = nullptr;
 	int i;
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 
 	for (i = 0; i < 3; i++)
 	{
@@ -2537,8 +2537,8 @@ void ST_Commander()
 		{
 			TIMER_Set(NPC, "checkGrenadeTooCloseDebouncer", Q_irand(300, 600));
 
-			vec3_t mins;
-			vec3_t maxs;
+			vec3_t mins{};
+			vec3_t maxs{};
 			bool fled = false;
 			gentity_t* ent;
 

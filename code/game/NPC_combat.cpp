@@ -2179,7 +2179,7 @@ gentity_t* NPC_PickEnemy(const gentity_t* closest_to, const int enemy_team, cons
 	const qboolean find_players_first, const qboolean find_closest)
 {
 	int num_choices = 0;
-	int choice[128]; //FIXME: need a different way to determine how many choices?
+	int choice[128]{}; //FIXME: need a different way to determine how many choices?
 	gentity_t* newenemy;
 	gentity_t* closest_enemy = nullptr;
 	vec3_t diff;

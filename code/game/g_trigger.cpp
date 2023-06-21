@@ -1776,7 +1776,7 @@ void asteroid_move_to_start2(gentity_t* self, const gentity_t* owner_trigger)
 	if (owner_trigger)
 	{
 		//move it
-		vec3_t startSpot, endSpot, startAngles;
+		vec3_t startSpot{}, endSpot{}, startAngles{};
 		const float speed = flrand(self->speed * 0.25f, self->speed * 2.0f);
 
 		const int capAxis = Q_irand(0, 2);

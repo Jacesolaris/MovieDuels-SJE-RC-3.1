@@ -1039,7 +1039,7 @@ void G_ParseField(const char* key, const char* value, gentity_t* ent)
 				break;
 			case F_VECTOR:
 			{
-				vec3_t vec;
+				vec3_t vec{};
 				const int _iFieldsRead = sscanf(value, "%f %f %f", &vec[0], &vec[1], &vec[2]);
 				assert(_iFieldsRead == 3);
 				if (_iFieldsRead != 3)
@@ -1055,7 +1055,7 @@ void G_ParseField(const char* key, const char* value, gentity_t* ent)
 			}
 			case F_VECTOR4:
 			{
-				vec4_t vec4;
+				vec4_t vec4{};
 				const int _iFieldsRead = sscanf(value, "%f %f %f %f", &vec4[0], &vec4[1], &vec4[2], &vec4[3]);
 				assert(_iFieldsRead == 4);
 				if (_iFieldsRead != 4)

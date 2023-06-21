@@ -838,7 +838,7 @@ void G_BoltBlockMissile(gentity_t* ent, gentity_t* missile, vec3_t forward)
 	const qboolean np_cis_blocking = blocker->client->ps.ManualBlockingFlags & 1 << MBF_JKAMODENPCBLOCKING
 		? qtrue
 		: qfalse;
-	float slop_factor = (FATIGUE_AUTOBOLTBLOCK - 6) * (FORCE_LEVEL_3 - blocker->client->ps.forcePowerLevel[
+	float slop_factor = (FATIGUE_AUTOBOLTBLOCK - 6) * (static_cast<float>(FORCE_LEVEL_3) - blocker->client->ps.forcePowerLevel[
 		FP_SABER_DEFENSE]) / FORCE_LEVEL_3;
 
 	//save the original speed
@@ -2246,7 +2246,7 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 
 	if (strcmp(ent->classname, "stun") == 0)
 	{
-		vec3_t v;
+		vec3_t v{};
 		gentity_t* nent = G_Spawn();
 
 		if (other->client || other->s.eType == ET_MOVER)
@@ -2324,7 +2324,7 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 
 	if (strcmp(ent->classname, "hook") == 0)
 	{
-		vec3_t v;
+		vec3_t v{};
 		gentity_t* nent = G_Spawn();
 
 		if (other->client || other->s.eType == ET_MOVER)
@@ -2871,7 +2871,7 @@ Explode a missile without an impact
 */
 void G_ExplodeMissile(gentity_t* ent)
 {
-	vec3_t dir;
+	vec3_t dir{};
 	vec3_t origin;
 
 	EvaluateTrajectory(&ent->s.pos, level.time, origin);
@@ -2929,7 +2929,7 @@ G_GroundTrace
 */
 int G_GroundTrace(const gentity_t* ent, pml_t* pPml)
 {
-	vec3_t point;
+	vec3_t point{};
 	trace_t trace;
 
 	point[0] = ent->currentOrigin[0];
@@ -3019,7 +3019,7 @@ constexpr auto BUMPCLIP = 1.5f;
 void G_RollMissile(gentity_t* ent)
 {
 	int numplanes;
-	vec3_t planes[MAX_CLIP_PLANES];
+	vec3_t planes[MAX_CLIP_PLANES]{};
 	vec3_t primal_velocity;
 	int i;
 	trace_t trace;
@@ -3519,7 +3519,7 @@ void wp_handle_bolt_block_sje_blockpoints(gentity_t* ent, gentity_t* missile, ve
 	const qboolean manual_proj_blocking =
 		blocker->client->ps.ManualBlockingFlags & 1 << MBF_PROJBLOCKING ? qtrue : qfalse;
 	const qboolean np_cis_blocking = blocker->client->ps.ManualBlockingFlags & 1 << MBF_NPCBLOCKING ? qtrue : qfalse;
-	float slop_factor = (FATIGUE_AUTOBOLTBLOCK - 6) * (FORCE_LEVEL_3 - blocker->client->ps.forcePowerLevel[
+	float slop_factor = (FATIGUE_AUTOBOLTBLOCK - 6) * (static_cast<float>(FORCE_LEVEL_3) - blocker->client->ps.forcePowerLevel[
 		FP_SABER_DEFENSE]) / FORCE_LEVEL_3;
 	const qboolean accurate_missile_blocking =
 		blocker->client->ps.ManualBlockingFlags & 1 << MBF_ACCURATEMISSILEBLOCKING ? qtrue : qfalse;
@@ -4011,7 +4011,7 @@ void wp_handle_bolt_block_sje_forcepoints(gentity_t* ent, gentity_t* missile, ve
 	const qboolean np_cis_blocking = blocker->client->ps.ManualBlockingFlags & 1 << MBF_NPCBLOCKING ? qtrue : qfalse;
 	const qboolean accurate_missile_blocking =
 		blocker->client->ps.ManualBlockingFlags & 1 << MBF_ACCURATEMISSILEBLOCKING ? qtrue : qfalse;
-	float slop_factor = (FATIGUE_AUTOBOLTBLOCK - 6) * (FORCE_LEVEL_3 - blocker->client->ps.forcePowerLevel[
+	float slop_factor = (FATIGUE_AUTOBOLTBLOCK - 6) * (static_cast<float>(FORCE_LEVEL_3) - blocker->client->ps.forcePowerLevel[
 		FP_SABER_DEFENSE]) / FORCE_LEVEL_3;
 
 	//save the original speed

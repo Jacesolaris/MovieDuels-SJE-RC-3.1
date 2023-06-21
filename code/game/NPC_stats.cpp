@@ -379,7 +379,7 @@ saber_colors_t TranslateSaberColor(const char* name)
 	}
 	float colors[3];
 	Q_parseSaberColor(name, colors);
-	int colour_array[3];
+	int colour_array[3]{};
 	for (int i = 0; i < 3; i++)
 	{
 		colour_array[i] = static_cast<int>(colors[i] * 255);

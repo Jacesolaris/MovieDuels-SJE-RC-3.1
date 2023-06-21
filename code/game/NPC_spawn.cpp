@@ -1934,7 +1934,7 @@ constexpr auto MAX_SAFESPAWN_ENTS = 4;
 bool NPC_SafeSpawn(const gentity_t* ent, const float safeRadius)
 {
 	gentity_t* radius_ents[MAX_SAFESPAWN_ENTS];
-	vec3_t safeMins, safeMaxs;
+	vec3_t safeMins{}, safeMaxs{};
 	const float safeRadiusSquared = safeRadius * safeRadius;
 	int i;
 
@@ -1979,7 +1979,7 @@ bool NPC_SafeSpawn(const gentity_t* ent, const float safeRadius)
 //----------------------------------------------------------------------------------
 qboolean PickProjectionSpawnPoint_close(vec3_t org, vec3_t fwd, vec3_t right, const int skip, vec3_t spot)
 {
-	vec3_t mins, maxs, forward, end;
+	vec3_t mins{}, maxs{}, forward, end;
 	trace_t tr;
 
 	VectorCopy(fwd, forward);
@@ -2037,7 +2037,7 @@ qboolean PickProjectionSpawnPoint_close(vec3_t org, vec3_t fwd, vec3_t right, co
 //----------------------------------------------------------------------------------
 qboolean PickProjectionSpawnPoint_near(vec3_t org, vec3_t fwd, vec3_t right, const int skip, vec3_t spot)
 {
-	vec3_t mins, maxs, forward, end;
+	vec3_t mins{}, maxs{}, forward, end;
 	trace_t tr;
 
 	VectorCopy(fwd, forward);
@@ -2095,7 +2095,7 @@ qboolean PickProjectionSpawnPoint_near(vec3_t org, vec3_t fwd, vec3_t right, con
 //----------------------------------------------------------------------------------
 qboolean PickProjectionSpawnPoint_far(vec3_t org, vec3_t fwd, vec3_t right, const int skip, vec3_t spot)
 {
-	vec3_t mins, maxs, forward, end;
+	vec3_t mins{}, maxs{}, forward, end;
 	trace_t tr;
 
 	VectorCopy(fwd, forward);

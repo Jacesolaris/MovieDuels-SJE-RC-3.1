@@ -1017,7 +1017,7 @@ extern gentity_t* G_CheckControlledTurretEnemy(const gentity_t* self, gentity_t*
 int NPC_FindNearestEnemy(const gentity_t* ent)
 {
 	gentity_t* radius_ents[MAX_RADIUS_ENTS];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	int nearestEntID = -1;
 	float nearestDist = static_cast<float>(WORLD_SIZE) * static_cast<float>(WORLD_SIZE);
 	int numChecks = 0;
@@ -1498,7 +1498,7 @@ float NPC_EnemyRangeFromBolt(const int bolt_index)
 
 int G_GetEntsNearBolt(gentity_t* self, gentity_t** radius_ents, const float radius, const int bolt_index, vec3_t bolt_org)
 {
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 
 	//get my handRBolt's position
 	vec3_t org = { 0.0f };

@@ -166,7 +166,7 @@ void NPC_BSAnimal_Default()
 
 	// Select Closest Threat Location
 	//--------------------------------
-	CVec3 threat_location;
+	CVec3 threat_location{};
 	const qboolean player_spawned = G_PlayerSpawned();
 	if (player_spawned)
 	{

@@ -204,7 +204,7 @@ int G_FindLookItem(gentity_t* self)
 {
 	int best_ent_num = ENTITYNUM_NONE;
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t center, mins, maxs, fwdangles, forward;
+	vec3_t center, mins{}, maxs{}, fwdangles{}, forward;
 	constexpr float radius = 256;
 	float best_rating = 0.0f;
 
@@ -3150,7 +3150,7 @@ gentity_t* G_KickTrace(gentity_t* ent, vec3_t kick_dir, const float kick_dist, v
 
 qboolean G_CheckRollSafety(const gentity_t* self, const int anim, const float test_dist)
 {
-	vec3_t forward, right, test_pos, angles;
+	vec3_t forward, right, test_pos, angles{};
 	trace_t trace;
 	int contents = CONTENTS_SOLID | CONTENTS_BOTCLIP;
 

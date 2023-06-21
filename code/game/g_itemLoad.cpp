@@ -777,7 +777,7 @@ static void IT_ParseParms(const char* buffer)
 
 void IT_LoadItemParms()
 {
-	char* buffer;
+	char* buffer = nullptr;
 
 	gi.FS_ReadFile("ext_data/items.dat", reinterpret_cast<void**>(&buffer));
 

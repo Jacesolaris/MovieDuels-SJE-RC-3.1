@@ -113,7 +113,7 @@ qboolean WP_LobFire(const gentity_t* self, vec3_t start, vec3_t target, vec3_t m
 	float best_impact_dist = Q3_INFINITE; //fireSpeed,
 	vec3_t shot_vel, fail_case = { 0.0f };
 	trace_t trace;
-	trajectory_t tr;
+	trajectory_t tr{};
 	int hit_count = 0;
 	constexpr int max_hits = 7;
 

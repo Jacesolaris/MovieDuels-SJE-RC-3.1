@@ -150,7 +150,7 @@ IDEA: further off to side of FOV range, higher chance of failing even if technic
 
 qboolean InFOV(const vec3_t spot, vec3_t from, vec3_t fromAngles, const int hFOV, const int vFOV)
 {
-	vec3_t deltaVector, angles, deltaAngles;
+	vec3_t deltaVector, angles, deltaAngles{};
 
 	VectorSubtract(spot, from, deltaVector);
 	vectoangles(deltaVector, angles);
@@ -193,7 +193,7 @@ qboolean InFOVFromPlayerView(const gentity_t* ent, const int hFOV, const int vFO
 	vec3_t spot;
 	vec3_t deltaVector;
 	vec3_t angles, fromAngles;
-	vec3_t deltaAngles;
+	vec3_t deltaAngles{};
 
 	if (!player || !player->client)
 	{
@@ -257,7 +257,7 @@ qboolean InFOV(const gentity_t* ent, const gentity_t* from, const int hFOV, cons
 	vec3_t spot;
 	vec3_t deltaVector;
 	vec3_t angles, fromAngles;
-	vec3_t deltaAngles;
+	vec3_t deltaAngles{};
 
 	if (from->client)
 	{

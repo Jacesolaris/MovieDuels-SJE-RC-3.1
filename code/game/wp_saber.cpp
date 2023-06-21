@@ -4152,8 +4152,8 @@ qboolean WP_SaberDamageEffects(trace_t* tr, const float length, const float dmg,
 	//NOTE: = {0} does NOT work on anything but bytes?
 	float hit_ent_dmg_add[MAX_G2_COLLISIONS] = { 0 };
 	float hit_ent_dmg_sub[MAX_G2_COLLISIONS] = { 0 };
-	vec3_t hit_ent_point[MAX_G2_COLLISIONS];
-	vec3_t hit_ent_normal[MAX_G2_COLLISIONS];
+	vec3_t hit_ent_point[MAX_G2_COLLISIONS]{};
+	vec3_t hit_ent_normal[MAX_G2_COLLISIONS]{};
 	vec3_t blade_dir;
 	float hit_ent_start_frac[MAX_G2_COLLISIONS] = { 0 };
 	int tr_hit_loc[MAX_G2_COLLISIONS] = { HL_NONE }; //same as 0
@@ -5972,7 +5972,7 @@ qboolean WP_SabersCheckLock2(gentity_t* attacker, gentity_t* defender, sabersLoc
 			}
 		}
 	}
-	vec3_t att_angles, def_angles, def_dir;
+	vec3_t att_angles, def_angles{}, def_dir;
 	VectorSubtract(defender->currentOrigin, attacker->currentOrigin, def_dir);
 	VectorCopy(attacker->client->ps.viewangles, att_angles);
 	att_angles[YAW] = vectoyaw(def_dir);
@@ -20304,7 +20304,7 @@ void WP_SaberUpdateJKA(gentity_t* self, const usercmd_t* ucmd)
 	if (!self->client->ps.saberInFlight)
 	{
 		// It isn't, which means we can update its position as we will.
-		qboolean always_block[MAX_SABERS][MAX_BLADES];
+		qboolean always_block[MAX_SABERS][MAX_BLADES]{};
 		qboolean force_block = qfalse;
 		qboolean no_blocking = qfalse;
 
@@ -20599,7 +20599,7 @@ void WP_SaberUpdateMD(gentity_t* self, const usercmd_t* ucmd)
 	if (!self->client->ps.saberInFlight)
 	{
 		// It isn't, which means we can update its position as we will.
-		qboolean always_block[MAX_SABERS][MAX_BLADES];
+		qboolean always_block[MAX_SABERS][MAX_BLADES]{};
 		qboolean force_block = qfalse;
 		qboolean no_blocking = qfalse;
 
@@ -31838,7 +31838,7 @@ void ForceLightningDamage(gentity_t* self, gentity_t* trace_ent, vec3_t dir, con
 				//saber can block lightning
 				//make them do a parry
 				const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-				vec3_t fwd, right, up;
+				vec3_t fwd{}, right, up;
 				lightning_blocked = qtrue;
 				VectorNegate(dir, fwd);
 
@@ -32058,7 +32058,7 @@ void ForceLightningDamage(gentity_t* self, gentity_t* trace_ent, vec3_t dir, con
 						//saber can block lightning
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 
@@ -32170,7 +32170,7 @@ void ForceLightningDamage(gentity_t* self, gentity_t* trace_ent, vec3_t dir, con
 						{
 							//make them do a parry
 							const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-							vec3_t fwd, right, up;
+							vec3_t fwd{}, right, up;
 							lightning_blocked = qtrue;
 							VectorNegate(dir, fwd);
 
@@ -32222,7 +32222,7 @@ void ForceLightningDamage(gentity_t* self, gentity_t* trace_ent, vec3_t dir, con
 						{
 							//make them do a parry
 							const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-							vec3_t fwd, right, up;
+							vec3_t fwd{}, right, up;
 							lightning_blocked = qtrue;
 							VectorNegate(dir, fwd);
 
@@ -32280,7 +32280,7 @@ void ForceLightningDamage(gentity_t* self, gentity_t* trace_ent, vec3_t dir, con
 					{
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 
@@ -32585,7 +32585,7 @@ void ForceLightningDamage_AMD(gentity_t* self, gentity_t* trace_ent, vec3_t dir,
 				//saber can block lightning
 				//make them do a parry
 				const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-				vec3_t fwd, right, up;
+				vec3_t fwd{}, right, up;
 				VectorNegate(dir, fwd);
 
 				//randomize direction a bit
@@ -32802,7 +32802,7 @@ void ForceLightningDamage_AMD(gentity_t* self, gentity_t* trace_ent, vec3_t dir,
 						//saber can block lightning
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 
@@ -32916,7 +32916,7 @@ void ForceLightningDamage_AMD(gentity_t* self, gentity_t* trace_ent, vec3_t dir,
 						//Active Blocking
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 						//randomize direction a bit
@@ -33055,7 +33055,7 @@ void ForceLightningDamage_AMD(gentity_t* self, gentity_t* trace_ent, vec3_t dir,
 						&& InFOV(self->currentOrigin, trace_ent->currentOrigin, trace_ent->client->ps.viewangles, 20, 35))
 					{
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 						//randomize direction a bit
@@ -33115,7 +33115,7 @@ void ForceLightningDamage_AMD(gentity_t* self, gentity_t* trace_ent, vec3_t dir,
 					{
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 						//randomize direction a bit
@@ -33437,7 +33437,7 @@ void ForceLightningDamage_MD(gentity_t* self, gentity_t* trace_ent, vec3_t dir, 
 				//saber can block lightning
 				//make them do a parry
 				const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-				vec3_t fwd, right, up;
+				vec3_t fwd{}, right, up;
 				lightning_blocked = qtrue;
 				VectorNegate(dir, fwd);
 
@@ -33654,7 +33654,7 @@ void ForceLightningDamage_MD(gentity_t* self, gentity_t* trace_ent, vec3_t dir, 
 						//saber can block lightning
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 
@@ -33756,7 +33756,7 @@ void ForceLightningDamage_MD(gentity_t* self, gentity_t* trace_ent, vec3_t dir, 
 						//saber can block lightning
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 						//randomize direction a bit
@@ -33818,7 +33818,7 @@ void ForceLightningDamage_MD(gentity_t* self, gentity_t* trace_ent, vec3_t dir, 
 						&& InFOV(self->currentOrigin, trace_ent->currentOrigin, trace_ent->client->ps.viewangles, 20, 35))
 					{
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 						//randomize direction a bit
@@ -33878,7 +33878,7 @@ void ForceLightningDamage_MD(gentity_t* self, gentity_t* trace_ent, vec3_t dir, 
 					{
 						//make them do a parry
 						const float chance_of_fizz = Q_flrand(0.0f, 1.0f);
-						vec3_t fwd, right, up;
+						vec3_t fwd{}, right, up;
 						lightning_blocked = qtrue;
 						VectorNegate(dir, fwd);
 						//randomize direction a bit
@@ -35824,7 +35824,7 @@ void ForceJump(gentity_t* self, const usercmd_t* ucmd)
 		FORCE_JUMP_CHARGE_TIME / FRAMETIME);
 
 	int anim;
-	vec3_t jump_vel;
+	vec3_t jump_vel{};
 
 	switch (WP_GetVelocityForForceJump(self, jump_vel, ucmd))
 	{
@@ -40552,7 +40552,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 	case FP_DEADLYSIGHT:
 		if (self->client->ps.deadlySightLastChecked < level.time)
 		{
-			vec3_t forward, mins, maxs;
+			vec3_t forward, mins{}, maxs{};
 			int e, num_listed_entities;
 			gentity_t* entity_list[MAX_GENTITIES];
 			gentity_t* check = nullptr;
@@ -41679,9 +41679,9 @@ qboolean G_ActiveParry(gentity_t* self, const gentity_t* attacker, vec3_t hit_lo
 	//determines if self (who is blocking) is activating blocking (parrying)
 	vec3_t p_angles;
 	vec3_t p_right;
-	vec3_t parrier_move;
+	vec3_t parrier_move{};
 	vec3_t hit_pos;
-	vec3_t hit_flat; //flatten 2D version of the hitPos.
+	vec3_t hit_flat{}; //flatten 2D version of the hitPos.
 	const qboolean in_front = InFront(attacker->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles,
 		0.0f);
 	qboolean staggered = qfalse;
