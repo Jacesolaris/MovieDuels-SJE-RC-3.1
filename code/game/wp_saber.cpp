@@ -3814,12 +3814,7 @@ void WP_SaberDamageAdd(const float tr_dmg, const int tr_victim_entity_num, vec3_
 	{
 		return;
 	}
-	if (tr_dmg * dmg < 10.0f)
-	{
-		//too piddly an amount of damage to really count?
-		//FIXME: but already did the effect, didn't we... sigh...
-		//return;
-	}
+
 	if (tr_dmg)
 	{
 		int i;
@@ -3933,45 +3928,41 @@ qboolean WP_SabersIntersect(const gentity_t* ent1, const int ent1_saber_num, con
 				vec3_t saber_tip1;
 				vec3_t saber_base1;
 
-				{
-					VectorCopy(ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePointOld,
-						saber_base1);
-					VectorCopy(ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePoint,
-						saber_base_next1);
+				VectorCopy(ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePointOld,
+					saber_base1);
+				VectorCopy(ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePoint,
+					saber_base_next1);
 
-					VectorSubtract(ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePoint,
-						ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePointOld, dir);
-					VectorNormalize(dir);
-					VectorMA(saber_base_next1, SABER_EXTRAPOLATE_DIST, dir, saber_base_next1);
+				VectorSubtract(ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePoint,
+					ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzlePointOld, dir);
+				VectorNormalize(dir);
+				VectorMA(saber_base_next1, SABER_EXTRAPOLATE_DIST, dir, saber_base_next1);
 
-					VectorMA(saber_base1, ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].length,
-						ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzleDirOld, saber_tip1);
-					VectorMA(saber_base_next1, ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].length,
-						ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzleDir, saber_tip_next1);
+				VectorMA(saber_base1, ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].length,
+					ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzleDirOld, saber_tip1);
+				VectorMA(saber_base_next1, ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].length,
+					ent1->client->ps.saber[ent1_saber_num].blade[ent1_blade_num].muzzleDir, saber_tip_next1);
 
-					VectorSubtract(saber_tip_next1, saber_tip1, dir);
-					VectorNormalize(dir);
-					VectorMA(saber_tip_next1, SABER_EXTRAPOLATE_DIST, dir, saber_tip_next1);
-				}
+				VectorSubtract(saber_tip_next1, saber_tip1, dir);
+				VectorNormalize(dir);
+				VectorMA(saber_tip_next1, SABER_EXTRAPOLATE_DIST, dir, saber_tip_next1);
 
-				{
-					VectorCopy(ent2_saber_num.blade[ent2_blade_num].muzzlePointOld, saber_base2);
-					VectorCopy(ent2_saber_num.blade[ent2_blade_num].muzzlePoint, saber_base_next2);
+				VectorCopy(ent2_saber_num.blade[ent2_blade_num].muzzlePointOld, saber_base2);
+				VectorCopy(ent2_saber_num.blade[ent2_blade_num].muzzlePoint, saber_base_next2);
 
-					VectorSubtract(ent2_saber_num.blade[ent2_blade_num].muzzlePoint,
-						ent2_saber_num.blade[ent2_blade_num].muzzlePointOld, dir);
-					VectorNormalize(dir);
-					VectorMA(saber_base_next2, SABER_EXTRAPOLATE_DIST, dir, saber_base_next2);
+				VectorSubtract(ent2_saber_num.blade[ent2_blade_num].muzzlePoint,
+					ent2_saber_num.blade[ent2_blade_num].muzzlePointOld, dir);
+				VectorNormalize(dir);
+				VectorMA(saber_base_next2, SABER_EXTRAPOLATE_DIST, dir, saber_base_next2);
 
-					VectorMA(saber_base2, ent2_saber_num.blade[ent2_blade_num].length,
-						ent2_saber_num.blade[ent2_blade_num].muzzleDirOld, saber_tip2);
-					VectorMA(saber_base_next2, ent2_saber_num.blade[ent2_blade_num].length,
-						ent2_saber_num.blade[ent2_blade_num].muzzleDir, saber_tip_next2);
+				VectorMA(saber_base2, ent2_saber_num.blade[ent2_blade_num].length,
+					ent2_saber_num.blade[ent2_blade_num].muzzleDirOld, saber_tip2);
+				VectorMA(saber_base_next2, ent2_saber_num.blade[ent2_blade_num].length,
+					ent2_saber_num.blade[ent2_blade_num].muzzleDir, saber_tip_next2);
 
-					VectorSubtract(saber_tip_next2, saber_tip2, dir);
-					VectorNormalize(dir);
-					VectorMA(saber_tip_next2, SABER_EXTRAPOLATE_DIST, dir, saber_tip_next2);
-				}
+				VectorSubtract(saber_tip_next2, saber_tip2, dir);
+				VectorNormalize(dir);
+				VectorMA(saber_tip_next2, SABER_EXTRAPOLATE_DIST, dir, saber_tip_next2);
 
 				if (check_dir)
 				{
@@ -4912,7 +4903,7 @@ qboolean WP_SaberDamageForTrace(const int ignore, vec3_t start, vec3_t end, floa
 			VectorCopy(tr.plane.normal, saberHitNormal);
 		}
 		return qtrue;
-	}
+}
 
 	if (&g_entities[tr.entity_num])
 	{
@@ -5113,9 +5104,9 @@ qboolean WP_SaberDamageForTrace(const int ignore, vec3_t start, vec3_t end, floa
 							if (!attacker->s.number)
 							{
 								gi.Printf(S_COLOR_BLUE"%d saber hit saber dist %4.2f, frac %4.2f\n", level.time, sabersDist, saberHitFraction);
-							}
+					}
 							saberHitFraction = tr.fraction;
-						}
+				}
 #endif//FINAL_BUILD
 					}
 #ifndef FINAL_BUILD
@@ -5126,7 +5117,7 @@ qboolean WP_SaberDamageForTrace(const int ignore, vec3_t start, vec3_t end, floa
 #endif//FINAL_BUILD
 					VectorCopy(tr.endpos, saberHitLocation);
 					saberHitEntity = tr.entity_num;
-				}
+			}
 				return qfalse; // Exit, but we didn't hit the wall.
 			}
 		}
@@ -5181,7 +5172,7 @@ qboolean WP_SaberDamageForTrace(const int ignore, vec3_t start, vec3_t end, floa
 				}
 				return qfalse; // Exit, but we didn't hit the wall.
 			}
-		}
+			}
 
 		if (hit_ent->takedamage)
 		{
@@ -5362,10 +5353,10 @@ qboolean WP_SaberDamageForTrace(const int ignore, vec3_t start, vec3_t end, floa
 				}
 			}
 		}
-	}
+		}
 
 	return qfalse;
-}
+	}
 
 constexpr auto LOCK_IDEAL_DIST_TOP = 32.0f;
 constexpr auto LOCK_IDEAL_DIST_CIRCLE = 48.0f;
@@ -5853,7 +5844,7 @@ qboolean WP_SabersCheckLock2(gentity_t* attacker, gentity_t* defender, sabersLoc
 				Com_Printf("%s starting saber lock, anim = %s, %d frames to go!\n", defender->NPC_type, anim_table[defAnim].name, advance);
 			}
 #endif
-		}
+}
 	}
 	VectorClear(attacker->client->ps.velocity);
 	VectorClear(attacker->client->ps.moveDir);
@@ -7221,7 +7212,7 @@ void WP_SaberRadiusDamage(gentity_t* ent, vec3_t point, const float radius, cons
 	{
 		return;
 	}
-	vec3_t mins, maxs, ent_dir;
+	vec3_t mins{}, maxs{}, ent_dir;
 	gentity_t* radius_ents[128];
 	int i;
 
@@ -7803,7 +7794,7 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 		float tip_dmg_mod = 1.0f;
 		vec3_t base_diff;
 		float aveLength, step = 8, stepsize = 8;
-		vec3_t ma1, ma2, md2_ang, cur_base2;
+		vec3_t ma1, ma2, md2_ang{}, cur_base2;
 		int xx;
 		//do the trace at the base first
 		hit_wall = WP_SaberDamageForTrace(ent->s.number, base_old, base_new, base_damage, md2,
@@ -7858,8 +7849,7 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 		vectoangles(md1, ma1);
 		vectoangles(md2, ma2);
 
-		vec3_t curMD2; //, mdDiff, dirDiff;
-		//VectorSubtract( md2, md1, mdDiff );
+		vec3_t curMD2; 
 		VectorCopy(md1, curMD2);
 		VectorCopy(base_old, cur_base2);
 
@@ -7881,7 +7871,6 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 					md2_ang[xx] = LerpAngle(ma1[xx], ma2[xx], curDirFrac);
 				}
 				AngleVectors(md2_ang, curMD2, nullptr, nullptr);
-				//VectorMA( md1, curDirFrac, mdDiff, curMD2 );
 				VectorSubtract(base_new, base_old, base_diff);
 				VectorMA(base_old, curDirFrac, base_diff, cur_base2);
 			}
@@ -8363,16 +8352,16 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 									hit_owner->client->ps.saberBounceMove = LS_NONE;
 								}
 							}
-						}
+								}
 						collision_resolved = qtrue;
-					}
-				}
+							}
+						}
 				else
 				{
 					//some other kind of in-hand saber collision
 				}
-			}
-		}
+					}
+				}
 		else
 		{
 			//some kind of in-flight collision
@@ -8611,7 +8600,7 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 				}
 			}
 		}
-	}
+			}
 
 	if (ent->client->ps.saberLockTime > level.time)
 	{
@@ -8716,8 +8705,8 @@ void WP_SaberDamageTrace(gentity_t* ent, int saber_num, int blade_num)
 			//FIXME: is this impact on ground or not?
 			AddSightEvent(ent, ent->currentOrigin, 256, AEL_DISCOVERED, 50);
 		}
+		}
 	}
-}
 
 //////SERENITYJEDIENGINE MODE //////////////////////////////////////////////////////////////////////////
 
@@ -9644,7 +9633,7 @@ void wp_saber_damage_trace_amd(gentity_t* ent, int saber_num, int blade_num)
 		float ave_length, step = 8, stepsize = 8;
 		vec3_t ma1;
 		vec3_t ma2;
-		vec3_t md2_ang;
+		vec3_t md2_ang{};
 		vec3_t cur_base2;
 		int xx;
 		//do the trace at the base first
@@ -11037,7 +11026,7 @@ void WP_SaberDamageTrace_MD(gentity_t* ent, int saber_num, int blade_num)
 		float tip_dmg_mod = 1.0f;
 		vec3_t base_diff;
 		float ave_length, step = 8, stepsize = 8;
-		vec3_t ma1, ma2, md2_ang, cur_base2;
+		vec3_t ma1, ma2, md2_ang{}, cur_base2;
 		int xx;
 		//do the trace at the base first
 		hit_wall = WP_SaberDamageForTrace(ent->s.number, base_old, base_new, base_damage, md2,
@@ -12275,8 +12264,8 @@ extern float G_PointDistFromLineSegment(const vec3_t start, const vec3_t end, co
 void WP_SaberInFlightReflectCheck(gentity_t* self)
 {
 	gentity_t* entity_list[MAX_GENTITIES];
-	gentity_t* missile_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
+	gentity_t* missile_list[MAX_GENTITIES]{};
+	vec3_t mins{}, maxs{};
 	int ent_count = 0;
 	vec3_t center;
 	vec3_t up = { 0, 0, 1 };
@@ -16900,7 +16889,7 @@ qboolean WP_SaberBlockNonRandom(gentity_t* self, vec3_t hitloc, const qboolean m
 
 	self->client->ps.userInt3 &= ~(1 << FLAG_PREBLOCK);
 	return qtrue;
-}
+			}
 
 qboolean WP_SaberMBlockDirection(gentity_t* self, vec3_t hitloc, const qboolean missileBlock)
 {
@@ -19004,7 +18993,7 @@ void wp_saber_start_missile_block_check(gentity_t* self, const usercmd_t* ucmd)
 {
 	gentity_t* incoming = nullptr;
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	constexpr float radius = 256;
 	vec3_t forward;
 	vec3_t fwdangles = { 0 };
@@ -19536,7 +19525,7 @@ void wp_saber_start_missile_block_check_md(gentity_t* self, const usercmd_t* ucm
 	int closestSwingQuad = Q_T;
 	gentity_t* incoming = nullptr;
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	constexpr float radius = 256;
 	vec3_t forward;
 	vec3_t fwdangles = { 0 };
@@ -20984,7 +20973,7 @@ constexpr auto MAX_RADIUS_ENTS = 256; //NOTE: This can cause entities to be lost
 qboolean G_CheckEnemyPresence(const gentity_t* ent, const int dir, const float radius, const float tolerance)
 {
 	gentity_t* radius_ents[MAX_RADIUS_ENTS];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	vec3_t check_dir;
 	int i;
 
@@ -22472,10 +22461,10 @@ void ForceThrow_JKA(gentity_t* self, qboolean pull, qboolean fake)
 	{
 		int e;
 		int i;
-		vec3_t v;
+		vec3_t v{};
 		gentity_t* ent;
-		vec3_t maxs;
-		vec3_t mins;
+		vec3_t maxs{};
+		vec3_t mins{};
 		gentity_t* entity_list[MAX_GENTITIES];
 		float dist;
 		for (i = 0; i < 3; i++)
@@ -23928,9 +23917,9 @@ void ForceThrow_MD(gentity_t* self, qboolean pull, qboolean fake) //MD Mode Push
 	{
 		int e;
 		int i;
-		vec3_t v;
-		vec3_t maxs;
-		vec3_t mins;
+		vec3_t v{};
+		vec3_t maxs{};
+		vec3_t mins{};
 		gentity_t* entity_list[MAX_GENTITIES];
 		gentity_t* ent;
 		float dist;
@@ -25123,10 +25112,10 @@ void ForceRepulse(gentity_t* self, qboolean pull, qboolean fake)
 	float dist;
 	gentity_t* ent, * forward_ent = nullptr;
 	gentity_t* entity_list[MAX_GENTITIES];
-	gentity_t* push_target[MAX_GENTITIES];
+	gentity_t* push_target[MAX_GENTITIES]{};
 	int num_listed_entities = 0;
-	vec3_t mins, maxs;
-	vec3_t v;
+	vec3_t mins{}, maxs{};
+	vec3_t v{};
 	int i, e;
 	int ent_count = 0;
 	int radius;
@@ -28211,9 +28200,9 @@ void ForceRepulseThrow(gentity_t* self, int charge_time)
 	{
 		int e;
 		int i;
-		vec3_t v;
-		vec3_t maxs;
-		vec3_t mins;
+		vec3_t v{};
+		vec3_t maxs{};
+		vec3_t mins{};
 		gentity_t* entity_list[MAX_GENTITIES];
 		gentity_t* ent;
 		float dist;
@@ -29886,7 +29875,7 @@ void ForceGrip(gentity_t* self)
 			//can't grip a vehicle
 			return;
 		}
-	}
+}
 
 	if (trace_ent->client)
 	{
@@ -37146,7 +37135,7 @@ void ForceGrasp(gentity_t* self)
 			//can't grip a vehicle
 			return;
 		}
-	}
+}
 	if (trace_ent->client)
 	{
 		if (trace_ent->client->ps.forceJumpZStart)
@@ -37504,7 +37493,7 @@ void ForceGrasp(gentity_t* self)
 			G_SoundOnEnt(self, CHAN_BODY, "sound/weapons/force/grip.wav");
 		}
 	}
-	}
+}
 
 extern void WP_FireBlast(gentity_t* ent, int force_level);
 
@@ -39705,8 +39694,8 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 					}
 				}
 			}
-			}
 		}
+	}
 
 	if (self->client->ps.forcePowersActive & 1 << FP_GRIP)
 	{
@@ -40474,8 +40463,8 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 				}
 				grip_ent->painDebounceTime = level.time + 2000;
 			}
-			}
 		}
+	}
 	break;
 	case FP_REPULSE:
 	{
@@ -40677,7 +40666,7 @@ static void wp_force_power_run(gentity_t* self, forcePowers_t force_power, userc
 	default:
 		break;
 	}
-	}
+}
 
 void WP_CheckForcedPowers(gentity_t* self, usercmd_t* ucmd)
 {

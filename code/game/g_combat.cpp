@@ -9319,8 +9319,8 @@ void G_RadiusDamage(const vec3_t origin, gentity_t* attacker, const float damage
 	const gentity_t* ignore, const int mod)
 {
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
-	vec3_t v;
+	vec3_t mins{}, maxs{};
+	vec3_t v{};
 	vec3_t dir;
 	int i;
 	int d_flags = DAMAGE_RADIUS;

@@ -58,9 +58,9 @@ Returns CULL_IN, CULL_CLIP, or CULL_OUT
 */
 int R_CullLocalBox(const vec3_t bounds[2]) {
 	int		i;
-	vec3_t	transformed[8];
-	float	dists[8];
-	vec3_t	v;
+	vec3_t	transformed[8]{};
+	float	dists[8]{};
+	vec3_t	v{};
 	int back;
 
 	if (r_nocull->integer == 1) {
@@ -798,7 +798,7 @@ qboolean R_GetPortalOrientations(const drawSurf_t* draw_surf, const int entity_n
 
 static qboolean IsMirror(const drawSurf_t* draw_surf, const int entity_num)
 {
-	cplane_t	original_plane, plane;
+	cplane_t	original_plane, plane{};
 
 	// create plane axis for the portal we are seeing
 	R_PlaneForSurface(draw_surf->surface, &original_plane);

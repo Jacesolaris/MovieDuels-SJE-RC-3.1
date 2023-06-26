@@ -176,8 +176,8 @@ collision detection purposes
 =================
 */
 static qboolean	CM_NeedsSubdivision(vec3_t a, vec3_t b, vec3_t c) {
-	vec3_t		cmid;
-	vec3_t		lmid;
+	vec3_t		cmid{};
+	vec3_t		lmid{};
 	vec3_t		delta;
 	int			i;
 
@@ -443,7 +443,7 @@ constexpr auto NORMAL_EPSILON = 0.00015;
 constexpr auto DIST_EPSILON = 0.0235;
 
 int CM_PlaneEqual(const patchPlane_t* p, float plane[4], int* flipped) {
-	float invplane[4];
+	float invplane[4]{};
 
 	if (
 		Q_fabs(p->plane[0] - plane[0]) < NORMAL_EPSILON
@@ -682,7 +682,7 @@ CM_SetBorderInward
 */
 static void CM_SetBorderInward(facet_t* facet, cGrid_t* grid,
 	const int i, const int j, const int which) {
-	float* points[4];
+	float* points[4]{};
 	int		num_points;
 
 	switch (which) {
@@ -758,7 +758,7 @@ static qboolean CM_ValidateFacet(const facet_t* facet) {
 	float		plane[4];
 	int			j;
 	winding_t* w;
-	vec3_t		bounds[2];
+	vec3_t		bounds[2]{};
 
 	if (facet->surfacePlane == -1) {
 		return qfalse;
@@ -982,9 +982,9 @@ CM_PatchCollideFromGrid
 */
 static void CM_PatchCollideFromGrid(cGrid_t* grid, patchCollide_t* pf) {
 	int				i, j;
-	int				grid_planes[CM_MAX_GRID_SIZE][CM_MAX_GRID_SIZE][2];
-	int				borders[4];
-	qboolean		no_adjust[4];
+	int				grid_planes[CM_MAX_GRID_SIZE][CM_MAX_GRID_SIZE][2]{};
+	int				borders[4]{};
+	qboolean		no_adjust[4]{};
 
 	facets = static_cast<facet_t*>(Z_Malloc(MAX_FACETS * sizeof(facet_t), TAG_TEMP_WORKSPACE, qfalse));
 
@@ -1180,7 +1180,7 @@ Points is packed as concatenated rows.
 ===================
 */
 patchCollide_s* CM_GeneratePatchCollide(const int width, const int height, vec3_t* points) {
-	cGrid_t			grid;
+	cGrid_t			grid{};
 	int				i, j;
 
 	if (width <= 2 || height <= 2 || !points) {
@@ -1361,8 +1361,8 @@ CM_TracePointThroughPatchCollide
 ====================
 */
 void CM_TracePointThroughPatchCollide(traceWork_t* tw, const patchCollide_s* pc) {
-	qboolean	front_facing[MAX_PATCH_PLANES];
-	float		intersection[MAX_PATCH_PLANES];
+	qboolean	front_facing[MAX_PATCH_PLANES]{};
+	float		intersection[MAX_PATCH_PLANES]{};
 	float		intersect;
 	const patchPlane_t* planes;
 	const facet_t* facet;
@@ -1661,7 +1661,7 @@ Modifies tr->tr if any of the facets effect the trace
 ====================
 */
 qboolean CM_PositionTestInPatchCollide(const traceWork_t* tw, const patchCollide_s* pc) {
-	int			cross[MAX_PATCH_PLANES];
+	int			cross[MAX_PATCH_PLANES]{};
 	const patchPlane_t* planes;
 	const facet_t* facet;
 	int			i, j, k;

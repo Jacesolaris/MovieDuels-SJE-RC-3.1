@@ -585,7 +585,7 @@ static rserr_t GLimp_SetMode(glconfig_t* glConfig, const windowDesc_t* windowDes
 
 			if (fullscreen)
 			{
-				SDL_DisplayMode mode;
+				SDL_DisplayMode mode{};
 
 				switch (testColorBits)
 				{
@@ -785,7 +785,7 @@ window_t WIN_Init(const windowDesc_t* window_desc, glconfig_t* glConfig)
 	window.api = window_desc->api;
 
 #if defined(_WIN32)
-	SDL_SysWMinfo info;
+	SDL_SysWMinfo info{};
 	SDL_VERSION(&info.version);
 
 	if (SDL_GetWindowWMInfo(screen, &info))
@@ -831,7 +831,7 @@ void GLimp_LogComment(char* comment)
 
 void WIN_SetGamma(glconfig_t* glConfig, byte red[256], byte green[256], byte blue[256])
 {
-	Uint16 table[3][256];
+	Uint16 table[3][256]{};
 	int i, j;
 
 	if (!glConfig->deviceSupportsGamma || r_ignorehwgamma->integer > 0)
@@ -847,7 +847,7 @@ void WIN_SetGamma(glconfig_t* glConfig, byte red[256], byte green[256], byte blu
 #if defined(_WIN32)
 	// Win2K and newer put this odd restriction on gamma ramps...
 	{
-		OSVERSIONINFO vinfo;
+		OSVERSIONINFO vinfo{};
 
 		vinfo.dwOSVersionInfoSize = sizeof(vinfo);
 		GetVersionEx(&vinfo);

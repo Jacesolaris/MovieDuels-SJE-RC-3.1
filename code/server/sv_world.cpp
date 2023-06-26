@@ -462,7 +462,7 @@ SV_AreaEntities
 */
 int SV_AreaEntities(const vec3_t mins, const vec3_t maxs, gentity_t** elist, const int maxcount)
 {
-	areaParms_t ap;
+	areaParms_t ap{};
 
 	ap.mins = mins;
 	ap.maxs = maxs;

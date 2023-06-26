@@ -1102,9 +1102,9 @@ constexpr auto BPFUELBAR_Y = 250.0f;
 
 void CG_DrawoldblockPoints(const centity_t* cent)
 {
-	vec4_t a_color;
-	vec4_t b_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t b_color{};
+	vec4_t c_color{};
 	float x = BPFUELBAR_X;
 	constexpr float y = BPFUELBAR_Y;
 
@@ -1235,7 +1235,7 @@ static void CG_DrawJK2blockPoints(const int x, const int y)
 	}
 
 	const float hold = cg.snap->ps.blockPoints - BLOCK_POINTS_MAX / 2;
-	float block_percent = static_cast<float>(hold) / (BLOCK_POINTS_MAX / 2);
+	float block_percent = static_cast<float>(hold) / (static_cast<float>(BLOCK_POINTS_MAX) / 2);
 
 	// Make the hud flash by setting forceHUDTotalFlashTime above cg.time
 	if (cg.blockHUDTotalFlashTime > cg.time || cg.snap->ps.blockPoints < BLOCKPOINTS_WARNING)
@@ -1290,7 +1290,7 @@ static void CG_DrawJK2blockPoints(const int x, const int y)
 	}
 	else
 	{
-		block_percent = static_cast<float>(cg.snap->ps.blockPoints) / (BLOCK_POINTS_MAX / 2);
+		block_percent = static_cast<float>(cg.snap->ps.blockPoints) / (static_cast<float>(BLOCK_POINTS_MAX) / 2);
 	}
 
 	if (cg.predicted_player_state.ManualBlockingFlags & 1 << MBF_MBLOCKING)
@@ -2527,9 +2527,9 @@ constexpr auto SPFUELBAR_Y = 240.0f;
 
 void CG_DrawSprintFuel()
 {
-	vec4_t a_color;
-	vec4_t b_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t b_color{};
+	vec4_t c_color{};
 	constexpr float x = SPFUELBAR_X;
 	constexpr float y = SPFUELBAR_Y;
 	float percent = static_cast<float>(cg.snap->ps.sprintFuel) / 100.0f * SPFUELBAR_H;
@@ -2582,9 +2582,9 @@ constexpr auto JPFUELBAR_Y = 240.0f;
 
 void CG_DrawJetpackFuel()
 {
-	vec4_t a_color;
-	vec4_t b_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t b_color{};
+	vec4_t c_color{};
 	float x = JPFUELBAR_X;
 	constexpr float y = JPFUELBAR_Y;
 	float percent = static_cast<float>(cg.snap->ps.jetpackFuel) / 100.0f * JPFUELBAR_H;
@@ -2641,9 +2641,9 @@ constexpr auto CLFUELBAR_Y = 240.0f;
 
 void CG_DrawCloakFuel()
 {
-	vec4_t a_color;
-	vec4_t b_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t b_color{};
+	vec4_t c_color{};
 	float x = CLFUELBAR_X;
 	constexpr float y = CLFUELBAR_Y;
 
@@ -2705,9 +2705,9 @@ constexpr auto BFFUELBAR_Y = 240.0f;
 
 void CG_DrawBarrierFuel()
 {
-	vec4_t a_color;
-	vec4_t b_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t b_color{};
+	vec4_t c_color{};
 	float x = BFFUELBAR_X;
 	constexpr float y = BFFUELBAR_Y;
 
@@ -3167,8 +3167,8 @@ static void CG_DrawJK2Armor(const centity_t* cent, const int x, const int y)
 	//	Outer Armor circular
 	memcpy(calc_color, colorTable[CT_HUD_GREEN], sizeof(vec4_t));
 
-	const float hold = ps->stats[STAT_ARMOR] - ps->stats[STAT_MAX_HEALTH] / 2;
-	float armor_percent = hold / (ps->stats[STAT_MAX_HEALTH] / 2);
+	const float hold = ps->stats[STAT_ARMOR] - ps->stats[STAT_MAX_HEALTH] / static_cast<float>(2);
+	float armor_percent = hold / (ps->stats[STAT_MAX_HEALTH] / static_cast<float>(2));
 	if (armor_percent < 0)
 	{
 		armor_percent = 0;
@@ -3186,7 +3186,7 @@ static void CG_DrawJK2Armor(const centity_t* cent, const int x, const int y)
 	}
 	else
 	{
-		armor_percent = static_cast<float>(ps->stats[STAT_ARMOR]) / (ps->stats[STAT_MAX_HEALTH] / 2);
+		armor_percent = static_cast<float>(ps->stats[STAT_ARMOR]) / (ps->stats[STAT_MAX_HEALTH] / static_cast<float>(2));
 	}
 	memcpy(calc_color, colorTable[CT_HUD_GREEN], sizeof(vec4_t));
 	calc_color[0] *= armor_percent;
@@ -4076,7 +4076,7 @@ static void CG_DrawBatteryCharge()
 {
 	if (cg.batteryChargeTime > cg.time)
 	{
-		vec4_t color;
+		vec4_t color{};
 
 		// FIXME: drawing it here will overwrite zoom masks...find a better place
 		if (cg.batteryChargeTime < cg.time + 1000)
@@ -5072,8 +5072,8 @@ static void CG_DrawDataPadArmor(const int x, const int y)
 	//	Outer Armor circular
 	memcpy(calc_color, colorTable[CT_HUD_GREEN], sizeof(vec4_t));
 
-	const float hold = ps->stats[STAT_ARMOR] - ps->stats[STAT_MAX_HEALTH] / 2;
-	float armor_percent = static_cast<float>(hold) / (ps->stats[STAT_MAX_HEALTH] / 2);
+	const float hold = ps->stats[STAT_ARMOR] - ps->stats[STAT_MAX_HEALTH] / static_cast<float>(2);
+	float armor_percent = static_cast<float>(hold) / (ps->stats[STAT_MAX_HEALTH] / static_cast<float>(2));
 	if (armor_percent < 0)
 	{
 		armor_percent = 0;
@@ -5091,7 +5091,7 @@ static void CG_DrawDataPadArmor(const int x, const int y)
 	}
 	else
 	{
-		armor_percent = static_cast<float>(ps->stats[STAT_ARMOR]) / (ps->stats[STAT_MAX_HEALTH] / 2);
+		armor_percent = static_cast<float>(ps->stats[STAT_ARMOR]) / (ps->stats[STAT_MAX_HEALTH] / static_cast<float>(2));
 	}
 	memcpy(calc_color, colorTable[CT_HUD_GREEN], sizeof(vec4_t));
 	calc_color[0] *= armor_percent;
@@ -5365,7 +5365,7 @@ static void CG_DrawBinocularNumbers(const qboolean power)
 
 	if (power)
 	{
-		vec4_t color1;
+		vec4_t color1{};
 		// Numbers should be kind of greenish
 		color1[0] = 0.2f;
 		color1[1] = 0.4f;
@@ -5410,7 +5410,7 @@ extern float cg_zoomFov; //from cg_view.cpp
 
 static void CG_DrawZoomMask()
 {
-	vec4_t color1;
+	vec4_t color1{};
 	float level;
 	static qboolean flip = qtrue;
 	const float charge = cg.snap->ps.batteryCharge / static_cast<float>(MAX_BATTERIES);
@@ -5559,7 +5559,7 @@ static void CG_DrawZoomMask()
 		}
 
 		// Draw rotating insert
-		CG_DrawRotatePic2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, -level,
+		CG_DrawRotatePic2(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2, SCREEN_WIDTH, SCREEN_HEIGHT, -level,
 			cgs.media.disruptorInsert, cgs.widthRatioCoef);
 
 		float max = cg_entities[0].gent->client->ps.ammo[weaponData[WP_DISRUPTOR].ammoIndex] / static_cast<float>(
@@ -5797,8 +5797,8 @@ void CG_DrawCredits()
 //draw the health bar based on current "health" and maxhealth
 void CG_DrawHealthBar(const centity_t* cent, const float ch_x, const float ch_y, const float ch_w, const float ch_h)
 {
-	vec4_t a_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t c_color{};
 	const float x = ch_x - ch_w / 2;
 	const float y = ch_y - ch_h;
 
@@ -5861,8 +5861,8 @@ void CG_DrawHealthBar(const centity_t* cent, const float ch_x, const float ch_y,
 
 void CG_DrawBlockPointBar(const centity_t* cent, const float ch_x, const float ch_y, const float ch_w, const float ch_h)
 {
-	vec4_t a_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t c_color{};
 	const float x = ch_x - ch_w / 2;
 	const float y = ch_y - ch_h;
 
@@ -5927,8 +5927,8 @@ void CG_DrawBlockPointBar(const centity_t* cent, const float ch_x, const float c
 void CG_DrawFatiguePointBar(const centity_t* cent, const float ch_x, const float ch_y, const float ch_w,
 	const float ch_h)
 {
-	vec4_t a_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t c_color{};
 	const float x = ch_x - ch_w / 2;
 	const float y = ch_y - ch_h;
 
@@ -5995,8 +5995,8 @@ void CG_DrawFatiguePointBar(const centity_t* cent, const float ch_x, const float
 
 void CG_DrawForcePointBar(const centity_t* cent, const float ch_x, const float ch_y, const float ch_w, const float ch_h)
 {
-	vec4_t a_color;
-	vec4_t c_color;
+	vec4_t a_color{};
+	vec4_t c_color{};
 	const float x = ch_x - ch_w / 2;
 	const float y = ch_y - ch_h;
 
@@ -6283,7 +6283,7 @@ static void CG_DrawCrosshair(vec3_t world_point)
 {
 	float w, h;
 	qboolean corona = qfalse;
-	vec4_t ecolor;
+	vec4_t ecolor{};
 	float x, y;
 
 	if (!cg_drawCrosshair.integer)
@@ -7458,7 +7458,7 @@ constexpr auto RADAR_MIN_ASTEROID_SURF_WARN_DIST = 1200.0f;
 
 float cg_draw_radar(const float y)
 {
-	vec4_t color;
+	vec4_t color{};
 	float arrow_w;
 	float arrow_h;
 	float arrow_base_scale;
@@ -7541,7 +7541,7 @@ float cg_draw_radar(const float y)
 		{
 		default:
 		{
-			vec4_t rgba;
+			vec4_t rgba{};
 
 			const float x = (float)RADAR_X + (float)RADAR_RADIUS_X + sin(angle) * distance * cgs.widthRatioCoef;
 			const float ly = y + static_cast<float>(RADAR_RADIUS) + cos(angle) * distance;
@@ -7951,7 +7951,7 @@ static void CG_UseIcon()
 static void CG_Draw2DScreenTints()
 {
 	float rage_time, rage_rec_time, absorb_time, protect_time, project_time;
-	vec4_t hcolor;
+	vec4_t hcolor{};
 	//force effects
 	if (cg.snap->ps.forcePowersActive & 1 << FP_RAGE)
 	{

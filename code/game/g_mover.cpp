@@ -293,8 +293,8 @@ If qfalse is returned, *obstacle will be the blocking entity
 qboolean G_MoverPush(gentity_t* pusher, vec3_t move, vec3_t amove, gentity_t** obstacle)
 {
 	int i;
-	vec3_t mins, maxs;
-	vec3_t pusherMins, pusherMaxs, totalMins, totalMaxs;
+	vec3_t mins{}, maxs{};
+	vec3_t pusherMins, pusherMaxs, totalMins{}, totalMaxs{};
 	gentity_t* entity_list[MAX_GENTITIES];
 
 	*obstacle = nullptr;

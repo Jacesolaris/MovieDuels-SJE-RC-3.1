@@ -16507,7 +16507,7 @@ saberMoveName_t PM_PickAutoKick(const gentity_t* enemy)
 saberMoveName_t g_pick_auto_multi_kick(gentity_t* self, const qboolean allow_singles, const qboolean store_move)
 {
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	const int radius = self->maxs[0] * 1.5f + self->maxs[0] * 1.5f + STAFF_KICK_RANGE + 24.0f;
 	//a little wide on purpose
 	vec3_t center;

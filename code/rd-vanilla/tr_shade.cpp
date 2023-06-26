@@ -653,7 +653,7 @@ static void ProjectDlightTexture2()
 	byte	clip_bits[SHADER_MAX_VERTEXES]{};
 	float	tex_coords_array[SHADER_MAX_VERTEXES][2]{};
 	float	old_tex_coords_array[SHADER_MAX_VERTEXES][2]{};
-	unsigned int		color_array[SHADER_MAX_VERTEXES];
+	unsigned int		color_array[SHADER_MAX_VERTEXES]{};
 	glIndex_t	hit_indexes[SHADER_MAX_INDEXES]{};
 	int		num_indexes;
 	float	radius;
@@ -980,8 +980,8 @@ static void ProjectDlightTexture()
 	}
 
 	for (int l = 0; l < backEnd.refdef.num_dlights; l++) {
-		byte color_array[SHADER_MAX_VERTEXES][4];
-		float tex_coords_array[SHADER_MAX_VERTEXES][2];
+		byte color_array[SHADER_MAX_VERTEXES][4]{};
+		float tex_coords_array[SHADER_MAX_VERTEXES][2]{};
 		vec3_t origin;
 		if (!(tess.dlightBits & 1 << l)) {
 			continue;	// this surface definately doesn't have any of this light

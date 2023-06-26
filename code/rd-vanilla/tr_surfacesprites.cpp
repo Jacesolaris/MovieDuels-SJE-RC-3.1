@@ -339,10 +339,10 @@ qboolean ss_using_fog = qfalse;
 static void RB_VerticalSurfaceSprite(vec3_t loc, const float width, const float height, const byte light,
 	const byte alpha, const float wind, const float windidle, vec2_t fog, const int hangdown, vec2_t skew, const bool flattened)
 {
-	vec3_t loc2, right;
+	vec3_t loc2{}, right{};
 	float windsway;
-	float points[16];
-	color4ub_t color;
+	float points[16]{};
+	color4ub_t color{};
 
 	const float angle = (loc[0] + loc[1]) * 0.02 + tr.refdef.time * 0.0015;
 

@@ -16668,7 +16668,7 @@ void CG_Player(centity_t* cent)
 
 					if ((cent->currentState.eFlags & EF_FIRING || cent->currentState.eFlags & EF_ALT_FIRING) && effect)
 					{
-						vec3_t up = { 0, 0, 1 }, ax[3];
+						vec3_t up = { 0, 0, 1 }, ax[3]{};
 
 						VectorCopy(flash.axis[0], ax[0]);
 
@@ -16699,7 +16699,7 @@ void CG_Player(centity_t* cent)
 
 						if (effect)
 						{
-							vec3_t up = { 0, 0, 1 }, ax[3];
+							vec3_t up = { 0, 0, 1 }, ax[3]{};
 
 							VectorCopy(flash.axis[0], ax[0]);
 
@@ -16727,7 +16727,7 @@ void CG_Player(centity_t* cent)
 
 						if (effect)
 						{
-							vec3_t up = { 0, 0, 1 }, ax[3];
+							vec3_t up = { 0, 0, 1 }, ax[3]{};
 
 							VectorCopy(flash.axis[0], ax[0]);
 
