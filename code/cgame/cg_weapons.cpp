@@ -1740,7 +1740,7 @@ void CG_AddViewWeapon(playerState_t* ps)
 	// set up gun position
 	CG_CalculateWeaponPosition(hand.origin, angles);
 
-	vec3_t extra_offset;
+	vec3_t extra_offset{};
 	extra_offset[0] = extra_offset[1] = extra_offset[2] = 0.0f;
 
 	if (ps->weapon == WP_TUSKEN_RIFLE || ps->weapon == WP_NOGHRI_STICK || ps->weapon == WP_TUSKEN_STAFF)
@@ -2228,7 +2228,7 @@ void CG_AddViewWeaponDuals(playerState_t* ps)
 	// set up gun position
 	CG_CalculateWeaponPosition(hand.origin, angles);
 
-	vec3_t extra_offset;
+	vec3_t extra_offset{};
 	extra_offset[0] = extra_offset[1] = extra_offset[2] = 0.0f;
 
 	if (ps->weapon == WP_TUSKEN_RIFLE || ps->weapon == WP_NOGHRI_STICK || ps->weapon == WP_TUSKEN_STAFF)
@@ -3489,12 +3489,12 @@ void CG_DrawWeaponSelect()
 		{
 			if (!CG_WeaponCheck(cg.weaponSelect))
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + y_offset, big_icon_size,
 					big_icon_size, weapon_info->weaponIconNoAmmo);
 			}
 			else
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + y_offset, big_icon_size,
 					big_icon_size, weapon_info->weapon_Icon);
 			}
 		}
@@ -3502,13 +3502,13 @@ void CG_DrawWeaponSelect()
 		{
 			if (!CG_WeaponCheck(cg.weaponSelect))
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + 10 + y_offset,
 					big_icon_size,
 					big_icon_size, weapon_info->weaponIconNoAmmo);
 			}
 			else
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + 10 + y_offset,
 					big_icon_size,
 					big_icon_size, weapon_info->weapon_Icon);
 			}
@@ -3924,12 +3924,12 @@ void CG_DrawWeaponSelect_kotor()
 		{
 			if (!CG_WeaponCheck(cg.weaponSelect))
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + y_offset, big_icon_size,
 					big_icon_size, weapon_info->alt_weaponIconNoAmmo);
 			}
 			else
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + y_offset, big_icon_size,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + y_offset, big_icon_size,
 					big_icon_size, weapon_info->alt_weapon_Icon);
 			}
 		}
@@ -3937,13 +3937,13 @@ void CG_DrawWeaponSelect_kotor()
 		{
 			if (!CG_WeaponCheck(cg.weaponSelect))
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + 10 + y_offset,
 					big_icon_size,
 					big_icon_size, weapon_info->alt_weaponIconNoAmmo);
 			}
 			else
 			{
-				CG_DrawPic(x - big_icon_size / 2, y - (big_icon_size - small_icon_size) / 2 + 10 + y_offset,
+				CG_DrawPic(x - big_icon_size / static_cast<float>(2), y - (static_cast<float>(big_icon_size) - small_icon_size) / 2 + 10 + y_offset,
 					big_icon_size,
 					big_icon_size, weapon_info->alt_weapon_Icon);
 			}

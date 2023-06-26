@@ -652,7 +652,7 @@ int CTaskManager::Get(const int ent_id, CBlock* block, int& member_num, char** v
 	}
 	if (bm->GetID() == CIcarus::TK_VECTOR)
 	{
-		vec3_t vval;
+		vec3_t vval{};
 
 		member_num++;
 

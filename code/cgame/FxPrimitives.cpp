@@ -247,7 +247,7 @@ bool CParticle::Update()
 //----------------------------
 bool CParticle::UpdateOrigin()
 {
-	vec3_t new_origin;
+	vec3_t new_origin{};
 	//	float	ftime, time2;
 
 	UpdateVelocity();
@@ -1377,7 +1377,7 @@ void CEmitter::Draw()
 	//	either choke up the effects system on a fast machine, or look really nasty on a low end one.
 	if (mFlags & FX_EMIT_FX)
 	{
-		vec3_t org;
+		vec3_t org{};
 
 		constexpr auto TRAIL_RATE = 8; // we "think" at about a 60hz rate;
 
@@ -1887,7 +1887,7 @@ bool CPoly::Cull() const
 //----------------------------
 void CPoly::Draw() const
 {
-	polyVert_t verts[MAX_CPOLY_VERTS];
+	polyVert_t verts[MAX_CPOLY_VERTS]{};
 
 	for (int i = 0; i < mCount; i++)
 	{
@@ -1959,7 +1959,7 @@ void CPoly::Rotate()
 	// Multiply our rotation matrix by each of the offset verts to get their new position
 	for (int i = 0; i < mCount; i++)
 	{
-		vec3_t temp[MAX_CPOLY_VERTS];
+		vec3_t temp[MAX_CPOLY_VERTS]{};
 		VectorRotate(mOrg[i], mRot, temp[i]);
 		VectorCopy(temp[i], mOrg[i]);
 	}
@@ -1971,22 +1971,6 @@ void CPoly::Rotate()
 bool CPoly::Update()
 {
 	vec3_t mOldOrigin = { 0.0f };
-
-	//FIXME: Handle Relative and Bolted Effects
-	/*
-	if ( mFlags & FX_RELATIVE )
-	{
-		if ( mClientID < 0 || mClientID >= ENTITYNUM_WORLD )
-		{	// we are somehow not bolted even though the flag is on?
-			return false;
-		}
-
-		// Get our current position and direction
-		if (mModelNum>=0 && mBoltNum>=0)	//bolt style
-		{
-		}
-	}
-	*/
 	// Game pausing can cause dumb time things to happen, so kill the effect in this instance
 	if (mTimeStart > theFxHelper.mTime)
 	{
@@ -2106,7 +2090,7 @@ void CBezier::DrawSegment(vec3_t start, vec3_t end, const float texcoord1, const
 {
 	vec3_t lineDir, cross, viewDir;
 	static vec3_t lastEnd[2];
-	polyVert_t verts[4];
+	polyVert_t verts[4]{};
 
 	VectorSubtract(end, start, lineDir);
 	VectorSubtract(end, cg.refdef.vieworg, viewDir);
@@ -2183,18 +2167,12 @@ constexpr float BEZIER_RESOLUTION = 16.0f;
 //----------------------------
 void CBezier::Draw()
 {
-	vec3_t pos, old_pos;
+	vec3_t pos{}, old_pos;
 	constexpr float incr = 1.0f / BEZIER_RESOLUTION;
 
 	VectorCopy(mOrigin1, old_pos);
 
 	mInit = false; //Signify a new batch for vert gluing
-
-	// Calculate the texture coords so the texture can stretch along the whole bezier
-	//	if ( mFlags & FXF_WRAP )
-	//	{
-	//		tex = m_stScale / 1.0f;
-	//	}
 
 	float tc1 = 0.0f;
 

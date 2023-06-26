@@ -386,7 +386,7 @@ Parses a user triggered run command
 int CSequencer::ParseRun(CBlock* block, CIcarus* icarus)
 {
 	IGameInterface* game = icarus->GetGame();
-	char* buffer;
+	char* buffer = nullptr;
 	char newname[CIcarus::MAX_STRING_SIZE];
 
 	//Get the name and format it
@@ -604,7 +604,7 @@ Adds a sequence that is saved until the affect is called by the parent
 int CSequencer::AddAffect(const bstream_t* bstream, const int retain, int* id, CIcarus* icarus)
 {
 	CSequence* sequence = AddSequence(icarus);
-	bstream_t new_stream;
+	bstream_t new_stream{};
 
 	sequence->SetFlag(CSequence::SQ_AFFECT | CSequence::SQ_PENDING);
 
@@ -1086,8 +1086,8 @@ int CSequencer::EvaluateConditional(CBlock* block, CIcarus* icarus) const
 {
 	IGameInterface* game = icarus->GetGame();
 	CBlockMember* bm;
-	char temp_string1[128], temp_string2[128];
-	vec3_t vec;
+	char temp_string1[128]{}, temp_string2[128]{};
+	vec3_t vec{};
 	int id, i, oper, member_num = 0;
 	char* p1 = nullptr, * p2 = nullptr;
 	int t1, t2;

@@ -1593,9 +1593,11 @@ void jet_fly_stop(gentity_t* self)
 		return;
 	}
 
-	if (self->client->NPC_class == CLASS_BOBAFETT || self->client->NPC_class == CLASS_MANDALORIAN || self->client->
-		NPC_class == CLASS_JANGO || self->client->NPC_class == CLASS_JANGODUAL || self->client->NPC_class ==
-		CLASS_ROCKETTROOPER && rocket_trooper_player(self))
+	if (self->client->NPC_class == CLASS_BOBAFETT ||
+		self->client->NPC_class == CLASS_MANDALORIAN ||
+		self->client->NPC_class == CLASS_JANGO ||
+		self->client->NPC_class == CLASS_JANGODUAL ||
+		self->client->NPC_class == CLASS_ROCKETTROOPER && rocket_trooper_player(self))
 	{
 		Boba_FlyStop(self);
 	}

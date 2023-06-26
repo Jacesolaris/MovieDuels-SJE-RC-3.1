@@ -261,6 +261,7 @@ extern qboolean sab_beh_block_vs_attack(gentity_t* blocker, gentity_t* attacker,
 extern void g_fatigue_bp_knockaway(gentity_t* blocker);
 void G_Beskar_Attack_Bounce(const gentity_t* self, gentity_t* other);
 extern qboolean Mandalorian_Character(const gentity_t* self);
+extern void jet_fly_stop(gentity_t* self);
 
 extern cvar_t* g_saberAutoBlocking;
 extern cvar_t* g_saberRealisticCombat;
@@ -36307,10 +36308,11 @@ void ForceStasisWide(const gentity_t* self, gentity_t* trace_ent)
 						if (trace_ent->client->NPC_class == CLASS_BOBAFETT ||
 							trace_ent->client->NPC_class == CLASS_MANDALORIAN ||
 							trace_ent->client->NPC_class == CLASS_JANGO ||
-							trace_ent->client->NPC_class == CLASS_JANGODUAL)
+							trace_ent->client->NPC_class == CLASS_JANGODUAL ||
+							trace_ent->client->NPC_class == CLASS_ROCKETTROOPER)
 						{
 							// also disables npc jetpack
-							Boba_FlyStop(trace_ent);
+							jet_fly_stop(trace_ent);
 							if (trace_ent->client->jetPackOn)
 							{
 								//disable jetpack temporarily
@@ -36367,10 +36369,11 @@ void ForceStasisWide(const gentity_t* self, gentity_t* trace_ent)
 						if (trace_ent->client->NPC_class == CLASS_BOBAFETT ||
 							trace_ent->client->NPC_class == CLASS_MANDALORIAN ||
 							trace_ent->client->NPC_class == CLASS_JANGO ||
-							trace_ent->client->NPC_class == CLASS_JANGODUAL)
+							trace_ent->client->NPC_class == CLASS_JANGODUAL ||
+							trace_ent->client->NPC_class == CLASS_ROCKETTROOPER)
 						{
 							// also disables npc jetpack
-							Boba_FlyStop(trace_ent);
+							jet_fly_stop(trace_ent);
 							if (trace_ent->client->jetPackOn)
 							{
 								//disable jetpack temporarily
@@ -36544,7 +36547,7 @@ void ForceStasis(gentity_t* self)
 		AngleVectors(self->client->ps.viewangles, forward, nullptr, nullptr);
 		VectorNormalize(forward);
 
-		vec3_t center, mins, maxs, v;
+		vec3_t center, mins{}, maxs{}, v{};
 		const float reach = radius;
 		gentity_t* entity_list[MAX_GENTITIES];
 		int i;
@@ -36769,10 +36772,11 @@ void ForceStasis(gentity_t* self)
 					if (trace_ent->client->NPC_class == CLASS_BOBAFETT ||
 						trace_ent->client->NPC_class == CLASS_MANDALORIAN ||
 						trace_ent->client->NPC_class == CLASS_JANGO ||
-						trace_ent->client->NPC_class == CLASS_JANGODUAL)
+						trace_ent->client->NPC_class == CLASS_JANGODUAL ||
+						trace_ent->client->NPC_class == CLASS_ROCKETTROOPER)
 					{
 						// also disables npc jetpack
-						Boba_FlyStop(trace_ent);
+						jet_fly_stop(trace_ent);
 						if (trace_ent->client->jetPackOn)
 						{
 							//disable jetpack temporarily
