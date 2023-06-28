@@ -205,6 +205,11 @@ static bool SV_Map_(const ForceReload_e e_force_reload)
 		Cvar_Set("r_weather", "0");
 	}
 
+	if (debugNPCFreeze->integer >= 0)
+	{
+		Cvar_Set("d_npcfreeze", "0");
+	}
+
 	if (map[0] != '_')
 	{
 		SG_WipeSavegame("auto");

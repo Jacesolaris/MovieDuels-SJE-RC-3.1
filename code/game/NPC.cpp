@@ -2374,7 +2374,7 @@ void NPC_Think(gentity_t* ent) //, int msec )
 void NPC_InitAI()
 {
 	debugNPCAI = gi.cvar("d_npcai", "0", CVAR_CHEAT);
-	debugNPCFreeze = gi.cvar("d_npcfreeze", "0", CVAR_CHEAT);
+	debugNPCFreeze = gi.cvar("d_npcfreeze", "0", CVAR_ARCHIVE);
 	d_JediAI = gi.cvar("d_JediAI", "0", CVAR_CHEAT);
 	d_noGroupAI = gi.cvar("d_noGroupAI", "0", CVAR_CHEAT);
 	d_asynchronousGroupAI = gi.cvar("d_asynchronousGroupAI", "1", CVAR_CHEAT);
