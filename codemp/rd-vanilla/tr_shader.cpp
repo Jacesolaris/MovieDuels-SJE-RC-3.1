@@ -1215,8 +1215,8 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 		//
 		else if (!Q_stricmp(token, "animMap") || !Q_stricmp(token, "clampanimMap") || !Q_stricmp(token, "oneshotanimMap"))
 		{
-#define	MAX_IMAGE_ANIMATIONS	32
-			image_t* images[MAX_IMAGE_ANIMATIONS];
+#define	max_image_animations	32
+			image_t* images[max_image_animations];
 			const bool bClamp = !Q_stricmp(token, "clampanimMap");
 			const bool oneShot = !Q_stricmp(token, "oneshotanimMap");
 
@@ -1229,14 +1229,14 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 			stage->bundle[0].imageAnimationSpeed = atof(token);
 			stage->bundle[0].oneShotAnimMap = oneShot;
 
-			// parse up to MAX_IMAGE_ANIMATIONS animations
+			// parse up to max_image_animations animations
 			while (1) {
 				token = COM_ParseExt(text, qfalse);
 				if (!token[0]) {
 					break;
 				}
 				const int num = stage->bundle[0].numImageAnimations;
-				if (num < MAX_IMAGE_ANIMATIONS) {
+				if (num < max_image_animations) {
 					images[num] = R_FindImageFile(token, static_cast<qboolean>(!shader.noMipMaps), static_cast<qboolean>(!shader.noPicMip), static_cast<qboolean>(!shader.noTC), bClamp ? GL_CLAMP : GL_REPEAT);
 					if (!images[num])
 					{
@@ -1975,7 +1975,7 @@ typedef struct infoParm_s {
 	uint32_t	clearSolid, surfaceFlags, contents;
 } infoParm_t;
 
-infoParm_t	infoParms[] = {
+infoParm_t	info_parm[] = {
 	// Game content Flags
 	{ "nonsolid",		~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_NONE },		// special hack to clear solid flag
 	{ "nonopaque",		~CONTENTS_OPAQUE,					SURF_NONE,			CONTENTS_NONE },		// special hack to clear opaque flag
@@ -2023,16 +2023,16 @@ surfaceparm <name>
 */
 static void parse_surface_parm(const char** text)
 {
-	constexpr int		num_info_parms = std::size(infoParms);
+	constexpr int		num_info_parms = std::size(info_parm);
 
 	const char* token = COM_ParseExt(text, qfalse);
 
 	for (int i = 0; i < num_info_parms; i++)
 	{
-		if (!Q_stricmp(token, infoParms[i].name)) {
-			shader.surfaceFlags |= infoParms[i].surfaceFlags;
-			shader.contentFlags |= infoParms[i].contents;
-			shader.contentFlags &= infoParms[i].clearSolid;
+		if (!Q_stricmp(token, info_parm[i].name)) {
+			shader.surfaceFlags |= info_parm[i].surfaceFlags;
+			shader.contentFlags |= info_parm[i].contents;
+			shader.contentFlags &= info_parm[i].clearSolid;
 			break;
 		}
 	}
@@ -3853,14 +3853,14 @@ int COM_CompressShader(char* data_p)
 
 /*
 ====================
-ScanAndLoadShaderFiles
+Scan_And_Load_Shader_Files
 
 Finds and loads all .shader files, combining them into
 a single large text block that can be scanned for shader names
 =====================
 */
 #define	MAX_SHADER_FILES	4096
-static void ScanAndLoadShaderFiles(void)
+static void Scan_And_Load_Shader_Files(void)
 {
 	char* buffers[MAX_SHADER_FILES];
 	const char* p;
@@ -4086,7 +4086,7 @@ void R_InitShaders(qboolean server)
 	{
 		CreateInternalShaders();
 
-		ScanAndLoadShaderFiles();
+		Scan_And_Load_Shader_Files();
 
 		CreateExternalShaders();
 	}

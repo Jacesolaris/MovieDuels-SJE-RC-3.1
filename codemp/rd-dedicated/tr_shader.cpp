@@ -1185,8 +1185,8 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 		//
 		if (!Q_stricmp(token, "animMap") || !Q_stricmp(token, "clampanimMap") || !Q_stricmp(token, "oneshotanimMap"))
 		{
-#define	MAX_IMAGE_ANIMATIONS	32
-			image_t* images[MAX_IMAGE_ANIMATIONS];
+#define	max_image_animations	32
+			image_t* images[max_image_animations];
 			const bool bClamp = !Q_stricmp(token, "clampanimMap");
 			const bool oneShot = !Q_stricmp(token, "oneshotanimMap");
 
@@ -1199,14 +1199,14 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 			stage->bundle[0].imageAnimationSpeed = atof(token);
 			stage->bundle[0].oneShotAnimMap = oneShot;
 
-			// parse up to MAX_IMAGE_ANIMATIONS animations
+			// parse up to max_image_animations animations
 			while (1) {
 				token = COM_ParseExt(text, qfalse);
 				if (!token[0]) {
 					break;
 				}
 				const int num = stage->bundle[0].numImageAnimations;
-				if (num < MAX_IMAGE_ANIMATIONS) {
+				if (num < max_image_animations) {
 					stage->bundle[0].image = nullptr;
 					return qfalse;
 				}
@@ -1929,7 +1929,7 @@ typedef struct infoParm_s {
 	uint32_t	clearSolid, surfaceFlags, contents;
 } infoParm_t;
 
-infoParm_t	infoParms[] = {
+infoParm_t	info_parm[] = {
 	// Game content Flags
 	{ "nonsolid",		~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_NONE },		// special hack to clear solid flag
 	{ "nonopaque",		~CONTENTS_OPAQUE,					SURF_NONE,			CONTENTS_NONE },		// special hack to clear opaque flag
@@ -1976,14 +1976,14 @@ surfaceparm <name>
 ===============
 */
 static void parse_surface_parm(const char** text) {
-	const int		numInfoParms = sizeof(infoParms) / sizeof(infoParms[0]);
+	const int		numinfo_parm = sizeof(info_parm) / sizeof(info_parm[0]);
 
 	const char* token = COM_ParseExt(text, qfalse);
-	for (int i = 0; i < numInfoParms; i++) {
-		if (!Q_stricmp(token, infoParms[i].name)) {
-			shader.surfaceFlags |= infoParms[i].surfaceFlags;
-			shader.contentFlags |= infoParms[i].contents;
-			shader.contentFlags &= infoParms[i].clearSolid;
+	for (int i = 0; i < numinfo_parm; i++) {
+		if (!Q_stricmp(token, info_parm[i].name)) {
+			shader.surfaceFlags |= info_parm[i].surfaceFlags;
+			shader.contentFlags |= info_parm[i].contents;
+			shader.contentFlags &= info_parm[i].clearSolid;
 			break;
 		}
 	}

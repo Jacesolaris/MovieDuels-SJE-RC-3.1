@@ -1277,7 +1277,7 @@ void G_StasisMissile(gentity_t* ent, gentity_t* missile)
 
 	if (!registered)
 	{
-		stasisLoopSound = G_SoundIndex("sound/effects/blaster_stasis_loop.mp3");
+		stasisLoopSound = G_SoundIndex("sound/effects/blaster_stasis_loop.wav");
 		registered = qtrue;
 	}
 
@@ -2024,12 +2024,9 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 	}
 
 	// check for bounce
-	auto bounce = static_cast<qboolean>(!other->takedamage && ent->s.eFlags & (EF_BOUNCE | EF_BOUNCE_HALF) || (trace->
-		surfaceFlags &
-		SURF_FORCEFIELD || other->flags & FL_SHIELDED) && !ent->splashDamage && !ent->splashRadius && ent->s.
-		weapon
-		!=
-		WP_NOGHRI_STICK);
+	auto bounce = static_cast<qboolean>(!other->takedamage && ent->s.eFlags & (EF_BOUNCE | EF_BOUNCE_HALF)
+		|| (trace->surfaceFlags & SURF_FORCEFIELD || other->flags & FL_SHIELDED)
+		&& !ent->splashDamage && !ent->splashRadius && ent->s.weapon != WP_NOGHRI_STICK);
 
 	auto beskar = static_cast<qboolean>((other->flags & FL_DINDJARIN)
 		&& !ent->splashDamage
@@ -2039,7 +2036,6 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 		&& ent->methodOfDeath != MOD_FLECHETTE_ALT
 		&& ent->methodOfDeath != MOD_ROCKET
 		&& ent->methodOfDeath != MOD_ROCKET_ALT
-		&& ent->methodOfDeath != WP_NOGHRI_STICK
 		&& ent->methodOfDeath != MOD_CONC_ALT
 		&& ent->methodOfDeath != MOD_THERMAL
 		&& ent->methodOfDeath != MOD_THERMAL_ALT
@@ -2051,6 +2047,7 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 		&& ent->methodOfDeath != MOD_LASERTRIP_ALT
 		&& ent->methodOfDeath != MOD_SEEKER
 		&& ent->methodOfDeath != MOD_CONC
+		&& ent->methodOfDeath != WP_NOGHRI_STICK
 		&& (!Q_irand(0, 1)));
 
 	auto boba_fett = static_cast<qboolean>((other->flags & FL_BOBAFETT)
@@ -2061,7 +2058,6 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 		&& ent->methodOfDeath != MOD_FLECHETTE_ALT
 		&& ent->methodOfDeath != MOD_ROCKET
 		&& ent->methodOfDeath != MOD_ROCKET_ALT
-		&& ent->methodOfDeath != WP_NOGHRI_STICK
 		&& ent->methodOfDeath != MOD_CONC_ALT
 		&& ent->methodOfDeath != MOD_THERMAL
 		&& ent->methodOfDeath != MOD_THERMAL_ALT
@@ -2072,7 +2068,8 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 		&& ent->methodOfDeath != MOD_LASERTRIP
 		&& ent->methodOfDeath != MOD_LASERTRIP_ALT
 		&& ent->methodOfDeath != MOD_SEEKER
-		&& ent->methodOfDeath != MOD_CONC);
+		&& ent->methodOfDeath != MOD_CONC
+		&& ent->methodOfDeath != WP_NOGHRI_STICK);
 
 	if (ent->dflags & DAMAGE_HEAVY_WEAP_CLASS)
 	{
@@ -2230,7 +2227,7 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 			//Add the event
 			if (ent->s.weapon == WP_TRIP_MINE)
 			{
-				AddSoundEvent(ent->owner, ent->currentOrigin, ent->splashRadius / 2, AEL_DISCOVERED, qfalse, qtrue);
+				AddSoundEvent(ent->owner, ent->currentOrigin, ent->splashRadius / static_cast<float>(2), AEL_DISCOVERED, qfalse, qtrue);
 				AddSightEvent(ent->owner, ent->currentOrigin, ent->splashRadius * 2, AEL_DISCOVERED, 60);
 			}
 			else

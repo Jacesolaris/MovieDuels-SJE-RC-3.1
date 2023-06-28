@@ -200,6 +200,24 @@ qboolean npc_is_sith_lord(const gentity_t* self)
 	return qfalse;
 }
 
+qboolean npc_should_not_throw_saber(const gentity_t* self)
+{
+	switch (self->client->NPC_class)
+	{
+	case CLASS_DESANN:
+	case CLASS_TAVION:
+	case CLASS_VADER:
+	case CLASS_SITHLORD:
+	case CLASS_KYLE:
+	case CLASS_LUKE:
+		return qtrue;
+	default:
+		break;
+	}
+
+	return qfalse;
+}
+
 qboolean npc_is_projected(const gentity_t* self)
 {
 	switch (self->client->NPC_class)
@@ -736,7 +754,7 @@ void tavion_scepter_damage()
 			if (d_saberCombat->integer > 1)
 			{
 				G_DebugLine(base, tip, 1000, 0x000000ff, qtrue);
-			}
+		}
 #endif
 			gi.trace(&trace, base, vec3_origin, vec3_origin, tip, NPC->s.number, MASK_SHOT, G2_RETURNONHIT, 10);
 			if (trace.fraction < 1.0f)
@@ -777,8 +795,8 @@ void tavion_scepter_damage()
 					last_hit = trace.entity_num;
 				}
 			}
-		}
 	}
+}
 }
 
 void tavion_scepter_slam()
@@ -3410,7 +3428,9 @@ static void jedi_combat_distance(const int enemy_dist)
 						}
 						else
 						{
-							if (enemy_dist > 128 && WP_ForcePowerUsable(NPC, FP_SABERTHROW, 0)
+							if (!npc_should_not_throw_saber(NPC) &&
+								NPC->client->ps.forcePower > BLOCKPOINTS_KNOCKAWAY &&
+								enemy_dist > 128 && WP_ForcePowerUsable(NPC, FP_SABERTHROW, 0)
 								&& !(NPC->client->ps.forcePowersActive & 1 << FP_SPEED)
 								&& !(NPC->client->ps.forcePowersActive & 1 << FP_LIGHTNING)
 								&& !(NPC->client->ps.saberEventFlags & SEF_INWATER)) //saber not in water
@@ -3422,8 +3442,10 @@ static void jedi_combat_distance(const int enemy_dist)
 					}
 					else
 					{
-						if (enemy_dist > 128 && (NPCInfo->rank >= RANK_LT_JG || WP_ForcePowerUsable(
-							NPC, FP_SABERTHROW, 0))
+						if (!npc_should_not_throw_saber(NPC) &&
+							NPC->client->ps.forcePower > BLOCKPOINTS_KNOCKAWAY &&
+							enemy_dist > 128 && (NPCInfo->rank >= RANK_LT_JG
+								|| WP_ForcePowerUsable(NPC, FP_SABERTHROW, 0))
 							&& !(NPC->client->ps.forcePowersActive & 1 << FP_SPEED)
 							&& !(NPC->client->ps.forcePowersActive & 1 << FP_LIGHTNING)
 							&& !(NPC->client->ps.saberEventFlags & SEF_INWATER)) //saber not in water

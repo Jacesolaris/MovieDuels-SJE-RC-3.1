@@ -1263,7 +1263,7 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 		//
 		else if (!Q_stricmp(token, "animMap") || !Q_stricmp(token, "clampanimMap") || !Q_stricmp(token, "oneshotanimMap"))
 		{
-			constexpr auto max_image_animations = 32;
+			constexpr auto max_image_animations = 64;
 			image_t* images[max_image_animations];
 			const bool b_clamp = !Q_stricmp(token, "clampanimMap");
 			const bool one_shot = !Q_stricmp(token, "oneshotanimMap");
@@ -1277,7 +1277,7 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 			stage->bundle[0].imageAnimationSpeed = atof(token);
 			stage->bundle[0].oneShotAnimMap = one_shot;
 
-			// parse up to MAX_IMAGE_ANIMATIONS animations
+			// parse up to max_image_animations animations
 			while (true) {
 				token = COM_ParseExt(text, qfalse);
 				if (!token[0]) {
@@ -1903,20 +1903,27 @@ static void ParseSkyParms(const char** text)
 
 	// outerbox
 	char* token = COM_ParseExt(text, qfalse);
-	if (token[0] == 0) {
+
+	if (token[0] == 0)
+	{
 		ri.Printf(PRINT_WARNING, "WARNING: 'skyParms' missing parameter in shader '%s'\n", shader.name);
 		return;
 	}
-	if (strcmp(token, "-") != 0) {
-		for (int i = 0; i < 6; i++) {
+	if (strcmp(token, "-") != 0)
+	{
+		for (int i = 0; i < 6; i++)
+		{
 			char pathname[MAX_QPATH];
 			Com_sprintf(pathname, sizeof pathname, "%s_%s", token, suf[i]);
 			shader.sky->outerbox[i] = R_FindImageFile(pathname, qtrue, qtrue, static_cast<qboolean>(!shader.noTC), GL_CLAMP);
-			if (!shader.sky->outerbox[i]) {
-				if (i) {
+			if (!shader.sky->outerbox[i])
+			{
+				if (i)
+				{
 					shader.sky->outerbox[i] = shader.sky->outerbox[i - 1];//not found, so let's use the previous image
 				}
-				else {
+				else
+				{
 					shader.sky->outerbox[i] = tr.defaultImage;
 				}
 			}
@@ -1925,19 +1932,25 @@ static void ParseSkyParms(const char** text)
 
 	// cloudheight
 	token = COM_ParseExt(text, qfalse);
-	if (token[0] == 0) {
+
+	if (token[0] == 0)
+	{
 		ri.Printf(PRINT_WARNING, "WARNING: 'skyParms' missing cloudheight in shader '%s'\n", shader.name);
 		return;
 	}
 	shader.sky->cloudHeight = atof(token);
-	if (!shader.sky->cloudHeight) {
+
+	if (!shader.sky->cloudHeight)
+	{
 		shader.sky->cloudHeight = 512;
 	}
 	R_InitSkyTexCoords(shader.sky->cloudHeight);
 
 	// innerbox
 	token = COM_ParseExt(text, qfalse);
-	if (strcmp(token, "-") != 0) {
+
+	if (strcmp(token, "-") != 0)
+	{
 		ri.Printf(PRINT_WARNING, "WARNING: in shader '%s' 'skyParms', innerbox is not supported!", shader.name);
 	}
 }
@@ -2005,70 +2018,84 @@ void ParseSort(const char** text)
 
 // this table is also present in q3map
 
-using infoParm_t = struct infoParm_s {
+using infoParm_t = struct infoParm_s
+{
 	const char* name;
-	uint32_t	clearSolid, surfaceFlags, contents;
+	uint32_t clearSolid, surfaceFlags, contents;
+
+	infoParm_s() = default;
+
+	bool operator==(const infoParm_s& other) const
+	{
+		return false;
+	}
+
+	infoParm_s(const char* name, const uint32_t& clearSolid, const uint32_t& surfaceFlags, const uint32_t& contents)
+		: name(name), clearSolid(clearSolid), surfaceFlags(surfaceFlags), contents(contents)
+	{
+	}
 };
 
-infoParm_t	infoParms[] = {
+infoParm_t info_Parms[] = {
 	// Game content Flags
-	{ "nonsolid",		~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_NONE },		// special hack to clear solid flag
-	{ "nonopaque",		~CONTENTS_OPAQUE,					SURF_NONE,			CONTENTS_NONE },		// special hack to clear opaque flag
-	{ "lava",			~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_LAVA },		// very damaging
-	{ "slime",			~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_SLIME },		// mildly damaging
-	{ "water",			~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_WATER },		//
-	{ "fog",			~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_FOG},			// carves surfaces entering
-	{ "shotclip",		~CONTENTS_SOLID,					SURF_NONE,			CONTENTS_SHOTCLIP },	// block shots, but not people
-	{ "playerclip",		~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_PLAYERCLIP },	// block only the player
-	{ "monsterclip",	~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_MONSTERCLIP },	//
-	{ "botclip",		~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_BOTCLIP },		// for bots
-	{ "trigger",		~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_TRIGGER },		//
-	{ "nodrop",			~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_NODROP },		// don't drop items or leave bodies (death fog, lava, etc)
-	{ "terrain",		~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_TERRAIN },		// use special terrain collsion
-	{ "ladder",			~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_LADDER },		// climb up in it like water
-	{ "abseil",			~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_ABSEIL },		// can abseil down this brush
-	{ "outside",		~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_OUTSIDE },		// volume is considered to be in the outside (i.e. not indoors)
-	{ "inside",			~(CONTENTS_SOLID | CONTENTS_OPAQUE),	SURF_NONE,			CONTENTS_INSIDE },		// volume is considered to be inside (i.e. indoors)
+	{"nonsolid", ~CONTENTS_SOLID, SURF_NONE, CONTENTS_NONE}, // special hack to clear solid flag
+	{"nonopaque", ~CONTENTS_OPAQUE, SURF_NONE, CONTENTS_NONE}, // special hack to clear opaque flag
+	{"lava", ~CONTENTS_SOLID, SURF_NONE, CONTENTS_LAVA}, // very damaging
+	{"slime", ~CONTENTS_SOLID, SURF_NONE, CONTENTS_SLIME}, // mildly damaging
+	{"water", ~CONTENTS_SOLID, SURF_NONE, CONTENTS_WATER}, //
+	{"fog", ~CONTENTS_SOLID, SURF_NONE, CONTENTS_FOG}, // carves surfaces entering
+	{"shotclip", ~CONTENTS_SOLID, SURF_NONE, CONTENTS_SHOTCLIP}, // block shots, but not people
+	{"playerclip", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_PLAYERCLIP}, // block only the player
+	{"monsterclip", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_MONSTERCLIP}, //
+	{"botclip", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_BOTCLIP}, // for bots
+	{"trigger", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_TRIGGER}, //
+	{"nodrop", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_NODROP},
+	// don't drop items or leave bodies (death fog, lava, etc)
+	{"terrain", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_TERRAIN}, // use special terrain collsion
+	{"ladder", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_LADDER}, // climb up in it like water
+	{"abseil", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_ABSEIL}, // can abseil down this brush
+	{"outside", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_OUTSIDE},
+	// volume is considered to be in the outside (i.e. not indoors)
+	{"inside", ~(CONTENTS_SOLID | CONTENTS_OPAQUE), SURF_NONE, CONTENTS_INSIDE},
+	// volume is considered to be inside (i.e. indoors)
 
-	{ "detail",			CONTENTS_ALL,						SURF_NONE,			CONTENTS_DETAIL },		// don't include in structural bsp
-	{ "trans",			CONTENTS_ALL,						SURF_NONE,			CONTENTS_TRANSLUCENT },	// surface has an alpha component
+	{"detail", CONTENTS_ALL, SURF_NONE, CONTENTS_DETAIL}, // don't include in structural bsp
+	{"trans", CONTENTS_ALL, SURF_NONE, CONTENTS_TRANSLUCENT}, // surface has an alpha component
 
 	/* Game surface flags */
-	{ "sky",			CONTENTS_ALL,						SURF_SKY,			CONTENTS_NONE },		// emit light from an environment map
-	{ "slick",			CONTENTS_ALL,						SURF_SLICK,			CONTENTS_NONE },		//
+	{"sky", CONTENTS_ALL, SURF_SKY, CONTENTS_NONE}, // emit light from an environment map
+	{"slick", CONTENTS_ALL, SURF_SLICK, CONTENTS_NONE}, //
 
-	{ "nodamage",		CONTENTS_ALL,						SURF_NODAMAGE,		CONTENTS_NONE },		//
-	{ "noimpact",		CONTENTS_ALL,						SURF_NOIMPACT,		CONTENTS_NONE },		// don't make impact explosions or marks
-	{ "nomarks",		CONTENTS_ALL,						SURF_NOMARKS,		CONTENTS_NONE },		// don't make impact marks, but still explode
-	{ "nodraw",			CONTENTS_ALL,						SURF_NODRAW,		CONTENTS_NONE },		// don't generate a drawsurface (or a lightmap)
-	{ "nosteps",		CONTENTS_ALL,						SURF_NOSTEPS,		CONTENTS_NONE },		//
-	{ "nodlight",		CONTENTS_ALL,						SURF_NODLIGHT,		CONTENTS_NONE },		// don't ever add dynamic lights
-	{ "metalsteps",		CONTENTS_ALL,						SURF_METALSTEPS,	CONTENTS_NONE },		//
-	{ "nomiscents",		CONTENTS_ALL,						SURF_NOMISCENTS,	CONTENTS_NONE },		// No misc ents on this surface
-	{ "forcefield",		CONTENTS_ALL,						SURF_FORCEFIELD,	CONTENTS_NONE },		//
-	{ "forcesight",		CONTENTS_ALL,						SURF_FORCESIGHT,	CONTENTS_NONE },		// only visible with force sight
+	{"nodamage", CONTENTS_ALL, SURF_NODAMAGE, CONTENTS_NONE}, //
+	{"noimpact", CONTENTS_ALL, SURF_NOIMPACT, CONTENTS_NONE}, // don't make impact explosions or marks
+	{"nomarks", CONTENTS_ALL, SURF_NOMARKS, CONTENTS_NONE}, // don't make impact marks, but still explode
+	{"nodraw", CONTENTS_ALL, SURF_NODRAW, CONTENTS_NONE}, // don't generate a drawsurface (or a lightmap)
+	{"nosteps", CONTENTS_ALL, SURF_NOSTEPS, CONTENTS_NONE}, //
+	{"nodlight", CONTENTS_ALL, SURF_NODLIGHT, CONTENTS_NONE}, // don't ever add dynamic lights
+	{"metalsteps", CONTENTS_ALL, SURF_METALSTEPS, CONTENTS_NONE}, //
+	{"nomiscents", CONTENTS_ALL, SURF_NOMISCENTS, CONTENTS_NONE}, // No misc ents on this surface
+	{"forcefield", CONTENTS_ALL, SURF_FORCEFIELD, CONTENTS_NONE}, //
+	{"forcesight", CONTENTS_ALL, SURF_FORCESIGHT, CONTENTS_NONE}, // only visible with force sight
 };
 
 /*
 ===============
-ParseSurfaceParm
+parse_surface_parm
 
 surfaceparm <name>
 ===============
 */
 static void parse_surface_parm(const char** text)
 {
-	constexpr int		num_info_parms = std::size(infoParms);
-
 	const char* token = COM_ParseExt(text, qfalse);
 
-	for (int i = 0; i < num_info_parms; i++)
+	for (const auto& num_info_parm : info_Parms)
 	{
-		if (!Q_stricmp(token, infoParms[i].name))
+		if (!Q_stricmp(token, num_info_parm.name))
 		{
-			shader.surfaceFlags |= infoParms[i].surfaceFlags;
-			shader.contentFlags |= infoParms[i].contents;
-			shader.contentFlags &= infoParms[i].clearSolid;
+			shader.surfaceFlags |= num_info_parm.surfaceFlags;
+			shader.contentFlags |= num_info_parm.contents;
+			shader.contentFlags &= num_info_parm.clearSolid;
 			break;
 		}
 	}
@@ -3644,32 +3671,26 @@ static void SetupShaderEntryPtrs()
 		}
 		else
 		{
-			Q_strlwr(token);	// token is always a ptr to com_token here, not the original buffer.
-			//	(Not that it matters, except for reasons of speed by not strlwr'ing the whole buffer)
-
-// token = a string of this shader name, p = ptr within s_shadertext it's found at, so store it...
-//
+			Q_strlwr(token);
 			ShaderEntryPtrs_Insert(token, p);
 			SkipRestOfLine(&p);		// now legally skip over this name and go get the next one
 		}
 	}
 
 	COM_EndParseSession();
-
-	//ri.Printf( PRINT_DEVELOPER, "SetupShaderEntryPtrs(): Stored %d shader ptrs\n",ShaderEntryPtrs_Size() );
 }
 #endif
 
 /*
 ====================
-ScanAndLoadShaderFiles
+Scan_And_Load_Shader_Files
 
 Finds and loads all .shader files, combining them into
 a single large text block that can be scanned for shader names
 =====================
 */
 constexpr auto MAX_SHADER_FILES = 8192;
-static void ScanAndLoadShaderFiles()
+static void Scan_And_Load_Shader_Files()
 {
 	char* buffers[MAX_SHADER_FILES]{};
 	int num_shader_files;
@@ -3798,7 +3819,7 @@ void R_InitShaders() {
 
 	CreateInternalShaders();
 
-	ScanAndLoadShaderFiles();
+	Scan_And_Load_Shader_Files();
 
 	CreateExternalShaders();
 }
