@@ -159,7 +159,7 @@ static void ObjectivePrint_Line(const int color, const int objectIndex, int& mis
 		{
 			constexpr int maxHoldText = 1024;
 			char holdText[maxHoldText];
-			char holdText2[2];
+			char holdText2[2]{};
 			pixelLen = 0;
 			int charLen = 0;
 			holdText2[1] = '\0';

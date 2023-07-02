@@ -233,7 +233,7 @@ PC_SourceError
 */
 void PC_SourceError(int handle, char* format, ...)
 {
-	char filename[128];
+	char filename[128]{};
 	va_list argptr;
 	static char string[4096];
 
@@ -296,7 +296,7 @@ PC_Script_Parse
 */
 qboolean PC_Script_Parse(const char** out)
 {
-	char script[4096];
+	char script[4096]{};
 
 	script[0] = 0;
 	// scripts start with { and have ; separated command lists.. commands are command, arg..
@@ -4668,7 +4668,7 @@ ItemParse_addColorRange
 */
 qboolean ItemParse_addColorRange(itemDef_t* item)
 {
-	colorRangeDef_t color;
+	colorRangeDef_t color{};
 
 	if (PC_ParseFloat(&color.low) &&
 		PC_ParseFloat(&color.high) &&
@@ -5027,18 +5027,6 @@ qboolean Item_Parse(itemDef_t* item)
 
 		if (*token == '}')
 		{
-			/*			if (!item->window.name)
-						{
-							item->window.name = defaultString;
-							Com_Printf(S_COLOR_YELLOW"WARNING: Menu item has no name\n");
-						}
-
-						if (!item->window.group)
-						{
-							item->window.group = defaultString;
-							Com_Printf(S_COLOR_YELLOW"WARNING: Menu item has no group\n");
-						}
-			*/
 			return qtrue;
 		}
 
@@ -5087,7 +5075,7 @@ static void Item_TextScroll_BuildLines(const itemDef_t* item)
 
 	while (*psCurrentTextReadPos && scrollPtr->iLineCount < MAX_TEXTSCROLL_LINES)
 	{
-		char sLineForDisplay[2048]; // ott
+		char sLineForDisplay[2048]{}; // ott
 
 		// construct a line...
 		//
@@ -6059,7 +6047,7 @@ void Menu_Paint(menuDef_t* menu, qboolean forcePaint)
 	// draw the background if necessary
 	if (menu->fullScreen)
 	{
-		vec4_t color;
+		vec4_t color{};
 		color[0] = menu->window.backColor[0];
 		color[1] = menu->window.backColor[1];
 		color[2] = menu->window.backColor[2];
@@ -6112,7 +6100,7 @@ void Menu_Paint(menuDef_t* menu, qboolean forcePaint)
 
 	if (uis.debugMode)
 	{
-		vec4_t color;
+		vec4_t color{};
 		color[0] = color[2] = color[3] = 1;
 		color[1] = 0;
 		DC->drawRect(menu->window.rect.x, menu->window.rect.y, menu->window.rect.w, menu->window.rect.h, 1, color);
@@ -6289,23 +6277,15 @@ void Item_TextColor(itemDef_t* item, vec4_t* newColor)
 	if (!(item->type == ITEM_TYPE_TEXT && item->window.flags & WINDOW_AUTOWRAPPED) && item->window.flags &
 		WINDOW_HASFOCUS)
 	{
-		vec4_t lowLight;
+		vec4_t lowLight{};
 		lowLight[0] = 0.8 * parent->focusColor[0];
 		lowLight[1] = 0.8 * parent->focusColor[1];
 		lowLight[2] = 0.8 * parent->focusColor[2];
 		lowLight[3] = 0.8 * parent->focusColor[3];
 		LerpColor(parent->focusColor, lowLight, *newColor,
-			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / PULSE_DIVISOR)));
+			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / static_cast<float>(PULSE_DIVISOR))));
 	}
-	/*	else if (item->textStyle == ITEM_TEXTSTYLE_BLINK && !((DC->realTime/BLINK_DIVISOR) & 1))
-		{
-			lowLight[0] = 0.8 * item->window.foreColor[0];
-			lowLight[1] = 0.8 * item->window.foreColor[1];
-			lowLight[2] = 0.8 * item->window.foreColor[2];
-			lowLight[3] = 0.8 * item->window.foreColor[3];
-			LerpColor(item->window.foreColor,lowLight,*newColor,0.5+0.5*sin(DC->realTime / PULSE_DIVISOR));
-		}
-	*/ else
+	else
 	{
 		memcpy(newColor, &item->window.foreColor, sizeof(vec4_t));
 	}
@@ -6496,7 +6476,7 @@ Item_TextField_Paint
 */
 void Item_TextField_Paint(itemDef_t* item)
 {
-	char buff[1024];
+	char buff[1024]{};
 	vec4_t newColor;
 	const auto parent = static_cast<menuDef_t*>(item->parent);
 	const editFieldDef_t* editPtr = static_cast<editFieldDef_t*>(item->typeData);
@@ -6512,13 +6492,13 @@ void Item_TextField_Paint(itemDef_t* item)
 
 	if (item->window.flags & WINDOW_HASFOCUS)
 	{
-		vec4_t lowLight;
+		vec4_t lowLight{};
 		lowLight[0] = 0.8 * parent->focusColor[0];
 		lowLight[1] = 0.8 * parent->focusColor[1];
 		lowLight[2] = 0.8 * parent->focusColor[2];
 		lowLight[3] = 0.8 * parent->focusColor[3];
 		LerpColor(parent->focusColor, lowLight, newColor,
-			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / PULSE_DIVISOR)));
+			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / static_cast<float>(PULSE_DIVISOR))));
 	}
 	else
 	{
@@ -6693,7 +6673,7 @@ void Item_ListBox_Paint(itemDef_t* item)
 				{
 					if (item->window.flags & WINDOW_PLAYERCOLOR)
 					{
-						vec4_t color;
+						vec4_t color{};
 						color[0] = ui_char_color_red.integer / 255.0f;
 						color[1] = ui_char_color_green.integer / 255.0f;
 						color[2] = ui_char_color_blue.integer / 255.0f;
@@ -6958,7 +6938,7 @@ void Item_Bind_Paint(itemDef_t* item)
 
 	if (item->window.flags & WINDOW_HASFOCUS)
 	{
-		vec4_t lowLight;
+		vec4_t lowLight{};
 		if (g_bindItem == item)
 		{
 			lowLight[0] = 0.8f * 1.0f;
@@ -6974,7 +6954,7 @@ void Item_Bind_Paint(itemDef_t* item)
 			lowLight[3] = 0.8f * parent->focusColor[3];
 		}
 		LerpColor(parent->focusColor, lowLight, newColor,
-			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / PULSE_DIVISOR)));
+			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / static_cast<float>(PULSE_DIVISOR))));
 	}
 	else
 	{
@@ -7050,32 +7030,6 @@ void UI_TalkingHead(itemDef_t* item)
 	static int facial_timer = DC->realTime + Q_flrand(10000.0, 30000.0);
 	//	static animNumber_t facial_anim = FACE_ALERT;
 	int anim = -1;
-
-	//are we blinking?
-	/*	if (facial_blink < 0)
-		{	// yes, check if we are we done blinking ?
-			if (-(facial_blink) < DC->realTime)
-			{	// yes, so reset blink timer
-				facial_blink = DC->realTime + Q_flrand(4000.0, 8000.0);
-				CG_G2SetHeadBlink( cent, qfalse );	//stop the blink
-			}
-		}
-		else // no we aren't blinking
-		{
-			if (facial_blink < DC->realTime)// but should we start ?
-			{
-				CG_G2SetHeadBlink( cent, qtrue );
-				if (facial_blink == 1)
-				{//requested to stay shut by SET_FACEEYESCLOSED
-					facial_blink = -(DC->realTime + 99999999.0f);// set blink timer
-				}
-				else
-				{
-					facial_blink = -(DC->realTime + 300.0f);// set blink timer
-				}
-			}
-		}
-	*/
 
 	if (s_entityWavVol[0] > 0) // if we aren't talking, then it will be 0, -1 for talking but paused
 	{
@@ -7395,7 +7349,7 @@ void Item_OwnerDraw_Paint(itemDef_t* item)
 
 	if (DC->ownerDrawItem)
 	{
-		vec4_t color, lowLight;
+		vec4_t color, lowLight{};
 		Fade(&item->window.flags, &item->window.foreColor[3], parent->fadeClamp, &item->window.nextTime,
 			parent->fadeCycle, qtrue, parent->fadeAmount);
 		memcpy(&color, &item->window.foreColor, sizeof color);
@@ -7419,7 +7373,7 @@ void Item_OwnerDraw_Paint(itemDef_t* item)
 			lowLight[2] = 0.8 * parent->focusColor[2];
 			lowLight[3] = 0.8 * parent->focusColor[3];
 			LerpColor(parent->focusColor, lowLight, color,
-				0.5 + 0.5 * sin(static_cast<float>(DC->realTime / PULSE_DIVISOR)));
+				0.5 + 0.5 * sin(static_cast<float>(DC->realTime / static_cast<float>(PULSE_DIVISOR))));
 		}
 		else if (item->textStyle == ITEM_TEXTSTYLE_BLINK && !(DC->realTime / BLINK_DIVISOR & 1))
 		{
@@ -7428,7 +7382,7 @@ void Item_OwnerDraw_Paint(itemDef_t* item)
 			lowLight[2] = 0.8 * item->window.foreColor[2];
 			lowLight[3] = 0.8 * item->window.foreColor[3];
 			LerpColor(item->window.foreColor, lowLight, color,
-				0.5 + 0.5 * sin(static_cast<float>(DC->realTime / PULSE_DIVISOR)));
+				0.5 + 0.5 * sin(static_cast<float>(DC->realTime / static_cast<float>(PULSE_DIVISOR))));
 		}
 
 		if (item->disabled)
@@ -7580,7 +7534,7 @@ int Item_TextScroll_ThumbDrawPosition(itemDef_t* item)
 
 int Item_TextScroll_OverLB(itemDef_t* item, const float x, const float y)
 {
-	rectDef_t r;
+	rectDef_t r{};
 
 	const textScrollDef_t* scrollPtr = static_cast<textScrollDef_t*>(item->typeData);
 
@@ -7726,13 +7680,13 @@ void Item_Slider_Paint(itemDef_t* item)
 
 	if (item->window.flags & WINDOW_HASFOCUS)
 	{
-		vec4_t lowLight;
+		vec4_t lowLight{};
 		lowLight[0] = 0.8 * parent->focusColor[0];
 		lowLight[1] = 0.8 * parent->focusColor[1];
 		lowLight[2] = 0.8 * parent->focusColor[2];
 		lowLight[3] = 0.8 * parent->focusColor[3];
 		LerpColor(parent->focusColor, lowLight, newColor,
-			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / PULSE_DIVISOR)));
+			0.5 + 0.5 * sin(static_cast<float>(DC->realTime / static_cast<float>(PULSE_DIVISOR))));
 	}
 	else
 	{
@@ -7765,7 +7719,7 @@ Item_Paint
 */
 static qboolean Item_Paint(itemDef_t* item, const qboolean bDraw)
 {
-	vec4_t red;
+	vec4_t red{};
 	red[0] = red[3] = 1;
 	red[1] = red[2] = 0;
 
@@ -8298,7 +8252,7 @@ static qboolean Item_Paint(itemDef_t* item, const qboolean bDraw)
 	// Print a box showing the extents of the rectangle, when in debug mode
 	if (uis.debugMode)
 	{
-		vec4_t color;
+		vec4_t color{};
 		color[1] = color[3] = 1;
 		color[0] = color[2] = 0;
 		DC->drawRect(
@@ -8442,7 +8396,7 @@ Window_Paint
 void Window_Paint(Window* w, const float fadeAmount, const float fadeClamp, const float fadeCycle)
 {
 	//float bordersize = 0;
-	vec4_t color;
+	vec4_t color{};
 	rectDef_t fillRect = w->rect;
 
 	if (uis.debugMode)
@@ -8488,7 +8442,7 @@ void Window_Paint(Window* w, const float fadeAmount, const float fadeClamp, cons
 	{
 		if (w->flags & WINDOW_PLAYERCOLOR)
 		{
-			vec4_t colour;
+			vec4_t colour{};
 			colour[0] = ui_char_color_red.integer / 255.0f;
 			colour[1] = ui_char_color_green.integer / 255.0f;
 			colour[2] = ui_char_color_blue.integer / 255.0f;
@@ -8587,7 +8541,7 @@ Item_Text_AutoWrapped_Paint
 void Item_Text_AutoWrapped_Paint(itemDef_t* item)
 {
 	const char* textPtr;
-	char buff[1024];
+	char buff[1024]{};
 	vec4_t color;
 
 	int textWidth = 0;
@@ -8937,7 +8891,7 @@ Item_ListBox_OverLB
 */
 int Item_ListBox_OverLB(itemDef_t* item, const float x, const float y)
 {
-	rectDef_t r;
+	rectDef_t r{};
 	int thumbstart;
 
 	if (item->window.flags & WINDOW_HORIZONTAL)
@@ -9019,7 +8973,7 @@ Item_ListBox_MouseEnter
 */
 void Item_ListBox_MouseEnter(itemDef_t* item, const float x, const float y)
 {
-	rectDef_t r;
+	rectDef_t r{};
 	const auto listPtr = static_cast<listBoxDef_t*>(item->typeData);
 
 	item->window.flags &= ~(WINDOW_LB_LEFTARROW | WINDOW_LB_RIGHTARROW | WINDOW_LB_THUMB | WINDOW_LB_PGUP |
@@ -9249,7 +9203,7 @@ IsVisible
 */
 qboolean IsVisible(const int flags)
 {
-	return static_cast<qboolean>((flags & WINDOW_VISIBLE && !(flags & WINDOW_FADINGOUT)) != 0);
+	return static_cast<qboolean>((flags & WINDOW_VISIBLE & ~(flags & WINDOW_FADINGOUT)) != 0);
 }
 
 /*
@@ -9920,7 +9874,7 @@ static void Scroll_TextScroll_ThumbFunc(void* p)
 
 	if (DC->cursory != si->yStart)
 	{
-		rectDef_t r;
+		rectDef_t r{};
 		r.x = si->item->window.rect.x + si->item->window.rect.w - SCROLLBAR_SIZE - 1;
 		r.y = si->item->window.rect.y + SCROLLBAR_SIZE + 1;
 		r.h = si->item->window.rect.h - SCROLLBAR_SIZE * 2 - 2;
@@ -10466,7 +10420,7 @@ Scroll_ListBox_ThumbFunc
 static void Scroll_ListBox_ThumbFunc(void* p)
 {
 	const auto si = static_cast<scrollInfo_t*>(p);
-	rectDef_t r;
+	rectDef_t r{};
 	int pos, max;
 
 	const auto listPtr = static_cast<listBoxDef_t*>(si->item->typeData);
@@ -10541,7 +10495,7 @@ Item_Slider_OverSlider
 */
 int Item_Slider_OverSlider(itemDef_t* item, const float x, const float y)
 {
-	rectDef_t r;
+	rectDef_t r{};
 
 	r.x = Item_Slider_ThumbPosition(item) - SLIDER_THUMB_WIDTH / 2;
 	r.y = item->window.rect.y - 2;

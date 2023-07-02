@@ -1228,7 +1228,7 @@ qboolean PM_AdjustAngleForWallJump(gentity_t* ent, usercmd_t* ucmd, const qboole
 qboolean PM_AdjustAnglesForBFKick(gentity_t* self, usercmd_t* ucmd, vec3_t fwd_angs, const qboolean aim_front)
 {
 	gentity_t* entity_list[MAX_GENTITIES];
-	vec3_t mins, maxs;
+	vec3_t mins{}, maxs{};
 	const int radius = self->maxs[0] * 1.5f + self->maxs[0] * 1.5f + STAFF_KICK_RANGE + 24.0f;
 	//a little wide on purpose
 	vec3_t center, v_fwd;

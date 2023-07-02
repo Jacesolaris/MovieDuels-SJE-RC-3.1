@@ -1752,7 +1752,7 @@ static void WP_ParseParms(const char* buffer)
 //--------------------------------------------
 void WP_LoadWeaponParms()
 {
-	char* buffer;
+	char* buffer = nullptr;
 
 	const int len = gi.FS_ReadFile("ext_data/weapons.dat", reinterpret_cast<void**>(&buffer));
 

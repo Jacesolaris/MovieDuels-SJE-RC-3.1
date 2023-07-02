@@ -841,10 +841,10 @@ static void Player_RestoreFromPrevLevel(gentity_t* ent)
 			char saber1_name[MAX_QPATH];
 			char saber0_name[MAX_QPATH];
 			//				|general info				  |-force powers |-saber 1										   |-saber 2										  |-general saber
-			int saber1_blade_active[8];
-			int saber2_blade_active[8];
-			unsigned int saber1_blade_color[8];
-			unsigned int saber2_blade_color[8];
+			int saber1_blade_active[8]{};
+			int saber2_blade_active[8]{};
+			unsigned int saber1_blade_color[8]{};
+			unsigned int saber2_blade_color[8]{};
 
 			sscanf(
 				s,

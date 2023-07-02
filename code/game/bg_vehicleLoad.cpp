@@ -216,7 +216,7 @@ static vehField_t* FindVehWeaponParm(const char* parmName)
 
 static qboolean BG_ParseVehWeaponParm(vehWeaponInfo_t* vehWeapon, const char* parmName, const char* pValue)
 {
-	vec3_t vec;
+	vec3_t vec{};
 	auto b = reinterpret_cast<byte*>(vehWeapon);
 	int _iFieldsRead;
 	vehicleType_t vehType;
@@ -855,7 +855,7 @@ static vehField_t* FindVehicleParm(const char* parmName)
 
 static qboolean BG_ParseVehicleParm(vehicleInfo_t* vehicle, const char* parmName, const char* pValue)
 {
-	vec3_t vec;
+	vec3_t vec{};
 	auto b = reinterpret_cast<byte*>(vehicle);
 	int _iFieldsRead;
 	vehicleType_t vehType;
@@ -1428,7 +1428,7 @@ int VEH_VehicleIndexForName(const char* vehicleName)
 
 void BG_VehWeaponLoadParms()
 {
-	int vehExtFNLen, mainBlockLen, fileCnt;
+	int vehExtFNLen = 0, mainBlockLen, fileCnt;
 	char* holdChar;
 	char vehWeaponExtensionListBuf[2048]; //	The list of file names read in
 	fileHandle_t f;
@@ -1523,7 +1523,7 @@ void BG_VehWeaponLoadParms()
 void BG_VehicleLoadParms()
 {
 	//HMM... only do this if there's a vehicle on the level?
-	int vehExtFNLen, mainBlockLen, fileCnt;
+	int vehExtFNLen = 0, mainBlockLen, fileCnt;
 	//	const char	*filename = "ext_data/vehicles.dat";
 	char* holdChar;
 	char vehExtensionListBuf[2048]; //	The list of file names read in

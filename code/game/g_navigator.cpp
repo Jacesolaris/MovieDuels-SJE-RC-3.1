@@ -1561,8 +1561,8 @@ bool NAV::LoadFromEntitiesAndSaveToFile(const char* filename, int checksum)
 #endif // _DEBUG
 
 	CWayEdge atToTgt;
-	CVec3 atFloor;
-	CVec3 atRoof;
+	CVec3 atFloor{};
+	CVec3 atRoof{};
 	bool atOnFloor;
 
 	TNameToNodeMap::iterator nameFinder;
@@ -2221,8 +2221,8 @@ void NAV::SpawnedPoint(gentity_t* ent, const EPointType type)
 		return;
 	}
 
-	CVec3 Mins;
-	CVec3 Maxs;
+	CVec3 Mins{};
+	CVec3 Maxs{};
 
 	Mins[0] = Mins[1] = SC_MEDIUM_RADIUS * -1.0f;
 	Maxs[0] = Maxs[1] = SC_MEDIUM_RADIUS;
@@ -3009,7 +3009,7 @@ bool NAV::SafePathExists(const CVec3& start_vec, const CVec3& stop_vec, const CV
 	// Failed To Find An Acceptibly Safe Path
 	//----------------------------------------
 	CVec3 Prev(stop_vec);
-	CVec3 Next;
+	CVec3 Next{};
 	for (mSearch.path_begin(); !mSearch.path_end(); mSearch.path_inc())
 	{
 		Next = mGraph.get_node(mSearch.path_at()).mPoint;
@@ -3529,7 +3529,7 @@ float NAV::PathDangerLevel(gentity_t* actor)
 	}
 
 	float DangerLevel = 0.0f;
-	CVec3 enemyPos;
+	CVec3 enemyPos{};
 	float enemySafeDist = 0.0f;
 	TEdgeHandle cur_edge;
 	int curPathAt = Path.size() - 1;
@@ -4657,8 +4657,8 @@ float STEER::Persue(const gentity_t* actor, gentity_t* target, const float slowi
 	DirectionToTarget.SafeNorm();
 
 	CVec3 ProjectForward(DirectionToTarget);
-	CVec3 ProjectRight;
-	CVec3 ProjectUp;
+	CVec3 ProjectRight{};
+	CVec3 ProjectUp{};
 
 	if (relativeToTargetFacing)
 	{

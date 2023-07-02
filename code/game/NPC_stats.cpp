@@ -886,7 +886,7 @@ static void G_ParseAnimationEvtFile(const int gla_index, const char* events_dire
 	const int i_real_gla_index = -1,
 	const bool model_specific = false)
 {
-	char text[80000];
+	char text[80000]{};
 	const char* text_p = text;
 	fileHandle_t f;
 	char events_path[MAX_QPATH];
@@ -973,7 +973,7 @@ models/players/visor/animation.cfg, etc
 */
 qboolean G_ParseAnimationFile(const int gla_index, const char* skeleton_name, const int file_index)
 {
-	char text[160000];
+	char text[160000]{};
 	const char* text_p = text;
 	animation_t* animations = level.knownAnimFileSets[file_index].animations;
 	char skeleton_path[MAX_QPATH];

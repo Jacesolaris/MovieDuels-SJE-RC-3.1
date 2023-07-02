@@ -8019,7 +8019,7 @@ int CQuake3GameInterface::RegisterScript(const char* strFileName, void** ppBuf, 
 	}
 
 	// Prepare the name with the extension.
-	char newname[MAX_FILENAME_LENGTH];
+	char newname[MAX_FILENAME_LENGTH]{};
 	sprintf(static_cast<char*>(newname), "%s%s", sFilename, IBI_EXT);
 
 	// Read the Script File into the Buffer.
@@ -8425,7 +8425,7 @@ void CQuake3GameInterface::Lerp2Pos(const int taskID, const int entID, vec3_t or
 	//Only do the angles if specified
 	if (angles != nullptr)
 	{
-		vec3_t ang;
+		vec3_t ang{};
 		//
 		// Rotation
 
@@ -8477,7 +8477,7 @@ void CQuake3GameInterface::Lerp2Pos(const int taskID, const int entID, vec3_t or
 void CQuake3GameInterface::Lerp2Angles(const int taskID, const int entID, vec3_t angles, const float duration)
 {
 	gentity_t* ent = &g_entities[entID];
-	vec3_t ang;
+	vec3_t ang{};
 
 	if (!ent)
 	{
@@ -8553,7 +8553,7 @@ void CQuake3GameInterface::Set(int taskID, int entID, const char* type_name, con
 	gentity_t* ent = &g_entities[entID];
 	float float_data;
 	int int_data;
-	vec3_t vector_data;
+	vec3_t vector_data{};
 
 	// eezstreet: Add support for cvars getting modified thru ICARUS script
 	if (!Q_stricmpn(type_name, "cvar_", 5) &&
@@ -10438,7 +10438,7 @@ void CQuake3GameInterface::CameraFade(const float sr, const float sg, const floa
 	const float dr, const float dg, const float db,
 	const float da, const float duration)
 {
-	vec4_t src, dst;
+	vec4_t src{}, dst{};
 
 	src[0] = sr;
 	src[1] = sg;

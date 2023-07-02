@@ -56,7 +56,7 @@ qboolean PM_SlideMove(const float grav_mod)
 {
 	int bumpcount;
 	int numplanes;
-	vec3_t normal, planes[MAX_CLIP_PLANES];
+	vec3_t normal, planes[MAX_CLIP_PLANES]{};
 	vec3_t primal_velocity;
 	int i;
 	trace_t trace;

@@ -2323,7 +2323,7 @@ void CG_DrawActiveFrame(const int server_time, const stereoFrame_t stereo_view)
 		// let's grab a panorama!
 		cg.levelShot = qtrue; //hide the 2d
 		VectorClear(cg.refdefViewAngles);
-		cg.refdefViewAngles[YAW] = -360 * cg_pano.integer / cg_panoNumShots.integer; //choose angle
+		cg.refdefViewAngles[YAW] = static_cast<float>(-360) * cg_pano.integer / cg_panoNumShots.integer; //choose angle
 		AnglesToAxis(cg.refdefViewAngles, cg.refdef.viewaxis);
 		CG_DrawActive(stereo_view);
 		cg.levelShot = qfalse;

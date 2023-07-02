@@ -532,7 +532,7 @@ int G_RadiusList(vec3_t origin, float radius, const gentity_t* ignore, const qbo
 {
 	gentity_t* entity_list[MAX_GENTITIES];
 	vec3_t mins{}, maxs{};
-	vec3_t v;
+	vec3_t v{};
 	int i;
 	int ent_count = 0;
 

@@ -514,8 +514,8 @@ float UI_SaberBladeRadiusForSaber(const char* saber_name, const int blade_num)
 
 void UI_SaberLoadParms()
 {
-	int saber_ext_fn_len;
-	char* buffer;
+	int saber_ext_fn_len = 0;
+	char* buffer = nullptr;
 	char saber_extension_list_buf[2048]; //	The list of file names read in
 
 	ui_saber_parms_parsed = qtrue;

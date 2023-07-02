@@ -2733,7 +2733,7 @@ void G_MissileImpactJKA(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 			//Add the event
 			if (ent->s.weapon == WP_TRIP_MINE)
 			{
-				AddSoundEvent(ent->owner, ent->currentOrigin, ent->splashRadius / 2, AEL_DISCOVERED, qfalse, qtrue);
+				AddSoundEvent(ent->owner, ent->currentOrigin, ent->splashRadius / static_cast<float>(2), AEL_DISCOVERED, qfalse, qtrue);
 				AddSightEvent(ent->owner, ent->currentOrigin, ent->splashRadius * 2, AEL_DISCOVERED, 60);
 			}
 			else

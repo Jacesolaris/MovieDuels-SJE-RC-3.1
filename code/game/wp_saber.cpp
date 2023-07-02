@@ -4136,7 +4136,7 @@ qboolean WP_SaberDamageEffects(trace_t* tr, const float length, const float dmg,
 	const int enemy_team, const saberType_t saber_type, const saberInfo_t* saber,
 	const int blade_num)
 {
-	int hit_ent_num[MAX_G2_COLLISIONS];
+	int hit_ent_num[MAX_G2_COLLISIONS]{};
 	for (int& hen : hit_ent_num)
 	{
 		hen = ENTITYNUM_NONE;

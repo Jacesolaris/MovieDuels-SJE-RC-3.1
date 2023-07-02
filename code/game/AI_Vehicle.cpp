@@ -505,7 +505,7 @@ void Pilot_Steer_Vehicle()
 		return;
 	}
 
-	CVec3 ActorDirection;
+	CVec3 ActorDirection{};
 	AngleVectors(ActorAngles.v, ActorDirection.v, nullptr, nullptr);
 
 	CVec3 ActorFuturePos(ActorPos);
@@ -531,8 +531,8 @@ void Pilot_Steer_Vehicle()
 
 	const bool ActorFlank = NPCInfo->lastAvoidSteerSideDebouncer > level.time && EnemyVeh && EnemySpeed > 10.0f;
 
-	CVec3 EnemyDirection;
-	CVec3 EnemyRight;
+	CVec3 EnemyDirection{};
+	CVec3 EnemyRight{};
 	AngleVectors(EnemyAngles.v, EnemyDirection.v, EnemyRight.v, nullptr);
 
 	CVec3 EnemyFuturePos(EnemyPos);

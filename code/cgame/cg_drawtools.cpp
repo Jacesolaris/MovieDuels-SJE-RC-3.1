@@ -206,7 +206,7 @@ Coordinates are at 640 by 480 virtual resolution
 void CG_DrawStringExt(const int x, const int y, const char* string, const float* set_color,
 	const qboolean force_color, const qboolean shadow, const int char_width, const int char_height)
 {
-	vec4_t color;
+	vec4_t color{};
 	const char* s;
 	int xx;
 

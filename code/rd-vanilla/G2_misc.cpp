@@ -865,7 +865,7 @@ static void G2_GorePolys(const mdxmSurface_t* surface, CTraceSurface& ts)
 	for (j = 0; j < num_verts; j++)
 	{
 		const int pos = j * 5;
-		vec3_t delta;
+		vec3_t delta{};
 		delta[0] = verts[pos + 0] - ts.rayStart[0];
 		delta[1] = verts[pos + 1] - ts.rayStart[1];
 		delta[2] = verts[pos + 2] - ts.rayStart[2];
@@ -989,7 +989,7 @@ static void G2_GorePolys(const mdxmSurface_t* surface, CTraceSurface& ts)
 			ts.ghoul2info->mGoreSetTag = gore_set->mMyGoreSetTag;
 		}
 		assert(gore_set);
-		SGoreSurface add;
+		SGoreSurface add{};
 		add.shader = ts.goreShader;
 		add.mDeleteTime = 0;
 		if (ts.gore->lifeTime)
@@ -1233,7 +1233,7 @@ static bool G2_RadiusTracePolys(
 {
 	int		j;
 	vec3_t basis1;
-	vec3_t basis2;
+	vec3_t basis2{};
 	vec3_t taxis;
 	vec3_t saxis;
 
@@ -1284,7 +1284,7 @@ static bool G2_RadiusTracePolys(
 	for (j = 0; j < num_verts; j++)
 	{
 		const int pos = j * 5;
-		vec3_t delta;
+		vec3_t delta{};
 		delta[0] = verts[pos + 0] - TS.rayStart[0];
 		delta[1] = verts[pos + 1] - TS.rayStart[1];
 		delta[2] = verts[pos + 2] - TS.rayStart[2];

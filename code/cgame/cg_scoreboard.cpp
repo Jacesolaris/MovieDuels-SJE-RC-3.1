@@ -30,57 +30,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #define	SCOREBOARD_WIDTH	(26*BIGCHAR_WIDTH)
 
 /*
-static void Scoreboard_Draw( void )
-{
-	vec4_t	newColor;
-/*
-		player = g_entities[0];
-		if( player->client->ps.persistant[PERS_ACCURACY_SHOTS] ) {
-			accuracy = player->client->ps.persistant[PERS_ACCURACY_HITS] * 100 / player->client->ps.persistant[PERS_ACCURACY_SHOTS];
-		}
-*/
-/*	cg.LCARSTextTime = 0;	//	Turn off LCARS screen
-
-	// Background
-	newColor[0] = colorTable[CT_BLACK][0];
-	newColor[1] = colorTable[CT_BLACK][1];
-	newColor[2] = colorTable[CT_BLACK][2];
-	newColor[3] = 0.5;
-	cgi_R_SetColor(newColor);
-	CG_DrawPic( 137, 73, 475, 300, cgs.media.whiteShader);	// Background
-	CG_DrawPic( 120, 99,  18, 256, cgs.media.whiteShader);	// Background
-	CG_DrawPic(  40, 94,  66, 266, cgs.media.whiteShader);	// Background
-
-	// Right side box
-	cgi_R_SetColor( colorTable[CT_DKBROWN1]);
-	CG_DrawPic( 120, 354,  32, 32, cgs.media.status_corner_16_18);
-	CG_DrawPic(  94, 356,  16, 32, cgs.media.status_corner_8_16_b);
-	CG_DrawPic(  94, 73,  16, 32, cgs.media.status_corner_8_22);
-
-	CG_DrawPic(135,73,  302, 22, cgs.media.whiteShader);	// Top
-
-	CG_DrawPic(120, 100,  18, 12, cgs.media.whiteShader);	// Middle Top
-	CG_DrawPic(120, 353,  18, 4,  cgs.media.whiteShader);	// Middle Bottom
-
-	CG_DrawPic(130,357,  482, 18, cgs.media.whiteShader);	// Bottom
-
-	// Left side box
-	cgi_R_SetColor( colorTable[CT_DKBROWN1]);
-	CG_DrawPic(40,73,  56, 22, cgs.media.whiteShader);	// Top
-
-	CG_DrawPic(98,95,  8, 17, cgs.media.whiteShader);		// Middle Top
-	CG_DrawPic(98,353, 8, 7, cgs.media.whiteShader);		// Middle Bottom
-
-	CG_DrawPic(40,357, 58, 18, cgs.media.whiteShader);	// Bottom
-
-	CG_DrawProportionalString( 356, 208, "%", UI_RIGHT | UI_SMALLFONT, colorTable[CT_LTPURPLE1] );
-	CG_DrawProportionalString( 610, 72, ingame_text[IGT_MISSIONANALYSIS],UI_RIGHT| CG_BIGFONT, colorTable[CT_LTORANGE] );
-
-	CG_PrintScreenGraphics(statsmenu_graphics,SMG_MAX);
-}
-*/
-
-/*
 =================
 CG_MissionFailed
 =================

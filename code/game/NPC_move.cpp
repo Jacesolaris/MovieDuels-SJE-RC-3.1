@@ -58,7 +58,7 @@ static qboolean NPC_Jump(vec3_t dest, const int goalEntNum)
 	qboolean belowBlocked = qfalse, aboveBlocked = qfalse;
 	vec3_t targetDir, shotVel;
 	trace_t trace;
-	trajectory_t tr;
+	trajectory_t tr{};
 	int hitCount = 0, aboveTries = 0, belowTries = 0;
 	constexpr int maxHits = 10;
 	vec3_t bottom;
@@ -482,7 +482,7 @@ qboolean NPC_TryJump()
 		if (DistanceSquared(NPCInfo->jumpDest, NPCInfo->jumpTarget->currentOrigin) < minSafeRadiusSq)
 		{
 			vec3_t startPos;
-			vec3_t floorPos;
+			vec3_t floorPos{};
 			VectorCopy(NPCInfo->jumpDest, startPos);
 
 			floorPos[2] = NPCInfo->jumpDest[2] + (NPC->mins[2] - 32);

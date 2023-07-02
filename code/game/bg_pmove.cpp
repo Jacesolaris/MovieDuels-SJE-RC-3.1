@@ -1723,7 +1723,7 @@ static qboolean PM_CheckJump()
 
 		if (trace.fraction < 1.0f)
 		{
-			VectorMA(pm->ps->velocity, JUMP_VELOCITY / 2, forward, pm->ps->velocity);
+			VectorMA(pm->ps->velocity, static_cast<float>(JUMP_VELOCITY) / 2, forward, pm->ps->velocity);
 			//FIXME: kicking off wall anim?  At least check what anim we're in?
 			PM_SetAnim(pm, SETANIM_LEGS, BOTH_FORCEJUMP1,
 				SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD | SETANIM_FLAG_RESTART);
@@ -3073,7 +3073,7 @@ Only with the flight powerup
 */
 static void PM_FlyMove()
 {
-	vec3_t wishvel;
+	vec3_t wishvel{};
 	vec3_t wishdir;
 	float accel;
 	qboolean low_grav_move = qfalse;
@@ -3356,7 +3356,7 @@ qboolean PM_CrouchAnim(int anim);
 static void PM_WalkMove()
 {
 	int i;
-	vec3_t wishvel;
+	vec3_t wishvel{};
 	vec3_t wishdir;
 	float wishspeed;
 	usercmd_t cmd;
@@ -3847,7 +3847,7 @@ PM_NoclipMove
 */
 static void PM_NoclipMove()
 {
-	vec3_t wishvel;
+	vec3_t wishvel{};
 	vec3_t wishdir;
 
 	if (pm->gent && pm->gent->client)
@@ -6285,7 +6285,7 @@ PM_SetWaterLevelAtPoint	FIXME: avoid this twice?  certainly if not moving
 */
 static void PM_SetWaterLevelAtPoint(vec3_t org, int* waterlevel, int* watertype)
 {
-	vec3_t point;
+	vec3_t point{};
 
 	//
 	// get waterlevel, accounting for ducking
@@ -11658,7 +11658,7 @@ static void PM_WaterEvents()
 	{
 		//play the splash effect
 		trace_t tr;
-		vec3_t axis[3], angs, start, end;
+		vec3_t axis[3]{}, angs, start, end;
 
 		VectorSet(angs, 0, pm->gent->currentAngles[YAW], 0);
 		AngleVectors(angs, axis[2], axis[1], axis[0]);
@@ -23537,7 +23537,7 @@ void PM_AdjustAngleForWallGrab(playerState_t* ps, usercmd_t* ucmd)
 		//still holding onto the ledge stick our view to the wall angles
 		if (ps->legsAnim != BOTH_LEDGE_MERCPULL && ps->legsAnim != BOTH_LEDGE_JEDIPULL)
 		{
-			vec3_t trace_to, trace_from, fwd, fwd_angles, dir;
+			vec3_t trace_to, trace_from, fwd, fwd_angles, dir{};
 			trace_t trace;
 
 			VectorSet(fwd_angles, 0, pm->ps->viewangles[YAW], 0);
