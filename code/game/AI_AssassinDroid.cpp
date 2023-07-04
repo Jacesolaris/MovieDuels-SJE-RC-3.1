@@ -263,6 +263,8 @@ void bubble_shield_update()
 	}
 }
 
+//extern cvar_t* g_allowgunnerbash;
+//extern cvar_t* g_SerenityJediEngineMode;
 void deka_bubble_shield_update()
 {
 	// Shields Go When You Die
@@ -317,19 +319,23 @@ void deka_bubble_shield_update()
 				NPC->client->renderInfo.customRGBA[2] =
 				NPC->client->renderInfo.customRGBA[3] = NPC->client->ps.stats[STAT_ARMOR] - 100;
 
-			// If Touched By An Enemy, ALWAYS Shove Them
-			//-------------------------------------------
-			//if (NPC->enemy && NPCInfo->touchedByPlayer == NPC->enemy)
-			//{
-			//	vec3_t dir;
-			//	VectorSubtract(NPC->enemy->currentOrigin, NPC->currentOrigin, dir);
-			//	VectorNormalize(dir);
-			//	deka_bubble_shield_push_ent(NPC->enemy, dir);
-			//}
 
-			//// Push Anybody Else Near
-			////------------------------
-			//deka_bubble_shield_push_radius_ents();
+			//if (g_SerenityJediEngineMode->integer == 2 && g_allowgunnerbash->integer > 0)
+			//{
+			//	// If Touched By An Enemy, ALWAYS Shove Them
+			//	//-------------------------------------------
+			//	if (NPC->enemy && NPCInfo->touchedByPlayer == NPC->enemy)
+			//	{
+			//		vec3_t dir;
+			//		VectorSubtract(NPC->enemy->currentOrigin, NPC->currentOrigin, dir);
+			//		VectorNormalize(dir);
+			//		deka_bubble_shield_push_ent(NPC->enemy, dir);
+			//	}
+
+			//	// Push Anybody Else Near
+			//	//------------------------
+			//	deka_bubble_shield_push_radius_ents();
+			//}
 		}
 	}
 

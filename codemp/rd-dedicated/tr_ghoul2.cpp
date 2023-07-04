@@ -147,7 +147,7 @@ public:
 	int				surface_num;
 	int* boneUsedList;
 	surfaceInfo_v& rootSList;
-	model_t* currentModel;
+	model_t* current_model;
 	boneInfo_v& boneList;
 
 	CConstructBoneList(
@@ -160,7 +160,7 @@ public:
 		surface_num(initsurfaceNum),
 		boneUsedList(initboneUsedList),
 		rootSList(initrootSList),
-		currentModel(initcurrentModel),
+		current_model(initcurrentModel),
 		boneList(initboneList) { }
 };
 
@@ -717,7 +717,7 @@ public:
 	CBoneCache* bone_cache;
 	int				renderfx;
 	skin_t* skin;
-	model_t* currentModel;
+	model_t* current_model;
 	int				lod;
 	boltInfo_v& boltList;
 #ifdef _G2_GORE
@@ -752,7 +752,7 @@ public:
 		bone_cache(initboneCache),
 		renderfx(initrenderfx),
 		skin(initskin),
-		currentModel(initcurrentModel),
+		current_model(initcurrentModel),
 		lod(initlod),
 #ifdef _G2_GORE
 		boltList(initboltList),
@@ -1822,26 +1822,26 @@ void G2_TransformGhoulBones(boneInfo_v& rootBoneList, mdxaBone_t& rootMatrix, CG
 #endif
 
 	/*
-	model_t			*currentModel;
+	model_t			*current_model;
 	model_t			*animModel;
 	mdxaHeader_t	*aHeader;
 
-	//currentModel = R_GetModelByHandle(RE_RegisterModel(ghoul2.mFileName));
-	currentModel = R_GetModelByHandle(ghoul2.mModel);
-	assert(currentModel);
-	assert(currentModel->mdxm);
+	//current_model = R_GetModelByHandle(RE_RegisterModel(ghoul2.mFileName));
+	current_model = R_GetModelByHandle(ghoul2.mModel);
+	assert(current_model);
+	assert(current_model->mdxm);
 
-	animModel =  R_GetModelByHandle(currentModel->mdxm->animIndex);
+	animModel =  R_GetModelByHandle(current_model->mdxm->animIndex);
 	assert(animModel);
 	aHeader = animModel->mdxa;
 	assert(aHeader);
 	*/
-	const model_t* currentModel = (model_t*)ghoul2.currentModel;
+	const model_t* current_model = (model_t*)ghoul2.current_model;
 	const mdxaHeader_t* aHeader = (mdxaHeader_t*)ghoul2.aHeader;
 
 	assert(ghoul2.aHeader);
-	assert(ghoul2.currentModel);
-	assert(ghoul2.currentModel->mdxm);
+	assert(ghoul2.current_model);
+	assert(ghoul2.current_model->mdxm);
 	if (!aHeader->numBones)
 	{
 		assert(0); // this would be strange
@@ -1849,13 +1849,13 @@ void G2_TransformGhoulBones(boneInfo_v& rootBoneList, mdxaBone_t& rootMatrix, CG
 	}
 	if (!ghoul2.mBoneCache)
 	{
-		ghoul2.mBoneCache = new CBoneCache(currentModel, aHeader);
+		ghoul2.mBoneCache = new CBoneCache(current_model, aHeader);
 
 #ifdef _FULL_G2_LEAK_CHECKING
 		g_Ghoul2Allocations += sizeof(*ghoul2.mBoneCache);
 #endif
 	}
-	ghoul2.mBoneCache->mod = currentModel;
+	ghoul2.mBoneCache->mod = current_model;
 	ghoul2.mBoneCache->header = aHeader;
 	assert(static_cast<int>(ghoul2.mBoneCache->mBones.size()) == aHeader->numBones);
 
@@ -2208,15 +2208,15 @@ void G2_ProcessGeneratedSurfaceBolts(CGhoul2Info& ghoul2, mdxaBone_v& bonePtr, m
 
 // Go through the model and deal with just the surfaces that are tagged as bolt on points - this is for the server side skeleton construction
 void ProcessModelBoltSurfaces(int surface_num, surfaceInfo_v& rootSList,
-	mdxaBone_v& bonePtr, model_t* currentModel, int lod, boltInfo_v& boltList)
+	mdxaBone_v& bonePtr, model_t* current_model, int lod, boltInfo_v& boltList)
 {
 #ifdef G2_PERFORMANCE_ANALYSIS
 	G2PerformanceTimer_ProcessModelBoltSurfaces.Start();
 #endif
 
 	// back track and get the surfinfo struct for this surface
-	mdxmSurface_t* surface = static_cast<mdxmSurface_t*>(G2_FindSurface((void*)currentModel, surface_num, 0));
-	mdxmHierarchyOffsets_t* surf_indexes = (mdxmHierarchyOffsets_t*)((byte*)currentModel->mdxm + sizeof(mdxmHeader_t));
+	mdxmSurface_t* surface = static_cast<mdxmSurface_t*>(G2_FindSurface((void*)current_model, surface_num, 0));
+	mdxmHierarchyOffsets_t* surf_indexes = (mdxmHierarchyOffsets_t*)((byte*)current_model->mdxm + sizeof(mdxmHeader_t));
 	const mdxmSurfHierarchy_t* surfInfo = (mdxmSurfHierarchy_t*)((byte*)surf_indexes + surf_indexes->offsets[surface->thisSurfaceIndex]);
 
 	// see if we have an override surface in the surface list
@@ -2239,7 +2239,7 @@ void ProcessModelBoltSurfaces(int surface_num, surfaceInfo_v& rootSList,
 		// yes - ok, processing time.
 		if (boltNum != -1)
 		{
-			G2_ProcessSurfaceBolt(bonePtr, surface, boltNum, boltList, surfOverride, currentModel);
+			G2_ProcessSurfaceBolt(bonePtr, surface, boltNum, boltList, surfOverride, current_model);
 		}
 	}
 
@@ -2252,7 +2252,7 @@ void ProcessModelBoltSurfaces(int surface_num, surfaceInfo_v& rootSList,
 	// now recursively call for the children
 	for (int i = 0; i < surfInfo->numChildren; i++)
 	{
-		ProcessModelBoltSurfaces(surfInfo->childIndexes[i], rootSList, bonePtr, currentModel, lod, boltList);
+		ProcessModelBoltSurfaces(surfInfo->childIndexes[i], rootSList, bonePtr, current_model, lod, boltList);
 	}
 
 #ifdef G2_PERFORMANCE_ANALYSIS
@@ -2266,10 +2266,10 @@ void G2_ConstructUsedBoneList(CConstructBoneList& CBL)
 	int	 		i;
 
 	// back track and get the surfinfo struct for this surface
-	const mdxmSurface_t* surface = static_cast<mdxmSurface_t*>(G2_FindSurface((void*)CBL.currentModel, CBL.surface_num, 0));
-	const mdxmHierarchyOffsets_t* surf_indexes = (mdxmHierarchyOffsets_t*)((byte*)CBL.currentModel->mdxm + sizeof(mdxmHeader_t));
+	const mdxmSurface_t* surface = static_cast<mdxmSurface_t*>(G2_FindSurface((void*)CBL.current_model, CBL.surface_num, 0));
+	const mdxmHierarchyOffsets_t* surf_indexes = (mdxmHierarchyOffsets_t*)((byte*)CBL.current_model->mdxm + sizeof(mdxmHeader_t));
 	const mdxmSurfHierarchy_t* surfInfo = (mdxmSurfHierarchy_t*)((byte*)surf_indexes + surf_indexes->offsets[surface->thisSurfaceIndex]);
-	const model_t* mod_a = R_GetModelByHandle(CBL.currentModel->mdxm->animIndex);
+	const model_t* mod_a = R_GetModelByHandle(CBL.current_model->mdxm->animIndex);
 	const mdxaSkelOffsets_t* offsets = (mdxaSkelOffsets_t*)((byte*)mod_a->mdxa + sizeof(mdxaHeader_t));
 
 	// see if we have an override surface in the surface list
@@ -2691,9 +2691,9 @@ void G2_GetBoltMatrixLow(CGhoul2Info& ghoul2, int boltNum, const vec3_t scale, m
 		char mName[MAX_QPATH];
 		int bLink = ghoul2.mModelBoltLink;
 
-		if (ghoul2.currentModel)
+		if (ghoul2.current_model)
 		{
-			strcpy(mName, ghoul2.currentModel->name);
+			strcpy(mName, ghoul2.current_model->name);
 		}
 		else
 		{
@@ -2814,7 +2814,7 @@ bool G2_NeedsRecalc(CGhoul2Info* ghl_info, int frame_num)
 	// not sure if I still need this test, probably
 	if (ghl_info->mSkelFrameNum != frame_num ||
 		!ghl_info->mBoneCache ||
-		ghl_info->mBoneCache->mod != ghl_info->currentModel)
+		ghl_info->mBoneCache->mod != ghl_info->current_model)
 	{
 #ifdef _G2_LISTEN_SERVER_OPT
 		if (ghl_info->entity_num != ENTITYNUM_NONE &&

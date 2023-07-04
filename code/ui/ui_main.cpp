@@ -657,7 +657,7 @@ void _UI_Refresh(const int realtime)
 		{
 			total = 1;
 		}
-		uiInfo.uiDC.FPS = 1000 * UI_FPS_FRAMES / total;
+		uiInfo.uiDC.FPS = static_cast<float>(1000 * UI_FPS_FRAMES) / total;
 	}
 
 	UI_UpdateCvars();
@@ -2796,8 +2796,8 @@ static void UI_BuildPlayerModel_List(const qboolean inGameLoad)
 	static constexpr size_t DIR_LIST_SIZE = 16384;
 
 	size_t dirListSize = DIR_LIST_SIZE;
-	char stackDirList[8192];
-	int dirlen;
+	char stackDirList[8192]{};
+	int dirlen = 0;
 	const int building = Cvar_VariableIntegerValue("com_buildscript");
 
 	auto dirlist = static_cast<char*>(malloc(DIR_LIST_SIZE));
@@ -3260,7 +3260,7 @@ UI_LoadMenus
 */
 void UI_LoadMenus(const char* menuFile, const qboolean reset)
 {
-	char* buffer;
+	char* buffer = nullptr;
 	const char* holdBuffer;
 
 	const int start = Sys_Milliseconds();
@@ -3322,7 +3322,7 @@ void UI_LoadMenus(const char* menuFile, const qboolean reset)
 	Com_Printf("---------------- MovieDuels-SJE-RC-3.1---------------------------\n");
 	Com_Printf("-----------------------------------------------------------------\n");
 	Com_Printf("------------------------Update 9---------------------------------\n");
-	Com_Printf("------------------Build Date 02/07/2023--------------------------\n");
+	Com_Printf("------------------Build Date 04/07/2023--------------------------\n");
 	Com_Printf("-----------------------------------------------------------------\n");
 	Com_Printf("------------------------LightSaber-------------------------------\n");
 	Com_Printf("-----------An elegant weapon for a more civilized age------------\n");
@@ -4222,9 +4222,9 @@ UI_DrawKeyBindStatus
 static void UI_DrawGLInfo(const rectDef_t* rect, const float scale, vec4_t color, const int textStyle, const int iFontIndex)
 {
 	constexpr auto MAX_LINES = 64;
-	char buff[4096];
+	char buff[4096]{};
 	char* eptr = buff;
-	const char* lines[MAX_LINES];
+	const char* lines[MAX_LINES]{};
 	int numLines = 0, i = 0;
 
 	int y = rect->y;
@@ -4311,7 +4311,7 @@ static void UI_OwnerDraw(float x, float y, float w, float h, const float text_x,
 	int ownerDrawFlags, int align, float special, const float scale, vec4_t color, qhandle_t shader,
 	const int textStyle, const int iFontIndex)
 {
-	rectDef_t rect;
+	rectDef_t rect{};
 
 	rect.x = x + text_x;
 	rect.y = y + text_y;
@@ -4812,7 +4812,7 @@ void UI_GetVideoSetup()
 static void UI_SetSexandSoundForModel(const char* char_model)
 {
 	int f;
-	char soundpath[MAX_QPATH];
+	char soundpath[MAX_QPATH]{};
 	qboolean isFemale = qfalse;
 
 	int i = ui.FS_FOpenFile(va("models/players/%s/sounds.cfg", char_model), &f, FS_READ);

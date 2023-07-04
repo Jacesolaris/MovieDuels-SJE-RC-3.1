@@ -34,7 +34,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../ghoul2/G2.h"
 #endif
 
-#define G2_MODEL_OK(g) ((g)&&(g)->mValid&&(g)->aHeader&&(g)->currentModel&&(g)->animModel)
+#define G2_MODEL_OK(g) ((g)&&(g)->mValid&&(g)->aHeader&&(g)->current_model&&(g)->animModel)
 
 //=====================================================================================================================
 // Bolt List handling routines - so entities can attach themselves to any part of the model in question
@@ -132,7 +132,7 @@ int G2_Add_Bolt(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, const char* bo
 	assert(G2_MODEL_OK(ghl_info));
 
 	// first up, we'll search for that which this bolt names in all the surfaces
-	const int surf_num = G2_IsSurfaceLegal(ghl_info->currentModel, bone_name, &flags);
+	const int surf_num = G2_IsSurfaceLegal(ghl_info->current_model, bone_name, &flags);
 
 	// did we find it as a surface?
 	if (surf_num != -1)

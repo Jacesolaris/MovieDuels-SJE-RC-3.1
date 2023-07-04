@@ -42,7 +42,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "../qcommon/MiniHeap.h"
 #endif
 
-#define G2_MODEL_OK(g) ((g)&&(g)->mValid&&(g)->aHeader&&(g)->currentModel&&(g)->animModel)
+#define G2_MODEL_OK(g) ((g)&&(g)->mValid&&(g)->aHeader&&(g)->current_model&&(g)->animModel)
 
 #include "../server/server.h"
 
@@ -203,7 +203,7 @@ class CTraceSurface
 public:
 	int					surface_num;
 	surfaceInfo_v& rootSList;
-	const model_t* currentModel;
+	const model_t* current_model;
 	const int			lod;
 	vec3_t		rayStart;
 	vec3_t		rayEnd;
@@ -258,7 +258,7 @@ public:
 
 	surface_num(initsurfaceNum),
 		rootSList(initrootSList),
-		currentModel(initcurrentModel),
+		current_model(initcurrentModel),
 		lod(initlod),
 		collRecMap(initcollRecMap),
 		ent_num(initentNum),
@@ -388,14 +388,14 @@ int G2_DecideTraceLod(const CGhoul2Info& ghoul2, const int use_lod)
 	}
 	assert(G2_MODEL_OK(&ghoul2));
 
-	assert(ghoul2.currentModel);
-	assert(ghoul2.currentModel->mdxm);
+	assert(ghoul2.current_model);
+	assert(ghoul2.current_model->mdxm);
 	//what about r_lodBias?
 
 	// now ensure that we haven't selected a lod that doesn't exist for this model
-	if (return_lod >= ghoul2.currentModel->mdxm->numLODs)
+	if (return_lod >= ghoul2.current_model->mdxm->numLODs)
 	{
-		return_lod = ghoul2.currentModel->mdxm->numLODs - 1;
+		return_lod = ghoul2.current_model->mdxm->numLODs - 1;
 	}
 
 	return return_lod;
@@ -619,8 +619,8 @@ void G2_TransformModel(CGhoul2Info_v& ghoul2, const int frame_num, vec3_t scale,
 		if (apply_gore)
 		{
 			lod = use_lod;
-			assert(g.currentModel);
-			if (lod >= g.currentModel->numLods)
+			assert(g.current_model);
+			if (lod >= g.current_model->numLods)
 			{
 				g.mTransformedVertsArray = nullptr;
 				if (first_model_only)
@@ -639,17 +639,17 @@ void G2_TransformModel(CGhoul2Info_v& ghoul2, const int frame_num, vec3_t scale,
 		}
 
 		// give us space for the transformed vertex array to be put in
-		g.mTransformedVertsArray = reinterpret_cast<intptr_t*>(g2_vert_space->MiniHeapAlloc(g.currentModel->mdxm->numSurfaces * sizeof(intptr_t)));
+		g.mTransformedVertsArray = reinterpret_cast<intptr_t*>(g2_vert_space->MiniHeapAlloc(g.current_model->mdxm->numSurfaces * sizeof(intptr_t)));
 		if (!g.mTransformedVertsArray)
 		{
 			Com_Error(ERR_DROP, "Ran out of transform space for Ghoul2 Models. Adjust G2_MINIHEAP_SIZE in sv_init.cpp.\n");
 		}
 
-		memset(g.mTransformedVertsArray, 0, g.currentModel->mdxm->numSurfaces * sizeof(intptr_t));
+		memset(g.mTransformedVertsArray, 0, g.current_model->mdxm->numSurfaces * sizeof(intptr_t));
 
 		G2_FindOverrideSurface(-1, g.mSlist); //reset the quick surface override lookup;
 		// recursively call the model surface transform
-		G2_TransformSurfaces(g.mSurfaceRoot, g.mSlist, g.mBoneCache, g.currentModel, lod, correct_scale, g2_vert_space, g.mTransformedVertsArray, false);
+		G2_TransformSurfaces(g.mSurfaceRoot, g.mSlist, g.mBoneCache, g.current_model, lod, correct_scale, g2_vert_space, g.mTransformedVertsArray, false);
 
 #ifdef _G2_GORE
 
@@ -1442,10 +1442,10 @@ static bool G2_RadiusTracePolys(
 static void G2_TraceSurfaces(CTraceSurface& TS)
 {
 	// back track and get the surfinfo struct for this surface
-	assert(TS.currentModel);
-	assert(TS.currentModel->mdxm);
-	const mdxmSurface_t* surface = static_cast<mdxmSurface_t*>(G2_FindSurface(TS.currentModel, TS.surface_num, TS.lod));
-	const mdxmHierarchyOffsets_t* surf_indexes = reinterpret_cast<mdxmHierarchyOffsets_t*>(reinterpret_cast<byte*>(TS.currentModel->mdxm) + sizeof(mdxmHeader_t));
+	assert(TS.current_model);
+	assert(TS.current_model->mdxm);
+	const mdxmSurface_t* surface = static_cast<mdxmSurface_t*>(G2_FindSurface(TS.current_model, TS.surface_num, TS.lod));
+	const mdxmHierarchyOffsets_t* surf_indexes = reinterpret_cast<mdxmHierarchyOffsets_t*>(reinterpret_cast<byte*>(TS.current_model->mdxm) + sizeof(mdxmHeader_t));
 	const mdxmSurfHierarchy_t* surf_info = reinterpret_cast<mdxmSurfHierarchy_t*>((byte*)surf_indexes + surf_indexes->offsets[surface->thisSurfaceIndex]);
 
 	// see if we have an override surface in the surface list
@@ -1618,9 +1618,9 @@ void G2_TraceModels(CGhoul2Info_v& ghoul2, vec3_t rayStart, vec3_t rayEnd, CColl
 		G2_FindOverrideSurface(-1, g.mSlist);
 
 #ifdef _G2_GORE
-		CTraceSurface TS(g.mSurfaceRoot, g.mSlist, g.currentModel, lod, rayStart, rayEnd, collRecMap, ent_num, i, skin, cust_shader, g.mTransformedVertsArray, e_g2_trace_type, fRadius, ssize, tsize, theta, shader, &g, gore);
+		CTraceSurface TS(g.mSurfaceRoot, g.mSlist, g.current_model, lod, rayStart, rayEnd, collRecMap, ent_num, i, skin, cust_shader, g.mTransformedVertsArray, e_g2_trace_type, fRadius, ssize, tsize, theta, shader, &g, gore);
 #else
-		CTraceSurface TS(g.mSurfaceRoot, g.mSlist, g.currentModel, lod, rayStart, rayEnd, collRecMap, ent_num, i, skin, cust_shader, g.mTransformedVertsArray, e_g2_trace_type, fRadius);
+		CTraceSurface TS(g.mSurfaceRoot, g.mSlist, g.current_model, lod, rayStart, rayEnd, collRecMap, ent_num, i, skin, cust_shader, g.mTransformedVertsArray, e_g2_trace_type, fRadius);
 #endif
 		// start the surface recursion loop
 		G2_TraceSurfaces(TS);

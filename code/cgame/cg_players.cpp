@@ -15491,7 +15491,7 @@ void CG_Player(centity_t* cent)
 							//&& cent->gent->client->ps.saberActive)
 						{
 							//holding the saber in-hand
-							//						CGhoul2Info *currentModel = &cent->gent->ghoul2[1];
+							//						CGhoul2Info *current_model = &cent->gent->ghoul2[1];
 							//						CGhoul2Info *nextModel = &cent->gent->ghoul2[1];
 							//FIXME: need a version of this that *doesn't* need the mFileName in the ghoul2
 							//FIXME: use an actual surfaceIndex?

@@ -122,7 +122,7 @@ int G2_Add_Bolt_Surf_Num(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, const
 int G2_Add_Bolt(const CGhoul2Info* ghl_info, boltInfo_v& bltlist, const char* bone_name)
 {
 	assert(ghl_info && ghl_info->mValid);
-	model_t* mod_m = (model_t*)ghl_info->currentModel;
+	model_t* mod_m = (model_t*)ghl_info->current_model;
 	const model_t* mod_a = (model_t*)ghl_info->animModel;
 	int					x;
 	boltInfo_t			tempBolt;

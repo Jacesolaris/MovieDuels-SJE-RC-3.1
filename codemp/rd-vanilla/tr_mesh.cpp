@@ -174,7 +174,7 @@ int R_ComputeLOD(trRefEntity_t* ent) {
 	float projectedRadius;
 	int lod;
 
-	if (tr.currentModel->numLods < 2)
+	if (tr.current_model->numLods < 2)
 	{
 		// model has only 1 LOD level, skip computations and bias
 		lod = 0;
@@ -184,7 +184,7 @@ int R_ComputeLOD(trRefEntity_t* ent) {
 		// multiple LODs exist, so compute projected bounding sphere
 		// and use that as a criteria for selecting LOD
 
-		md3Frame_t* frame = (md3Frame_t*)(((unsigned char*)tr.currentModel->md3[0]) + tr.currentModel->md3[0]->ofsFrames);
+		md3Frame_t* frame = (md3Frame_t*)(((unsigned char*)tr.current_model->md3[0]) + tr.current_model->md3[0]->ofsFrames);
 
 		frame += ent->e.frame;
 
@@ -209,23 +209,23 @@ int R_ComputeLOD(trRefEntity_t* ent) {
 			flod = 0;
 		}
 
-		flod *= tr.currentModel->numLods;
+		flod *= tr.current_model->numLods;
 		lod = Q_ftol(flod);
 
 		if (lod < 0)
 		{
 			lod = 0;
 		}
-		else if (lod >= tr.currentModel->numLods)
+		else if (lod >= tr.current_model->numLods)
 		{
-			lod = tr.currentModel->numLods - 1;
+			lod = tr.current_model->numLods - 1;
 		}
 	}
 
 	lod += r_lodbias->integer;
 
-	if (lod >= tr.currentModel->numLods)
-		lod = tr.currentModel->numLods - 1;
+	if (lod >= tr.current_model->numLods)
+		lod = tr.current_model->numLods - 1;
 	if (lod < 0)
 		lod = 0;
 
@@ -280,8 +280,8 @@ void R_AddMD3Surfaces(trRefEntity_t* ent) {
 	const qboolean personalModel = static_cast<qboolean>((ent->e.renderfx & RF_THIRD_PERSON) && !tr.viewParms.is_portal);
 
 	if (ent->e.renderfx & RF_WRAP_FRAMES) {
-		ent->e.frame %= tr.currentModel->md3[0]->num_frames;
-		ent->e.oldframe %= tr.currentModel->md3[0]->num_frames;
+		ent->e.frame %= tr.current_model->md3[0]->num_frames;
+		ent->e.oldframe %= tr.current_model->md3[0]->num_frames;
 	}
 
 	//
@@ -290,13 +290,13 @@ void R_AddMD3Surfaces(trRefEntity_t* ent) {
 	// when the surfaces are rendered, they don't need to be
 	// range checked again.
 	//
-	if ((ent->e.frame >= tr.currentModel->md3[0]->num_frames)
+	if ((ent->e.frame >= tr.current_model->md3[0]->num_frames)
 		|| (ent->e.frame < 0)
-		|| (ent->e.oldframe >= tr.currentModel->md3[0]->num_frames)
+		|| (ent->e.oldframe >= tr.current_model->md3[0]->num_frames)
 		|| (ent->e.oldframe < 0)) {
 		ri->Printf(PRINT_DEVELOPER, S_COLOR_RED "R_AddMD3Surfaces: no such frame %d to %d for '%s'\n",
 			ent->e.oldframe, ent->e.frame,
-			tr.currentModel->name);
+			tr.current_model->name);
 		ent->e.frame = 0;
 		ent->e.oldframe = 0;
 	}
@@ -306,7 +306,7 @@ void R_AddMD3Surfaces(trRefEntity_t* ent) {
 	//
 	const int lod = R_ComputeLOD(ent);
 
-	md3Header_t* header = tr.currentModel->md3[lod];
+	md3Header_t* header = tr.current_model->md3[lod];
 
 	//
 	// cull the entire model if merged bounding box of both frames

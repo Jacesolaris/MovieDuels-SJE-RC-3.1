@@ -981,7 +981,7 @@ using trGlobals_t = struct {
 	trRefEntity_t			worldEntity;		// point currentEntity at this when rendering world
 	int						currentEntityNum;
 	unsigned				shiftedEntityNum;	// currentEntityNum << QSORT_REFENTITYNUM_SHIFT (possible with high bit set for RF_ALPHA_FADE)
-	model_t* currentModel;
+	model_t* current_model;
 
 	viewParms_t				viewParms;
 

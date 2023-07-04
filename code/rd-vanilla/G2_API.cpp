@@ -52,7 +52,7 @@ extern	cvar_t* r_Ghoul2TimeBase;
 
 extern refexport_t	re;
 
-#define G2_MODEL_OK(g) ((g)&&(g)->mValid&&(g)->aHeader&&(g)->currentModel&&(g)->animModel)
+#define G2_MODEL_OK(g) ((g)&&(g)->mValid&&(g)->aHeader&&(g)->current_model&&(g)->animModel)
 
 #define G2_DEBUG_TIME (0)
 
@@ -122,7 +122,7 @@ public:
 		strcpy(GLAName1, ghl_info->animModel->name);
 		strcpy(GLAName2, ghl_info->aHeader->name);
 		strcpy(GLMName1, ghl_info->mFileName);
-		strcpy(GLMName2, ghl_info->currentModel->name);
+		strcpy(GLMName2, ghl_info->current_model->name);
 
 		int numFramesInFile = ghl_info->aHeader->num_frames;
 
@@ -2045,11 +2045,11 @@ char* G2API_GetSurfaceName(CGhoul2Info* ghl_info, const int surf_number)
 	static char no_surface[1] = "";
 	if (G2_SetupModelPointers(ghl_info))
 	{
-		const mdxmSurface_t* surf = static_cast<mdxmSurface_t*>(G2_FindSurface(ghl_info->currentModel, surf_number, 0));
+		const mdxmSurface_t* surf = static_cast<mdxmSurface_t*>(G2_FindSurface(ghl_info->current_model, surf_number, 0));
 		if (surf)
 		{
 			assert(G2_MODEL_OK(ghl_info));
-			const auto surf_indexes = reinterpret_cast<mdxmHierarchyOffsets_t*>(reinterpret_cast<byte*>(ghl_info->currentModel->mdxm) + sizeof(mdxmHeader_t));
+			const auto surf_indexes = reinterpret_cast<mdxmHierarchyOffsets_t*>(reinterpret_cast<byte*>(ghl_info->current_model->mdxm) + sizeof(mdxmHeader_t));
 			const auto surf_info = reinterpret_cast<mdxmSurfHierarchy_t*>(reinterpret_cast<byte*>(surf_indexes) + surf_indexes->offsets[surf->
 				thisSurfaceIndex]);
 			return surf_info->name;
@@ -2077,7 +2077,7 @@ char* G2API_GetGLAName(CGhoul2Info* ghl_info)
 	{
 		assert(G2_MODEL_OK(ghl_info));
 		return const_cast<char*>(ghl_info->aHeader->name);
-		//return ghl_info->currentModel->mdxm->animName;
+		//return ghl_info->current_model->mdxm->animName;
 	}
 	return nullptr;
 }
@@ -2175,7 +2175,7 @@ void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 
 	ResetGoreTag();
 	const int lodbias = Com_Clamp(0, 2, G2_DecideTraceLod(ghoul2[0], r_lodbias->integer));
-	const int max_lod = Com_Clamp(0, ghoul2[0].currentModel->numLods, 3);	//limit to the number of lods the main model has
+	const int max_lod = Com_Clamp(0, ghoul2[0].current_model->numLods, 3);	//limit to the number of lods the main model has
 	for (int lod = lodbias; lod < max_lod; lod++)
 	{
 		// now having done that, time to build the model
@@ -2197,6 +2197,8 @@ void G2API_AddSkinGore(CGhoul2Info_v& ghoul2, SSkinGoreData& gore)
 }
 #endif
 
+extern model_t* R_GetAnimModelByHandle(const CGhoul2Info* ghl_info, qhandle_t index);
+
 bool G2_TestModelPointers(CGhoul2Info* ghl_info) // returns true if the model is properly set up
 {
 	G2ERROR(ghl_info, "NULL ghl_info");
@@ -2208,27 +2210,28 @@ bool G2_TestModelPointers(CGhoul2Info* ghl_info) // returns true if the model is
 	if (ghl_info->mModelindex != -1)
 	{
 		ghl_info->mModel = RE_RegisterModel(ghl_info->mFileName);
-		ghl_info->currentModel = R_GetModelByHandle(ghl_info->mModel);
-		if (ghl_info->currentModel)
+		ghl_info->current_model = R_GetModelByHandle(ghl_info->mModel);
+		if (ghl_info->current_model)
 		{
-			if (ghl_info->currentModel->mdxm)
+			if (ghl_info->current_model->mdxm)
 			{
 				if (ghl_info->currentModelSize)
 				{
-					if (ghl_info->currentModelSize != ghl_info->currentModel->mdxm->ofsEnd)
+					if (ghl_info->currentModelSize != ghl_info->current_model->mdxm->ofsEnd)
 					{
 						Com_Error(ERR_DROP, "Ghoul2 model was reloaded and has changed, map must be restarted.\n");
 					}
 				}
-				ghl_info->currentModelSize = ghl_info->currentModel->mdxm->ofsEnd;
-				ghl_info->animModel = R_GetModelByHandle(ghl_info->currentModel->mdxm->animIndex + ghl_info->animModelIndexOffset);
+				ghl_info->currentModelSize = ghl_info->current_model->mdxm->ofsEnd;
+				ghl_info->animModel = R_GetModelByHandle(
+					ghl_info->current_model->mdxm->animIndex + ghl_info->animModelIndexOffset);
 				if (ghl_info->animModel)
 				{
 					ghl_info->aHeader = ghl_info->animModel->mdxa;
 					G2ERROR(ghl_info->aHeader, va("Model has no mdxa (gla) %s", ghl_info->mFileName));
 					if (!ghl_info->aHeader)
 					{
-						Com_Error(ERR_DROP, "Ghoul2 Model has no mdxa (gla) %s", ghl_info->mFileName);
+						Com_Error(ERR_DROP, "Ghoul2 (test)Model has no mdxa (gla) %s", ghl_info->mFileName);
 					}
 					if (ghl_info->currentAnimModelSize)
 					{
@@ -2245,7 +2248,7 @@ bool G2_TestModelPointers(CGhoul2Info* ghl_info) // returns true if the model is
 	}
 	if (!ghl_info->mValid)
 	{
-		ghl_info->currentModel = nullptr;
+		ghl_info->current_model = nullptr;
 		ghl_info->currentModelSize = 0;
 		ghl_info->animModel = nullptr;
 		ghl_info->currentAnimModelSize = 0;
@@ -2254,7 +2257,6 @@ bool G2_TestModelPointers(CGhoul2Info* ghl_info) // returns true if the model is
 	return ghl_info->mValid;
 }
 
-extern model_t* R_GetAnimModelByHandle(const CGhoul2Info* ghl_info, qhandle_t index);
 bool G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the model is properly set up
 {
 	G2ERROR(ghl_info, "NULL ghl_info");
@@ -2268,24 +2270,25 @@ bool G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the model i
 	{
 		G2ERROR(ghl_info->mFileName[0], "empty ghl_info->mFileName");
 		ghl_info->mModel = RE_RegisterModel(ghl_info->mFileName);
-		ghl_info->currentModel = R_GetModelByHandle(ghl_info->mModel);
-		G2ERROR(ghl_info->currentModel, va("NULL Model (glm) %s", ghl_info->mFileName));
-		if (ghl_info->currentModel)
+		ghl_info->current_model = R_GetModelByHandle(ghl_info->mModel);
+		G2ERROR(ghl_info->current_model, va("NULL Model (glm) %s", ghl_info->mFileName));
+		if (ghl_info->current_model)
 		{
-			G2ERROR(ghl_info->currentModel->mdxm, va("Model has no mdxm (glm) %s", ghl_info->mFileName));
-			if (ghl_info->currentModel->mdxm)
+			G2ERROR(ghl_info->current_model->mdxm, va("Model has no mdxm (glm) %s", ghl_info->mFileName));
+			if (ghl_info->current_model->mdxm)
 			{
 				if (ghl_info->currentModelSize)
 				{
-					if (ghl_info->currentModelSize != ghl_info->currentModel->mdxm->ofsEnd)
+					if (ghl_info->currentModelSize != ghl_info->current_model->mdxm->ofsEnd)
 					{
 						Com_Error(ERR_DROP, "Ghoul2 model was reloaded and has changed, map must be restarted.\n");
 					}
 				}
-				ghl_info->currentModelSize = ghl_info->currentModel->mdxm->ofsEnd;
+				ghl_info->currentModelSize = ghl_info->current_model->mdxm->ofsEnd;
 				G2ERROR(ghl_info->currentModelSize, va("Zero sized Model? (glm) %s", ghl_info->mFileName));
 
-				ghl_info->animModel = R_GetAnimModelByHandle(ghl_info, ghl_info->currentModel->mdxm->animIndex + ghl_info->animModelIndexOffset);
+				ghl_info->animModel = R_GetAnimModelByHandle(
+					ghl_info, ghl_info->current_model->mdxm->animIndex + ghl_info->animModelIndexOffset);
 				G2ERROR(ghl_info->animModel, va("NULL Model (gla) %s", ghl_info->mFileName));
 				if (ghl_info->animModel)
 				{
@@ -2293,7 +2296,8 @@ bool G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the model i
 					G2ERROR(ghl_info->aHeader, va("Model has no mdxa (gla) %s", ghl_info->mFileName));
 					if (!ghl_info->aHeader)
 					{
-						Com_Error(ERR_DROP, "Ghoul2 Model has no mdxa (gla) %s", ghl_info->mFileName);
+						Com_Error(ERR_DROP, "Ghoul2 (set up model pointers)Model has no mdxa (gla) %s",
+							ghl_info->mFileName);
 					}
 					if (ghl_info->currentAnimModelSize)
 					{
@@ -2311,7 +2315,7 @@ bool G2_SetupModelPointers(CGhoul2Info* ghl_info) // returns true if the model i
 	}
 	if (!ghl_info->mValid)
 	{
-		ghl_info->currentModel = nullptr;
+		ghl_info->current_model = nullptr;
 		ghl_info->currentModelSize = 0;
 		ghl_info->animModel = nullptr;
 		ghl_info->currentAnimModelSize = 0;
