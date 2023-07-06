@@ -900,7 +900,7 @@ Init the game subsystem for a new map
 */
 void SV_InitGameProgs()
 {
-	game_import_t import;
+	game_import_t import{};
 	int i;
 
 	// unload anything we have now

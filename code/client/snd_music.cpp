@@ -272,7 +272,7 @@ static qboolean Music_ParseMusic(const gsl::czstring filename, const CGenericPar
 					}
 					else if (Q::substr(key, 0, sKEY_TIME.size()) == sKEY_TIME)
 					{
-						MusicExitTime_t MusicExitTime;
+						MusicExitTime_t MusicExitTime{};
 						MusicExitTime.fTime = Q::svtof(value);
 						MusicExitTime.iExitPoint = iThisExitPointIndex;
 
@@ -849,7 +849,7 @@ qboolean Music_AllowedToTransition(const float fPlayingTimeElapsed,
 	MusicFile_t* pMusicFile = Music_GetBaseMusicFile(eMusicState);
 	if (pMusicFile && !pMusicFile->MusicExitTimes.empty())
 	{
-		MusicExitTime_t T;
+		MusicExitTime_t T{};
 		T.fTime = fPlayingTimeElapsed;
 
 		// since a MusicExitTimes_t item is a sorted array, we can use the equal_range algorithm...

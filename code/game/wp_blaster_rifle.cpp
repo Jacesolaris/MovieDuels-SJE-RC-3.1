@@ -135,7 +135,7 @@ void WP_FireBlaster(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -314,7 +314,7 @@ void WP_FireBattleDroid(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -494,7 +494,7 @@ void WP_FireFirstOrder(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -680,7 +680,7 @@ void WP_FireRebelBlaster(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -770,7 +770,7 @@ void WP_FireRebelBlasterDuals(gentity_t* ent, const qboolean alt_fire, const qbo
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -956,7 +956,7 @@ void WP_FireRebelRifle(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -1412,7 +1412,7 @@ void WP_FireJangoPistol(gentity_t* ent, const qboolean alt_fire, const qboolean 
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		vectoangles(forward_vec, angs);
 
@@ -1512,7 +1512,7 @@ void WP_FireWristPistol(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		vectoangles(forward_vec, angs);
 
@@ -1605,7 +1605,7 @@ void WP_FireJangoDualPistol(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		vectoangles(forward_vec, angs);
 
@@ -1698,7 +1698,7 @@ void WP_FireJangoFPPistolDuals(gentity_t* ent, const qboolean alt_fire, const qb
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		vectoangles(forward_vec, angs);
 
@@ -1888,7 +1888,7 @@ void WP_FireBobaRifle(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{

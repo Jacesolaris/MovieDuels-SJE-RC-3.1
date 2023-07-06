@@ -68,7 +68,7 @@ static void WP_FlechetteMainFire(gentity_t* ent)
 			{
 				//no inherent aim screw up
 			}
-			else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+			else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 			{//force sight 2+ gives perfect aim
 				if (ent->s.number < MAX_CLIENTS || G_ControlledByPlayer(ent))
 				{

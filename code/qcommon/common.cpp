@@ -500,13 +500,13 @@ qboolean Com_AddStartupCommands()
 
 void Info_Print(const char* s)
 {
-	char key[512];
+	char key[512]{};
 
 	if (*s == '\\')
 		s++;
 	while (*s)
 	{
-		char value[512];
+		char value[512]{};
 		char* o = key;
 		while (*s && *s != '\\')
 			*o++ = *s++;
@@ -583,7 +583,7 @@ Com_Filter
 */
 int Com_Filter(const char* filter, const char* name, const int casesensitive)
 {
-	char buf[MAX_TOKEN_CHARS];
+	char buf[MAX_TOKEN_CHARS]{};
 	int i;
 
 	while (*filter)
@@ -682,8 +682,8 @@ Com_FilterPath
 int Com_FilterPath(const char* filter, const char* name, const int casesensitive)
 {
 	int i;
-	char new_filter[MAX_QPATH];
-	char new_name[MAX_QPATH];
+	char new_filter[MAX_QPATH]{};
+	char new_name[MAX_QPATH]{};
 
 	for (i = 0; i < MAX_QPATH - 1 && filter[i]; i++)
 	{

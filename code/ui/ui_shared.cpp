@@ -7070,7 +7070,7 @@ void Item_Model_Paint(itemDef_t* item)
 	float x, y, w, h;
 	refdef_t refdef;
 	refEntity_t ent;
-	vec3_t mins, maxs, origin;
+	vec3_t mins, maxs, origin{};
 	vec3_t angles;
 	const modelDef_t* modelPtr = static_cast<modelDef_t*>(item->typeData);
 

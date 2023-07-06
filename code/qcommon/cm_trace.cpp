@@ -317,7 +317,7 @@ void CM_PositionTest(traceWork_t * tw)
 {
 	int leafs[MAX_POSITION_LEAFS]{};
 	int i;
-	leafList_t ll;
+	leafList_t ll{};
 
 	// identify the leafs we are touching
 	VectorAdd(tw->start, tw->size[0], ll.bounds[0]);

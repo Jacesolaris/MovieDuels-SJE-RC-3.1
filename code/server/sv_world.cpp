@@ -411,7 +411,7 @@ SV_AreaEntities_r
 */
 void SV_AreaEntities_r(const worldSector_t* node, areaParms_t* ap)
 {
-	svEntity_t* next;
+	svEntity_t* next = nullptr;
 
 	for (const svEntity_t* check = node->entities; check; check = next)
 	{
@@ -798,7 +798,7 @@ void SV_ClipMoveToEntities(moveclip_t* clip)
 				}
 				if (touch->client)
 				{
-					vec3_t world_angles;
+					vec3_t world_angles{};
 
 					world_angles[PITCH] = 0;
 					//legs do not *always* point toward the viewangles!

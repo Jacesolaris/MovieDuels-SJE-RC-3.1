@@ -197,7 +197,7 @@ static void R_SetupEntityLightingGrid(trRefEntity_t* ent) {
 		mgrid_t* data;
 		unsigned short* gridPos;
 		int				lat, lng;
-		vec3_t			normal;
+		vec3_t			normal{};
 #if ACCURATE_LIGHTGRID_SAMPLING
 		vec3_t			gridOrg;
 		VectorCopy(startGridOrg, gridOrg);

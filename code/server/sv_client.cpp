@@ -39,7 +39,7 @@ void SV_DirectConnect(const netadr_t from)
 	char userinfo[MAX_INFO_STRING];
 	int i;
 	client_t* cl;
-	client_t temp;
+	client_t temp{};
 
 	Com_DPrintf("SVC_DirectConnect ()\n");
 
@@ -421,7 +421,7 @@ static void SV_UserMove(client_t* cl, msg_t* msg)
 {
 	int i;
 	usercmd_t nullcmd;
-	usercmd_t cmds[MAX_PACKET_USERCMDS];
+	usercmd_t cmds[MAX_PACKET_USERCMDS]{};
 
 	cl->reliableAcknowledge = MSG_ReadLong(msg);
 	const int serverId = MSG_ReadLong(msg);

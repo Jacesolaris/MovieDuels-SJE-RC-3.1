@@ -279,7 +279,7 @@ void Cmd_Exec_f()
 	{
 		char* c;
 		void* v;
-	} f;
+	} f{};
 	char filename[MAX_QPATH];
 
 	const bool quiet = !Q_stricmp(Cmd_Argv(0), "execq");
@@ -739,7 +739,7 @@ A complete command line has been parsed, so try to execute it
 */
 void Cmd_ExecuteString(const char* text)
 {
-	cmd_function_t* cmd;
+	cmd_function_t* cmd = nullptr;
 
 	// execute the command line
 	Cmd_TokenizeString(text);

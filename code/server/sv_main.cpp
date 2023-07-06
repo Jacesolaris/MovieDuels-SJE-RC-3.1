@@ -127,7 +127,7 @@ A NULL client will broadcast to all clients
 void SV_SendServerCommand(client_t* cl, const char* fmt, ...)
 {
 	va_list argptr;
-	byte message[MAX_MSGLEN];
+	byte message[MAX_MSGLEN]{};
 	client_t* client;
 	int j;
 
@@ -182,7 +182,7 @@ the simple info query.
 */
 void SVC_Status(const netadr_t from)
 {
-	char status[MAX_MSGLEN];
+	char status[MAX_MSGLEN]{};
 	int score;
 	char infostring[MAX_INFO_STRING];
 
@@ -233,7 +233,7 @@ if a user is interested in a server to do a full status
 */
 static void SVC_Info(const netadr_t from)
 {
-	char infostring[MAX_INFO_STRING];
+	char infostring[MAX_INFO_STRING]{};
 
 	int count = 0;
 	for (int i = 0; i < 1; i++)

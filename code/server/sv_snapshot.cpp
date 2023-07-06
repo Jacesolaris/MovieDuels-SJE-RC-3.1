@@ -564,7 +564,7 @@ For viewing through other player's eyes, clent can be something other than clien
 static clientSnapshot_t* SV_BuildClientSnapshot(client_t* client)
 {
 	vec3_t org;
-	snapshotEntityNumbers_t entityNumbers;
+	snapshotEntityNumbers_t entityNumbers{};
 	int i;
 
 	// bump the counter used to prevent double adding

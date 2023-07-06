@@ -134,7 +134,7 @@ void WP_FireClone(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -312,7 +312,7 @@ void WP_FireCloneRifle(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{
@@ -490,7 +490,7 @@ void WP_FireCloneCommando(gentity_t* ent, const qboolean alt_fire)
 	{
 		//no inherent aim screw up
 	}
-	else if (!(ent->client->ps.forcePowersActive & 1 << FP_SEE) || ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2)
+	else if ((!(ent->client->ps.forcePowersActive & 1 << FP_SEE)) || (ent->client->ps.forcePowersActive & 1 << FP_SEE && ent->client->ps.forcePowerLevel[FP_SEE] < FORCE_LEVEL_2))
 	{//force sight 2+ gives perfect aim
 		if (alt_fire)
 		{

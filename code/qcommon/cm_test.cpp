@@ -248,7 +248,7 @@ CM_BoxLeafnums
 */
 int CM_BoxLeafnums(const vec3_t mins, const vec3_t maxs, int* box_list, const int listsize, int* last_leaf)
 {
-	leafList_t ll;
+	leafList_t ll{};
 
 	cmg.checkcount++;
 

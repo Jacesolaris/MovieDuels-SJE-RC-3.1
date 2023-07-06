@@ -536,7 +536,7 @@ Sends a text message in an out-of-band datagram
 void QDECL NET_OutOfBandPrint(const netsrc_t sock, const netadr_t adr, const char* format, ...)
 {
 	va_list argptr;
-	char string[MAX_MSGLEN];
+	char string[MAX_MSGLEN]{};
 
 	// set the header
 	string[0] = static_cast<char>(0xff);
