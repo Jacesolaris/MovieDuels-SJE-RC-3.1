@@ -9160,18 +9160,7 @@ static void jedi_attack()
 		{
 			if (g_SerenityJediEngineMode->integer)
 			{
-				if (NPC->client->NPC_class == CLASS_GALEN
-					&& (NPC->s.weapon == WP_MELEE
-						|| NPC->s.weapon == WP_NONE
-						|| NPC->s.weapon == WP_SABER && !NPC->client->ps.SaberActive())
-					&& NPC->client->ps.groundEntityNum == ENTITYNUM_NONE)
-				{
-					ForceRepulse(NPC, qfalse);
-				}
-				else
-				{
-					ForceThrow_MD(NPC, qfalse);
-				}
+				ForceThrow_MD(NPC, qfalse);
 			}
 			else
 			{

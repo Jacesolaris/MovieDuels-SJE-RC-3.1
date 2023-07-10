@@ -1465,7 +1465,8 @@ static qboolean ParseStage(shaderStage_t* stage, const char** text)
 					ri.Printf(PRINT_ERROR, "ERROR: rgbGen vertex used on a model! in shader '%s'\n", shader.name);
 				}
 				stage->rgbGen = CGEN_VERTEX;
-				if (stage->alphaGen == 0) {
+				if (stage->alphaGen == 0) 
+				{
 					stage->alphaGen = AGEN_VERTEX;
 				}
 			}
