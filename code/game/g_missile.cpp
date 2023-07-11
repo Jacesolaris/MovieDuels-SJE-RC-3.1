@@ -246,7 +246,7 @@ void G_MissileBouncedoffSaber(gentity_t* ent, gentity_t* missile, vec3_t forward
 		perfect_reflection = qfalse;
 	}
 
-	if (g_spskill->integer >= 2 && owner->client->ps.saberBlockingTime < level.time)
+	if (g_spskill->integer == 2 && owner->client->ps.saberBlockingTime < level.time)
 	{
 		//but need to be blocking for perfect reflection on higher difficulties
 		perfect_reflection = qfalse;
@@ -2171,7 +2171,7 @@ void G_MissileImpact_MD(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 				|| g_spskill->integer <= 0 //on easy, it reflects all shots
 				|| g_spskill->integer == 1 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2
 				//on medium it won't reflect flechette or demp shots
-				|| g_spskill->integer >= 2 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2 && ent->s.
+				|| g_spskill->integer == 2 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2 && ent->s.
 				weapon != WP_BOWCASTER && ent->s.weapon != WP_REPEATER)
 				//on hard it won't reflect flechette, demp, repeater or bowcaster shots
 			{
@@ -2697,7 +2697,7 @@ void G_MissileImpactJKA(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 			|| g_spskill->integer <= 0 //on easy, it reflects all shots
 			|| g_spskill->integer == 1 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2
 			//on medium it won't reflect flechette or demp shots
-			|| g_spskill->integer >= 2 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2 && ent->s.weapon
+			|| g_spskill->integer == 2 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2 && ent->s.weapon
 			!= WP_BOWCASTER && ent->s.weapon != WP_REPEATER)
 			//on hard it won't reflect flechette, demp, repeater or bowcaster shots
 		{
@@ -2797,7 +2797,7 @@ void G_MissileImpactJKA(gentity_t* ent, trace_t* trace, const int hit_loc = HL_N
 		}
 		if ((g_spskill->integer <= 0 //on easy, it reflects all shots
 			|| g_spskill->integer == 1 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2
-			|| g_spskill->integer >= 2 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2 && ent->s.
+			|| g_spskill->integer == 2 && ent->s.weapon != WP_FLECHETTE && ent->s.weapon != WP_DEMP2 && ent->s.
 			weapon != WP_BOWCASTER && ent->s.weapon != WP_REPEATER)
 			&& (!ent->splashDamage || !ent->splashRadius) && ent->s.weapon != WP_NOGHRI_STICK)
 		{

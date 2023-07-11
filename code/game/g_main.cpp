@@ -317,6 +317,7 @@ cvar_t* g_debugFatigueBars;
 
 cvar_t* g_Advancedaitalk;
 cvar_t* com_kotor;
+cvar_t* g_attackskill;
 
 extern char* G_GetLocationForEnt(const gentity_t* ent);
 extern void CP_FindCombatPointWaypoints();
@@ -949,6 +950,8 @@ void G_InitCvars()
 	g_Advancedaitalk = gi.cvar("g_Advancedaitalk", "0", CVAR_ARCHIVE);
 
 	com_kotor = gi.cvar("com_kotor", "0", CVAR_ARCHIVE | CVAR_SAVEGAME | CVAR_NORESTART);
+
+	g_attackskill = gi.cvar("g_attackskill", "3", CVAR_ARCHIVE);
 }
 
 /*
