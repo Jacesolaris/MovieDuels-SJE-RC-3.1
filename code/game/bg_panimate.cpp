@@ -3408,64 +3408,14 @@ saberMoveName_t PM_NPC_Force_Leap_Attack()
 		}
 		return LS_JUMPATTACK_DUAL;
 	}
-	else if (pm->ps->saber_anim_level == SS_FAST || pm->ps->saber_anim_level == SS_TAVION)
+	else if (pm->ps->saber_anim_level == SS_FAST || pm->ps->saber_anim_level == SS_TAVION || pm->ps->saber_anim_level == SS_MEDIUM)
 	{
 		VectorCopy(pm->ps->viewangles, fwd_angles);
 		fwd_angles[PITCH] = fwd_angles[ROLL] = 0;
 		AngleVectors(fwd_angles, jump_fwd, nullptr, nullptr);
 		VectorScale(jump_fwd, 150, pm->ps->velocity);
 		pm->ps->velocity[2] = 250;
-		//250 is normalized for a standing enemy at your z level, about 64 tall... adjust for actual maxs[2]-mins[2] of enemy and for zdiff in origins
-		if (pm->gent && pm->gent->enemy)
-		{
-			//go higher for taller enemies
-			pm->ps->velocity[2] *= (pm->gent->enemy->maxs[2] - pm->gent->enemy->mins[2]) / 64.0f;
-			//go higher for enemies higher than you, lower for those lower than you
-			const float z_diff = pm->gent->enemy->currentOrigin[2] - pm->ps->origin[2];
-			pm->ps->velocity[2] += z_diff * 1.5f;
-			//clamp to decent-looking values
-			//FIXME: still jump too low sometimes
-			if (z_diff <= 0 && pm->ps->velocity[2] < 200)
-			{
-				//if we're on same level, don't let me jump so low, I clip into the ground
-				pm->ps->velocity[2] = 200;
-			}
-			else if (pm->ps->velocity[2] < 50)
-			{
-				pm->ps->velocity[2] = 50;
-			}
-			else if (pm->ps->velocity[2] > 400)
-			{
-				pm->ps->velocity[2] = 400;
-			}
-		}
-		pm->ps->forceJumpZStart = pm->ps->origin[2]; //so we don't take damage if we land at same height
-		pm->ps->pm_flags |= PMF_JUMPING | PMF_SLOW_MO_FALL;
 
-		PM_AddEvent(EV_JUMP);
-
-		if (pm->gent && pm->gent->client->ps.forcePowerLevel[FP_LEVITATION] < FORCE_LEVEL_3)
-		{
-			//short burst
-			G_SoundOnEnt(pm->gent, CHAN_BODY, "sound/weapons/force/jumpsmall.mp3");
-		}
-		else
-		{
-			//holding it
-			G_SoundOnEnt(pm->gent, CHAN_BODY, "sound/weapons/force/jump.mp3");
-		}
-		pm->cmd.upmove = 0;
-		pm->gent->angle = pm->ps->viewangles[YAW]; //so we know what yaw we started this at
-		return LS_A_FLIP_STAB;
-	}
-	else if (pm->ps->saber_anim_level == SS_MEDIUM)
-	{
-		VectorCopy(pm->ps->viewangles, fwd_angles);
-		fwd_angles[PITCH] = fwd_angles[ROLL] = 0;
-		AngleVectors(fwd_angles, jump_fwd, nullptr, nullptr);
-		VectorScale(jump_fwd, 150, pm->ps->velocity);
-		pm->ps->velocity[2] = 250;
-		//250 is normalized for a standing enemy at your z level, about 64 tall... adjust for actual maxs[2]-mins[2] of enemy and for zdiff in origins
 		if (pm->gent && pm->gent->enemy)
 		{
 			//go higher for taller enemies
@@ -3505,18 +3455,27 @@ saberMoveName_t PM_NPC_Force_Leap_Attack()
 		}
 		pm->cmd.upmove = 0;
 		pm->gent->angle = pm->ps->viewangles[YAW]; //so we know what yaw we started this at
-		return LS_A_FLIP_SLASH;
+
+		if (pm->ps->saber_anim_level == SS_MEDIUM)
+		{
+			return LS_A_FLIP_SLASH;
+		}
+		else
+		{
+			return LS_A_FLIP_STAB;
+		}
 	}
 	else
 	{
 		VectorCopy(pm->ps->viewangles, fwd_angles);
 		fwd_angles[PITCH] = fwd_angles[ROLL] = 0;
 		AngleVectors(fwd_angles, jump_fwd, nullptr, nullptr);
-		VectorScale(jump_fwd, 200, pm->ps->velocity);
+		VectorScale(jump_fwd, 150, pm->ps->velocity);
 		pm->ps->velocity[2] = 180;
 		pm->ps->forceJumpZStart = pm->ps->origin[2]; //so we don't take damage if we land at same height
 		pm->ps->pm_flags |= PMF_JUMPING | PMF_SLOW_MO_FALL;
 		PM_AddEvent(EV_JUMP);
+
 		if (pm->gent->client->ps.forcePowerLevel[FP_LEVITATION] < FORCE_LEVEL_3)
 		{
 			//short burst
@@ -6020,7 +5979,7 @@ void PM_SetAnimFinal(int* torso_anim, int* legs_anim,
 		{
 			anim_speed = max_playback_speed;
 		}
-	}
+		}
 
 	// GET VALUES FOR EXISTING BODY ANIMATION
 	//==========================================
@@ -6187,7 +6146,7 @@ void PM_SetAnimFinal(int* torso_anim, int* legs_anim,
 		{
 			PM_SetTorsoAnimTimer(gent, torso_anim_timer, anim_hold_m_sec);
 		}
-	}
+		}
 
 	// PLAY ON THE WHOLE BODY
 	//========================
@@ -6225,7 +6184,7 @@ void PM_SetAnimFinal(int* torso_anim, int* legs_anim,
 
 	// PRINT SOME DEBUG TEXT OF EXISTING VALUES
 	//==========================================
-}
+	}
 
 void PM_SetAnim(const pmove_t* pm, int set_anim_parts, const int anim, const int set_anim_flags, const int blend_time)
 {

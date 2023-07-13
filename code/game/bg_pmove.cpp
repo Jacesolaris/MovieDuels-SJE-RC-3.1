@@ -2039,26 +2039,9 @@ static qboolean PM_CheckJump()
 					}
 					else if (pm->ps->saber_anim_level == SS_MEDIUM)
 					{
-						/*
-						//Only tavion does these now
-						if ( pm->ps->client_num && Q_irand( 0, 1 ) )
-						{//butterfly... FIXME: does direction matter?
-							vertPush = JUMP_VELOCITY;
-							if ( Q_irand( 0, 1 ) )
-							{
-								anim = BOTH_BUTTERFLY_LEFT;
-							}
-							else
-							{
-								anim = BOTH_BUTTERFLY_RIGHT;
-							}
-						}
-						else
-						*/
 						if (pm->ps->client_num >= MAX_CLIENTS && !PM_ControlledByPlayer())
 							//NOTE: pretty much useless, so player never does these
 						{
-							//jump-spin FIXME: does direction matter?
 							vert_push = forceJumpStrength[FORCE_LEVEL_2] / 1.5f;
 							if (pm->gent->client && pm->gent->client->NPC_class == CLASS_ALORA)
 							{
@@ -2842,7 +2825,7 @@ static void PM_WaterMove()
 		else
 		{
 			wishvel[2] = -60; // sink towards bottom
-		}
+}
 	}
 	else
 	{
@@ -14598,8 +14581,7 @@ void PM_SetSaberMove(saberMoveName_t new_move)
 			}
 		}
 	}
-	else if (new_move == LS_A_JUMP_T__B_ && pm->ps->saber_anim_level == SS_DESANN && g_SerenityJediEngineMode->
-		integer)
+	else if (new_move == LS_A_JUMP_T__B_ && pm->ps->saber_anim_level == SS_DESANN && g_SerenityJediEngineMode->integer)
 	{
 		anim = BOTH_FJSS_TR_BL;
 	}
@@ -15071,7 +15053,7 @@ void PM_Use()
 extern saberMoveName_t PM_AttackForEnemyPos(qboolean allow_fb, qboolean allow_stab_down);
 extern saberMoveName_t PM_NPC_Force_Leap_Attack(void);
 extern qboolean PM_CanLunge(void);
-int Next_Attack_Move_Check[MAX_CLIENTS]; // Next special move check.
+int Next_Kill_Attack_Move_Check[MAX_CLIENTS]; // Next special move check.
 
 saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 {
@@ -15207,19 +15189,27 @@ saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 		break;
 	}
 
-	if (g_SerenityJediEngineMode->integer == 2 && g_spskill->integer == 2)
+	if (g_SerenityJediEngineMode->integer == 2 && 
+		g_spskill->integer == 2 && 
+		G_EnoughPowerForSpecialMove(pm->ps->forcePower, SABER_KATA_ATTACK_POWER, qtrue) && 
+		!pm->ps->forcePowersActive)
 	{
 		if (pm->ps->client_num >= MAX_CLIENTS && !PM_ControlledByPlayer())
-		{// JaceSolaris //Some special bot stuff.
-			if (Next_Attack_Move_Check[pm->ps->client_num] <= level.time && g_attackskill->integer >= 0)
+		{// JaceSolaris
+			if (Next_Kill_Attack_Move_Check[pm->ps->client_num] <= level.time && g_attackskill->integer >= 0)
 			{
-				int check_val = 0; // Times 500 for next check interval.
+				int check_val = 0;
 
 				if (PM_CanLunge())
-				{ //Bot Lunge (attack varies by level)
+				{
 					if ((pm->ps->pm_flags & PMF_DUCKED) || pm->cmd.upmove < 0)
 					{
 						newmove = PM_SaberLungeAttackMove(qtrue);
+
+						if (d_attackinfo->integer)
+						{
+							gi.Printf(S_COLOR_MAGENTA"Next_Kill_Attack_Move_Check 0\n");
+						}
 					}
 					else
 					{
@@ -15231,7 +15221,7 @@ saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 
 							if (d_attackinfo->integer)
 							{
-								gi.Printf(S_COLOR_MAGENTA"Next_Attack_Move_Check 1\n");
+								gi.Printf(S_COLOR_MAGENTA"Next_Kill_Attack_Move_Check 1\n");
 							}
 						}
 						else if (choice == 2)
@@ -15240,7 +15230,7 @@ saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 
 							if (d_attackinfo->integer)
 							{
-								gi.Printf(S_COLOR_MAGENTA"Next_Attack_Move_Check 2\n");
+								gi.Printf(S_COLOR_MAGENTA"Next_Kill_Attack_Move_Check 2\n");
 							}
 						}
 						else if (choice == 3)
@@ -15272,12 +15262,10 @@ saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 								newmove = LS_A2_SPECIAL;
 								break;
 							}
-							pm->ps->weaponstate = WEAPON_FIRING;
-							WP_ForcePowerDrain(pm->gent, FP_SABER_OFFENSE, SABER_ALT_ATTACK_POWER);
 
 							if (d_attackinfo->integer)
 							{
-								gi.Printf(S_COLOR_MAGENTA"Next_Attack_Move_Check 3\n");
+								gi.Printf(S_COLOR_MAGENTA"Next_Kill_Attack_Move_Check 3\n");
 							}
 						}
 						else
@@ -15286,10 +15274,12 @@ saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 
 							if (d_attackinfo->integer)
 							{
-								gi.Printf(S_COLOR_MAGENTA"Next_Attack_Move_Check 4\n");
+								gi.Printf(S_COLOR_MAGENTA"Next_Kill_Attack_Move_Check 4\n");
 							}
 						}
 					}
+					pm->ps->weaponstate = WEAPON_FIRING;
+					WP_ForcePowerDrain(pm->gent, FP_SABER_OFFENSE, SABER_ALT_ATTACK_POWER_FB);
 				}
 
 				check_val = g_attackskill->integer;
@@ -15299,7 +15289,7 @@ saberMoveName_t PM_NPCSaberAttackFromQuad(const int quad)
 					check_val = 1;
 				}
 
-				Next_Attack_Move_Check[pm->ps->client_num] = level.time + (40000 / check_val); // 20 secs / g_attackskill->integer
+				Next_Kill_Attack_Move_Check[pm->ps->client_num] = level.time + (40000 / check_val); // 40 secs / g_attackskill->integer
 			}
 		}
 	}
@@ -16169,7 +16159,7 @@ qboolean PM_SaberLocked()
 								Com_Printf("%s pushing in saber lock, %d frames to go!\n", gent->NPC_type,
 									remaining);
 							}
-						}
+							}
 						else
 						{
 							cur_frame = ceil(current_frame) + strength;
@@ -16188,7 +16178,7 @@ qboolean PM_SaberLocked()
 									remaining);
 							}
 						}
-					}
+						}
 					else
 					{
 						//new locks
@@ -16268,7 +16258,7 @@ qboolean PM_SaberLocked()
 							}
 						}
 					}
-				}
+					}
 				else
 				{
 					return qfalse;
@@ -16327,8 +16317,8 @@ qboolean PM_SaberLocked()
 						}
 					}
 				}
+				}
 			}
-		}
 		else
 		{
 			//FIXME: other ways out of a saberlock?
@@ -16337,7 +16327,7 @@ qboolean PM_SaberLocked()
 			//roll?
 			//backflip?
 		}
-	}
+		}
 	else
 	{
 		//something broke us out of it
@@ -16359,7 +16349,7 @@ qboolean PM_SaberLocked()
 		}
 	}
 	return qtrue;
-}
+	}
 
 qboolean G_EnemyInKickRange(const gentity_t* self, const gentity_t* enemy)
 {
